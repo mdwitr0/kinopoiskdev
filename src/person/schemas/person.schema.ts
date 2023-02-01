@@ -1,5 +1,6 @@
 import mongoosePaginate from 'mongoose-paginate-v2';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 class BirthPlace {
   @Prop()
@@ -68,7 +69,7 @@ class Movie {
 }
 
 @Schema()
-class Person {
+class Person extends Document {
   @Prop({ required: true, unique: true, index: true })
   id: number;
 
