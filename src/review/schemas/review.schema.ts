@@ -2,7 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
-@Schema()
+@Schema({
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+})
 export class Review extends Document {
   @Prop({ required: true, unique: true, index: true })
   id: number;

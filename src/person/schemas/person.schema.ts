@@ -68,7 +68,11 @@ class Movie {
   enProfession: string;
 }
 
-@Schema()
+@Schema({
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+})
 class Person extends Document {
   @Prop({ required: true, unique: true, index: true })
   id: number;
