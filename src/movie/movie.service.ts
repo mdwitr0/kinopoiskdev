@@ -8,11 +8,11 @@ export class MovieService {
     return 'This action adds a new movie';
   }
 
-  findAll() {
+  findMany(dto: any): any {
     return `This action returns all movie`;
   }
 
-  findOne(id: number) {
+  findOne(id: number): any {
     return `This action returns a #${id} movie`;
   }
 

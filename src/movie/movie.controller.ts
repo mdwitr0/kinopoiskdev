@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Query,
+  SerializeOptions,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
 import { MovieService } from './movie.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
+import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
+import { MovieDocsResponseDto } from './dto/movie-docs.response.dto';
+import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
+import { FindManyMovieDto } from './dto/find-many-movie.dto';
+import { Movie } from './schemas/movie.schema';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@SerializeOptions({ excludeExtraneousValues: true })
+@ApiTags('Movies')
 @Controller('movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
-  @Post()
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.movieService.create(createMovieDto);
-  }
-
   @Get()
-  findAll() {
-    return this.movieService.findAll();
+  @ApiOperation({ summary: 'Поиск фильмов' })
+  @ApiDotNotationQuery(Movie, PaginatedQueryDto)
+  @ApiResponse({ type: MovieDocsResponseDto, isArray: true })
+  async finManyByQuery(
+    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyMovieDto,
+  ): Promise<MovieDocsResponseDto> {
+    return this.movieService.findMany(dto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.movieService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
-    return this.movieService.update(+id, updateMovieDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.movieService.remove(+id);
-  }
+  // @ApiResponse({ type: Movie })
+  // @Get(':id')
+  // findOne(@Param('id') id: string): Movie {
+  //   return this.movieService.findOne(+id);
+  // }
 }
