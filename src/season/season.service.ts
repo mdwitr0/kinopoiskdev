@@ -12,7 +12,7 @@ export class SeasonService {
     return `This action returns all season`;
   }
 
-  findOne(id: number) {
+  findOne(id: number): any {
     return `This action returns a #${id} season`;
   }
 

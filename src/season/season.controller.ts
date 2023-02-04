@@ -2,6 +2,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
   Query,
   SerializeOptions,
   UseInterceptors,
@@ -16,6 +17,7 @@ import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.
 import { Season } from './schemas/season.schema';
 import { FindManySeasonDto } from './dto/find-many-season.dto';
 import { SeasonDocsResponseDto } from './dto/season-docs.response.dto';
+import { Movie } from '../movie/schemas/movie.schema';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -25,12 +27,18 @@ export class SeasonController {
   constructor(private readonly seasonService: SeasonService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Поиск фильмов' })
+  @ApiOperation({ summary: 'Поиск сезонов сериалов' })
   @ApiDotNotationQuery(Season, PaginatedQueryDto)
   @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManySeasonDto,
   ): Promise<MovieDocsResponseDto> {
     return this.seasonService.findAll(dto);
+  }
+
+  @ApiResponse({ type: Season })
+  @Get(':movieId')
+  findOne(@Param('movieId') movieId: string): Season {
+    return this.seasonService.findOne(+movieId);
   }
 }
