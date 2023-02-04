@@ -23,6 +23,7 @@
   "dependencies": {
     "@fastify/compress": "^6.2.0",
     "@fastify/helmet": "^10.1.0",
+    "@fastify/static": "^6.8.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/mapped-types": "*",
