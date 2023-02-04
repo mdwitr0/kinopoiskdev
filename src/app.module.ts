@@ -9,7 +9,14 @@ import { SeasonModule } from './season/season.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [MovieModule, PersonModule, ImageModule, ReviewModule, SeasonModule, UserModule],
+  imports: [
+    MovieModule,
+    PersonModule,
+    ImageModule,
+    ReviewModule,
+    SeasonModule,
+    UserModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
