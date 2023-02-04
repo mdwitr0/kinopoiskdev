@@ -85,11 +85,7 @@ const getQueryDecorators = (
   ];
 };
 
-export const ApiDotNotationQuery = (
-  query: Function,
-  sortQuery?: Function,
-  pagination?: Function,
-) => {
+export const ApiDotNotationQuery = (query: Function, pagination?: Function) => {
   let decorators = getQueryDecorators(
     query,
     { name: 'field', description: 'Поля для выборки' },
@@ -104,7 +100,7 @@ export const ApiDotNotationQuery = (
   if (pagination)
     decorators = decorators.concat(
       getQueryDecorators(
-        sortQuery,
+        query,
         { name: 'sortField', description: 'Поля для сортировки' },
         {
           name: 'sort',
