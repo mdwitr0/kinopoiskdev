@@ -2,6 +2,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
   Query,
   SerializeOptions,
   UseInterceptors,
@@ -33,9 +34,9 @@ export class MovieController {
     return this.movieService.findMany(dto);
   }
 
-  // @ApiResponse({ type: Movie })
-  // @Get(':id')
-  // findOne(@Param('id') id: string): Movie {
-  //   return this.movieService.findOne(+id);
-  // }
+  @ApiResponse({ type: Movie })
+  @Get(':id')
+  findOne(@Param('id') id: string): Movie {
+    return this.movieService.findOne(+id);
+  }
 }
