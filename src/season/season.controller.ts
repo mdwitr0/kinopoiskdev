@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Query,
+  SerializeOptions,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
 import { SeasonService } from './season.service';
-import { CreateSeasonDto } from './dto/create-season.dto';
-import { UpdateSeasonDto } from './dto/update-season.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
+import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
+import { MovieDocsResponseDto } from '../movie/dto/movie-docs.response.dto';
+import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
+import { Season } from './schemas/season.schema';
+import { FindManySeasonDto } from './dto/find-many-season.dto';
+import { SeasonDocsResponseDto } from './dto/season-docs.response.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@SerializeOptions({ excludeExtraneousValues: true })
+@ApiTags('Season')
 @Controller('season')
 export class SeasonController {
   constructor(private readonly seasonService: SeasonService) {}
 
-  @Post()
-  create(@Body() createSeasonDto: CreateSeasonDto) {
-    return this.seasonService.create(createSeasonDto);
-  }
-
   @Get()
-  findAll() {
-    return this.seasonService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.seasonService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSeasonDto: UpdateSeasonDto) {
-    return this.seasonService.update(+id, updateSeasonDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.seasonService.remove(+id);
+  @ApiOperation({ summary: 'Поиск фильмов' })
+  @ApiDotNotationQuery(Season, PaginatedQueryDto)
+  @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
+  async finManyByQuery(
+    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManySeasonDto,
+  ): Promise<MovieDocsResponseDto> {
+    return this.seasonService.findAll(dto);
   }
 }

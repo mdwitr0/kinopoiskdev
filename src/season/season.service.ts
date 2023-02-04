@@ -8,7 +8,7 @@ export class SeasonService {
     return 'This action adds a new season';
   }
 
-  findAll() {
+  findAll(dto: any): any {
     return `This action returns all season`;
   }
 
