@@ -36,9 +36,9 @@ export class SeasonController {
     return this.seasonService.findAll(dto);
   }
 
-  @ApiResponse({ type: Season })
+  @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
   @Get(':movieId')
-  findOne(@Param('movieId') movieId: string): Season {
+  findOne(@Param('movieId') movieId: string): SeasonDocsResponseDto {
     return this.seasonService.findOne(+movieId);
   }
 }

@@ -8,11 +8,11 @@ export class ReviewService {
     return 'This action adds a new review';
   }
 
-  findAll() {
+  findAll(data: any): any {
     return `This action returns all review`;
   }
 
-  findOne(id: number) {
+  findOne(id: number): any {
     return `This action returns a #${id} review`;
   }
 

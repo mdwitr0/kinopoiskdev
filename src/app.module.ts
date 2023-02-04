@@ -8,6 +8,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Season } from './season/schemas/season.schema';
 import { SeasonModule } from './season/season.module';
 import { Expose, plainToInstance } from 'class-transformer';
+import { Review } from './review/schemas/review.schema';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { Expose, plainToInstance } from 'class-transformer';
     }),
     MovieModule,
     SeasonModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],

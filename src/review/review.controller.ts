@@ -1,34 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Query,
+  SerializeOptions,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ReviewService } from './review.service';
-import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
+import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
+import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
+import { MovieDocsResponseDto } from '../movie/dto/movie-docs.response.dto';
+import { Review } from './schemas/review.schema';
+import { ReviewDocsResponseDto } from './dto/review-docs-response.dto';
+import { FindManyReviewDto } from './dto/find-many-review.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@SerializeOptions({ excludeExtraneousValues: true })
+@ApiTags('Review')
 @Controller('review')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Post()
-  create(@Body() createReviewDto: CreateReviewDto) {
-    return this.reviewService.create(createReviewDto);
-  }
-
   @Get()
-  findAll() {
-    return this.reviewService.findAll();
+  @ApiOperation({ summary: 'Поиск сезонов сериалов' })
+  @ApiDotNotationQuery(Review, PaginatedQueryDto)
+  @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
+  async finManyByQuery(
+    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyReviewDto,
+  ): Promise<MovieDocsResponseDto> {
+    return this.reviewService.findAll(dto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reviewService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
-    return this.reviewService.update(+id, updateReviewDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reviewService.remove(+id);
+  @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
+  @Get(':movieId')
+  findOne(@Param('movieId') movieId: string): ReviewDocsResponseDto {
+    return this.reviewService.findOne(+movieId);
   }
 }
