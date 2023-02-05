@@ -35,11 +35,7 @@ const getPagingDecorators = (fn: Function) => {
   }
 };
 
-const getQueryDecorators = (
-  fn: Function,
-  fieldQuery: ApiQueryOptions,
-  valueQuery: ApiQueryOptions,
-) => {
+const getQueryDecorators = (fn: Function, parrentProperty?: string) => {
   const constructor = fn.prototype;
 
   const properties = Reflect.getMetadata(
@@ -47,7 +43,7 @@ const getQueryDecorators = (
     constructor,
   ).map((prop) => prop.substr(1));
 
-  const field = properties.flatMap((property) => {
+  return properties.flatMap((property) => {
     const meta = Reflect.getMetadata(
       'swagger/apiModelProperties',
       constructor,
@@ -60,58 +56,23 @@ const getQueryDecorators = (
       case 'String':
       case 'Number':
       case 'Boolean':
-        return [property];
+        return [
+          ApiQuery({
+            name: parrentProperty ? `${parrentProperty}.${property}` : property,
+            ...meta,
+            type: 'string',
+            example: meta.example || meta.default,
+            examples: meta.examples,
+            isArray: true,
+            required: false,
+          }),
+        ];
       default:
-        const subClassProperties = Reflect.getMetadata(
-          'swagger/apiModelPropertiesArray',
-          type.prototype,
-        )?.map((prop) => prop.substr(1));
-
-        return subClassProperties?.map((subClassProperty) => {
-          return `${property}.${subClassProperty}`;
-        });
+        return getQueryDecorators(type, property);
     }
   });
-
-  return [
-    ApiQuery({
-      name: fieldQuery.name,
-      required: false,
-      description: fieldQuery.description,
-      isArray: true,
-      enum: field,
-    }),
-    ApiQuery(valueQuery),
-  ];
 };
 
-export const ApiDotNotationQuery = (query: Function, pagination?: Function) => {
-  let decorators = getQueryDecorators(
-    query,
-    { name: 'field', description: 'Поля для выборки' },
-    {
-      name: 'search',
-      description: 'Значения полей',
-      required: false,
-      isArray: true,
-      type: 'string',
-    },
-  );
-  if (pagination)
-    decorators = decorators.concat(
-      getQueryDecorators(
-        query,
-        { name: 'sortField', description: 'Поля для сортировки' },
-        {
-          name: 'sort',
-          description: 'Значения полей сортировки',
-          required: false,
-          isArray: false,
-          enum: SortTypeEnum,
-        },
-      ),
-    );
-  if (pagination)
-    decorators = decorators.concat(getPagingDecorators(pagination));
-  return applyDecorators(...decorators);
+export const ApiDotNotationQuery = (query: Function) => {
+  return applyDecorators(...getQueryDecorators(query));
 };
