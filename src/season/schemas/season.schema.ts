@@ -28,8 +28,8 @@ export class Episode {
   description?: string;
 
   @ApiPropertyOptional()
-  @Prop()
-  date?: Date;
+  @Prop({ type: () => Date })
+  date?: string;
 }
 
 export type SeasonDocument = HydratedDocument<Season>;

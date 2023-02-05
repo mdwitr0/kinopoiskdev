@@ -28,7 +28,7 @@ export class SeasonController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск сезонов' })
-  @ApiDotNotationQuery(Season, PaginatedQueryDto)
+  @ApiDotNotationQuery(Season)
   @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManySeasonDto,
