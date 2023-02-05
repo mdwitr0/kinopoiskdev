@@ -55,7 +55,7 @@ export class Logo {
   url: string;
 }
 
-export class Image {
+export class ShortImage {
   @ApiPropertyOptional()
   @Prop()
   url: string;
@@ -293,7 +293,7 @@ export class LinkedMovie {
   type?: string;
   @ApiPropertyOptional()
   @Prop()
-  poster: Image;
+  poster: ShortImage;
 }
 
 export class Watchability {
@@ -447,17 +447,17 @@ export class Movie {
   @Prop({ type: () => Logo })
   logo: Logo;
 
-  @ApiPropertyOptional({ type: () => Image })
-  @Prop({ type: () => Image })
-  poster: Image;
+  @ApiPropertyOptional({ type: () => ShortImage })
+  @Prop({ type: () => ShortImage })
+  poster: ShortImage;
 
-  @ApiPropertyOptional({ type: () => Image })
-  @Prop({ type: () => Image })
-  horizontalPoster: Image;
+  @ApiPropertyOptional({ type: () => ShortImage })
+  @Prop({ type: () => ShortImage })
+  horizontalPoster: ShortImage;
 
-  @ApiPropertyOptional({ type: () => Image })
-  @Prop({ type: () => Image })
-  backdrop: Image;
+  @ApiPropertyOptional({ type: () => ShortImage })
+  @Prop({ type: () => ShortImage })
+  backdrop: ShortImage;
 
   @ApiPropertyOptional({ type: () => Images })
   @Prop({ type: () => Images })

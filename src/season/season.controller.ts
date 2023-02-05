@@ -27,12 +27,12 @@ export class SeasonController {
   constructor(private readonly seasonService: SeasonService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Поиск сезонов сериалов' })
+  @ApiOperation({ summary: 'Поиск сезонов' })
   @ApiDotNotationQuery(Season, PaginatedQueryDto)
   @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManySeasonDto,
-  ): Promise<MovieDocsResponseDto> {
+  ): Promise<SeasonDocsResponseDto> {
     return this.seasonService.findAll(dto);
   }
 

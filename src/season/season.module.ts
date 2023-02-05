@@ -4,6 +4,6 @@ import { SeasonController } from './season.controller';
 
 @Module({
   controllers: [SeasonController],
-  providers: [SeasonService]
+  providers: [SeasonService],
 })
 export class SeasonModule {}

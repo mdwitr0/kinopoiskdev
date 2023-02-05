@@ -26,12 +26,12 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Поиск сезонов сериалов' })
+  @ApiOperation({ summary: 'Поиск отзывов' })
   @ApiDotNotationQuery(Review, PaginatedQueryDto)
   @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyReviewDto,
-  ): Promise<MovieDocsResponseDto> {
+  ): Promise<ReviewDocsResponseDto> {
     return this.reviewService.findAll(dto);
   }
 
