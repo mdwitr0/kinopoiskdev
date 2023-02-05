@@ -26,7 +26,7 @@ export class PersonController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск персон' })
-  @ApiDotNotationQuery(Person, PaginatedQueryDto)
+  @ApiDotNotationQuery(Person)
   @ApiResponse({ type: PersonDocsResponseDto })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyPersonDto,

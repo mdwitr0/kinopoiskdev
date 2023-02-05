@@ -118,12 +118,12 @@ export class Person {
   growth: number;
 
   @ApiPropertyOptional()
-  @Prop({ index: true })
-  birthday: Date;
+  @Prop({ index: true, type: () => Date })
+  birthday: string;
 
   @ApiPropertyOptional()
-  @Prop({ index: true })
-  death: Date;
+  @Prop({ index: true, type: () => Date })
+  death: string;
 
   @ApiPropertyOptional()
   @Prop({ index: true })
@@ -137,7 +137,7 @@ export class Person {
   @Prop({ items: DeathPlace })
   deathPlace: DeathPlace[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => Spouses })
   @Prop()
   spouses: Spouses;
 
