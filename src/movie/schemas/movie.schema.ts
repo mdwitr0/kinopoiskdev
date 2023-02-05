@@ -7,7 +7,10 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 // INFO: Objects
 
 export class ExternalId {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description: 'ID из kinopoisk HD',
+    example: 'gsdfgujsdfgiowe23413',
+  })
   @Prop({ index: true })
   kpHD: string;
 
@@ -198,28 +201,28 @@ export class Premiere {
   country: string;
 
   @ApiPropertyOptional()
-  @Prop({ index: true })
-  world: Date;
+  @Prop({ type: () => Date, index: true })
+  world: string;
 
   @ApiPropertyOptional()
-  @Prop({ index: true })
-  russia: Date;
+  @Prop({ type: () => Date, index: true })
+  russia: string;
 
   @ApiPropertyOptional()
-  @Prop({ index: true })
-  digital: Date;
+  @Prop({ type: () => Date, index: true })
+  digital: string;
 
   @ApiPropertyOptional()
-  @Prop()
-  cinema: Date;
+  @Prop({ type: () => Date })
+  cinema: string;
 
   @ApiPropertyOptional()
-  @Prop()
-  bluray: Date;
+  @Prop({ type: () => Date })
+  bluray: string;
 
   @ApiPropertyOptional()
-  @Prop()
-  dvd: Date;
+  @Prop({ type: () => Date })
+  dvd: string;
 }
 
 export class SpokenLanguages {
@@ -292,19 +295,24 @@ export class LinkedMovie {
   @ApiPropertyOptional()
   @Prop()
   id: number;
+
   @ApiPropertyOptional()
   @Prop()
   name: string;
+
   @ApiPropertyOptional()
   @Prop()
   enName: string;
+
   @ApiPropertyOptional()
   @Prop()
   alternativeName: string;
+
   @ApiPropertyOptional()
   @Prop()
   type?: string;
-  @ApiPropertyOptional({ type: () => LinkedMovie })
+
+  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop()
   poster: ShortImage;
 }
@@ -367,7 +375,10 @@ export type MovieDocument = HydratedDocument<Movie>;
 })
 export class Movie {
   // INFO: Id values
-  @ApiPropertyOptional({ description: 'Id фильма с кинопоиска' })
+  @ApiPropertyOptional({
+    description: 'Id фильма с кинопоиска',
+    example: 666,
+  })
   @IsOptional()
   @IsNumber()
   @ParseNumber()
@@ -540,7 +551,7 @@ export class Movie {
   @Prop()
   ticketsOnSale: boolean;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => Technology })
   @Prop()
   technology: Technology;
 

@@ -26,7 +26,7 @@ export class MovieController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск фильмов' })
-  @ApiDotNotationQuery(Movie, PaginatedQueryDto)
+  @ApiDotNotationQuery(Movie)
   @ApiResponse({ type: MovieDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyMovieDto,
