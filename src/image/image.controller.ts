@@ -22,7 +22,7 @@ export class ImageController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск изображений' })
-  @ApiDotNotationQuery(Image, PaginatedQueryDto)
+  @ApiDotNotationQuery(Image)
   @ApiResponse({ type: ImageDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyImageDto,
