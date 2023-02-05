@@ -1,34 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  SerializeOptions,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
+import { FindManyImageDto } from './dto/find-many-image.dto';
 import { ImageService } from './image.service';
-import { CreateImageDto } from './dto/create-image.dto';
-import { UpdateImageDto } from './dto/update-image.dto';
-
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
+import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
+import { ImageDocsResponseDto } from './dto/image-docs.response.dto';
+import { Image } from './schemas/image.schema';
+@SerializeOptions({ excludeExtraneousValues: true })
+@ApiTags('Image')
 @Controller('image')
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
-  @Post()
-  create(@Body() createImageDto: CreateImageDto) {
-    return this.imageService.create(createImageDto);
-  }
-
   @Get()
-  findAll() {
-    return this.imageService.findAll();
+  @ApiOperation({ summary: 'Поиск изображений' })
+  @ApiDotNotationQuery(Image, PaginatedQueryDto)
+  @ApiResponse({ type: ImageDocsResponseDto, isArray: true })
+  async finManyByQuery(
+    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyImageDto,
+  ): Promise<ImageDocsResponseDto> {
+    return this.imageService.findAll(dto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.imageService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateImageDto: UpdateImageDto) {
-    return this.imageService.update(+id, updateImageDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.imageService.remove(+id);
+  @ApiResponse({ type: ImageDocsResponseDto, isArray: true })
+  @Get(':movieId')
+  findOne(@Param('movieId') movieId: string): ImageDocsResponseDto {
+    return this.imageService.findOne(+movieId);
   }
 }

@@ -8,11 +8,11 @@ export class ImageService {
     return 'This action adds a new image';
   }
 
-  findAll() {
+  findAll(data: any): any {
     return `This action returns all image`;
   }
 
-  findOne(id: number) {
+  findOne(id: number): any {
     return `This action returns a #${id} image`;
   }
 
