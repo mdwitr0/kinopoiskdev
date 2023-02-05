@@ -30,8 +30,8 @@ export class Review extends Document {
   review: string;
 
   @ApiPropertyOptional()
-  @Prop()
-  date: Date;
+  @Prop({ type: () => Date })
+  date: string;
 
   @ApiPropertyOptional()
   @Prop()

@@ -27,7 +27,7 @@ export class ReviewController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск отзывов' })
-  @ApiDotNotationQuery(Review, PaginatedQueryDto)
+  @ApiDotNotationQuery(Review)
   @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyReviewDto,
