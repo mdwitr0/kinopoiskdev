@@ -8,19 +8,11 @@ export class PersonService {
     return 'This action adds a new person';
   }
 
-  findAll() {
+  findMany(data: any): any {
     return `This action returns all person`;
   }
 
-  findOne(id: number) {
+  findOne(id: number): any {
     return `This action returns a #${id} person`;
-  }
-
-  update(id: number, updatePersonDto: UpdatePersonDto) {
-    return `This action updates a #${id} person`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} person`;
   }
 }

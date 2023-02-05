@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { FindManyPersonDto } from './dto/find-many-person.dto';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Query,
+  SerializeOptions,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
 import { PersonService } from './person.service';
-import { CreatePersonDto } from './dto/create-person.dto';
-import { UpdatePersonDto } from './dto/update-person.dto';
+import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
+import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
+import { PersonDocsResponseDto } from './dto/person-docs.response.dto';
+import { Person } from './schemas/person.schema';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@SerializeOptions({ excludeExtraneousValues: true })
+@ApiTags('Person')
 @Controller('person')
 export class PersonController {
   constructor(private readonly personService: PersonService) {}
 
-  @Post()
-  create(@Body() createPersonDto: CreatePersonDto) {
-    return this.personService.create(createPersonDto);
-  }
-
   @Get()
-  findAll() {
-    return this.personService.findAll();
+  @ApiOperation({ summary: 'Поиск персон' })
+  @ApiDotNotationQuery(Person, PaginatedQueryDto)
+  @ApiResponse({ type: PersonDocsResponseDto })
+  async finManyByQuery(
+    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyPersonDto,
+  ): Promise<PersonDocsResponseDto> {
+    return this.personService.findMany(dto);
   }
 
+  @ApiResponse({ type: Person })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Person {
     return this.personService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePersonDto: UpdatePersonDto) {
-    return this.personService.update(+id, updatePersonDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.personService.remove(+id);
   }
 }
