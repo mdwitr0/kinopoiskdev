@@ -7,20 +7,25 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 // INFO: Objects
 
 export class ExternalId {
+  @ApiPropertyOptional()
   @Prop({ index: true })
   kpHD: string;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   imdb: string;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   tmdb: number;
 }
 
 export class Rating {
+  @ApiPropertyOptional()
   @Prop({ unique: true })
   kpHD: string;
 
+  @ApiPropertyOptional()
   @Prop({ unique: true })
   imdb: string;
 
@@ -30,21 +35,27 @@ export class Rating {
 }
 
 export class VendorNumbers {
+  @ApiPropertyOptional()
   @Prop({ index: true })
   kp: number;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   imdb: number;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   tmdb: number;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   filmCritics: number;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   russianFilmCritics: number;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   await: number;
 }
@@ -66,6 +77,7 @@ export class ShortImage {
 }
 
 export class VendorImage {
+  @ApiPropertyOptional()
   @Prop({ index: true })
   name: string;
 
@@ -79,6 +91,7 @@ export class VendorImage {
 }
 
 export class Name {
+  @ApiPropertyOptional()
   @Prop({ index: true })
   name: string;
 }
@@ -116,6 +129,7 @@ export class VideoTypes {
 }
 
 export class Person {
+  @ApiPropertyOptional()
   @Prop({ index: true })
   id: number;
 
@@ -145,6 +159,7 @@ export class Person {
 }
 
 export class CurrencyValue {
+  @ApiPropertyOptional()
   @Prop({ index: true })
   value: number;
 
@@ -182,12 +197,15 @@ export class Premiere {
   @Prop()
   country: string;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   world: Date;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   russia: Date;
 
+  @ApiPropertyOptional()
   @Prop({ index: true })
   digital: Date;
 
@@ -270,11 +288,6 @@ export class SeasonInfo {
   episodesCount: number;
 }
 
-export class Collection {
-  @Prop({ refPath: 'Collection' })
-  type: Types.ObjectId;
-}
-
 export class LinkedMovie {
   @ApiPropertyOptional()
   @Prop()
@@ -291,7 +304,7 @@ export class LinkedMovie {
   @ApiPropertyOptional()
   @Prop()
   type?: string;
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: () => LinkedMovie })
   @Prop()
   poster: ShortImage;
 }
@@ -361,7 +374,7 @@ export class Movie {
   @Prop({ unique: true })
   id: number;
 
-  @ApiPropertyOptional({ type: () => ExternalId })
+  @ApiPropertyOptional({ type: () => ExternalId, isArray: true })
   @Prop({ index: true, type: () => ExternalId })
   externalId: ExternalId;
 
@@ -504,10 +517,6 @@ export class Movie {
   @ApiPropertyOptional({ type: () => SeasonInfo, isArray: true })
   @Prop({ type: () => [SeasonInfo] })
   seasonsInfo: SeasonInfo[];
-
-  @ApiPropertyOptional({ type: () => Collection, isArray: true })
-  @Prop({ type: () => [Collection] })
-  collections: Collection[];
 
   @ApiPropertyOptional({ type: () => VendorImage, isArray: true })
   @Prop({ type: () => [VendorImage] })
