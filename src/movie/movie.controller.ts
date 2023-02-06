@@ -16,6 +16,7 @@ import { MovieDocsResponseDto } from './dto/movie-docs.response.dto';
 import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
 import { FindManyMovieDto } from './dto/find-many-movie.dto';
 import { Movie } from './schemas/movie.schema';
+import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -26,7 +27,7 @@ export class MovieController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск фильмов' })
-  @ApiDotNotationQuery(Movie)
+  @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Movie)
   @ApiResponse({ type: MovieDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyMovieDto,

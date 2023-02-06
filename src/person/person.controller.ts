@@ -16,6 +16,7 @@ import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.
 import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
 import { PersonDocsResponseDto } from './dto/person-docs.response.dto';
 import { Person } from './schemas/person.schema';
+import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -26,7 +27,7 @@ export class PersonController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск персон' })
-  @ApiDotNotationQuery(Person)
+  @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Person)
   @ApiResponse({ type: PersonDocsResponseDto })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyPersonDto,

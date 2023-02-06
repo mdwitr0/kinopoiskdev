@@ -17,6 +17,7 @@ import { MovieDocsResponseDto } from '../movie/dto/movie-docs.response.dto';
 import { Review } from './schemas/review.schema';
 import { ReviewDocsResponseDto } from './dto/review-docs-response.dto';
 import { FindManyReviewDto } from './dto/find-many-review.dto';
+import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -27,7 +28,7 @@ export class ReviewController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск отзывов' })
-  @ApiDotNotationQuery(Review)
+  @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Review)
   @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyReviewDto,

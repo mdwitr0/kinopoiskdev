@@ -18,6 +18,7 @@ import { Season } from './schemas/season.schema';
 import { FindManySeasonDto } from './dto/find-many-season.dto';
 import { SeasonDocsResponseDto } from './dto/season-docs.response.dto';
 import { Movie } from '../movie/schemas/movie.schema';
+import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -28,7 +29,7 @@ export class SeasonController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск сезонов' })
-  @ApiDotNotationQuery(Season)
+  @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Season)
   @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManySeasonDto,

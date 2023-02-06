@@ -10,13 +10,13 @@ const getDescription = (text: string, example: any) => {
   return description;
 };
 
-const getQueryDecorators = (model: Function, parrentProperty?: string) => {
+const getQueryDecorators = (model: Function, parentProperty?: string) => {
   const constructor = model.prototype;
 
   const properties = Reflect.getMetadata(
     'swagger/apiModelPropertiesArray',
     constructor,
-  ).map((prop) => prop.substr(1));
+  ).map((prop) => prop.substring(1));
 
   return properties.flatMap((property) => {
     const meta = Reflect.getMetadata(
@@ -29,7 +29,7 @@ const getQueryDecorators = (model: Function, parrentProperty?: string) => {
     if (!type?.name) {
       return [
         ApiQuery({
-          name: parrentProperty ? `${parrentProperty}.${property}` : property,
+          name: parentProperty ? `${parentProperty}.${property}` : property,
           type: meta.type,
           required: false,
           example: undefined,
@@ -44,7 +44,7 @@ const getQueryDecorators = (model: Function, parrentProperty?: string) => {
       case 'Boolean':
         return [
           ApiQuery({
-            name: parrentProperty ? `${parrentProperty}.${property}` : property,
+            name: parentProperty ? `${parentProperty}.${property}` : property,
             ...meta,
             description: getDescription(meta.description, meta.example),
             required: false,

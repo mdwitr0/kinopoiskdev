@@ -14,6 +14,7 @@ import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.
 import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
 import { ImageDocsResponseDto } from './dto/image-docs.response.dto';
 import { Image } from './schemas/image.schema';
+import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 @SerializeOptions({ excludeExtraneousValues: true })
 @ApiTags('Image')
 @Controller('image')
@@ -22,7 +23,7 @@ export class ImageController {
 
   @Get()
   @ApiOperation({ summary: 'Поиск изображений' })
-  @ApiDotNotationQuery(Image)
+  @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Image)
   @ApiResponse({ type: ImageDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyImageDto,
