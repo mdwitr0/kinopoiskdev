@@ -35,8 +35,15 @@ const getPagingDecorators = (fn: Function) => {
   }
 };
 
-const getQueryDecorators = (fn: Function, parrentProperty?: string) => {
-  const constructor = fn.prototype;
+const getDescription = (text: string, example: any) => {
+  let description = '';
+  if (text) description += text + '. <br/>';
+  if (example) description += `<br/>Пример: \`${example}\``;
+  return description;
+};
+
+const getQueryDecorators = (model: Function, parrentProperty?: string) => {
+  const constructor = model.prototype;
 
   const properties = Reflect.getMetadata(
     'swagger/apiModelPropertiesArray',
@@ -50,8 +57,19 @@ const getQueryDecorators = (fn: Function, parrentProperty?: string) => {
       property,
     );
 
-    const type = meta.type();
+    const type = meta?.type();
+    if (!type?.name) {
+      return [
+        ApiQuery({
+          name: parrentProperty ? `${parrentProperty}.${property}` : property,
+          type: meta.type,
+          required: false,
+          example: undefined,
 
+          description: getDescription(meta.description, meta.example),
+        }),
+      ];
+    }
     switch (type.name) {
       case 'String':
       case 'Number':
@@ -60,11 +78,9 @@ const getQueryDecorators = (fn: Function, parrentProperty?: string) => {
           ApiQuery({
             name: parrentProperty ? `${parrentProperty}.${property}` : property,
             ...meta,
-            type: 'string',
-            example: meta.example || meta.default,
-            examples: meta.examples,
-            isArray: true,
+            description: getDescription(meta.description, meta.example),
             required: false,
+            example: undefined,
           }),
         ];
       default:
@@ -73,6 +89,7 @@ const getQueryDecorators = (fn: Function, parrentProperty?: string) => {
   });
 };
 
-export const ApiDotNotationQuery = (query: Function) => {
-  return applyDecorators(...getQueryDecorators(query));
+export const ApiDotNotationQuery = (...models: Function[]) => {
+  const decorators = models.flatMap((model) => getQueryDecorators(model));
+  return applyDecorators(...decorators);
 };
