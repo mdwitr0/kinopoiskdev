@@ -1,39 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types*/
 
-import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { ApiQuery, ApiQueryOptions } from '@nestjs/swagger';
-import { SortTypeEnum } from '../enum/sort.enum';
-
-const getPagingDecorators = (fn: Function) => {
-  const constructor = fn.prototype;
-  if (Reflect.getMetadata('swagger/apiModelPropertiesArray', constructor)) {
-    const properties = Reflect.getMetadata(
-      'swagger/apiModelPropertiesArray',
-      constructor,
-    ).map((prop) => prop.substr(1));
-
-    return properties.flatMap((property) => {
-      const meta = Reflect.getMetadata(
-        'swagger/apiModelProperties',
-        constructor,
-        property,
-      );
-      const subClass = meta.type();
-      if (subClass) {
-        return getPagingDecorators(subClass);
-      }
-      return [
-        ApiQuery({
-          name: property,
-          type: typeof subClass,
-          ...meta,
-        }),
-      ];
-    });
-  } else {
-    return [];
-  }
-};
+import { applyDecorators } from '@nestjs/common';
+import { ApiQuery } from '@nestjs/swagger';
 
 const getDescription = (text: string, example: any) => {
   let description = '';
