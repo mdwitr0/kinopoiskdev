@@ -53,7 +53,11 @@ async function bootstrap() {
     .setDescription(
       'Документация для API kinopoisk.dev. API позволяет получать максимум информации с кинопоиска о фильмах, сериалах и персонах и т.д.',
     )
-    .addBearerAuth()
+    .addApiKey({
+      type: 'apiKey',
+      name: 'token',
+      in: 'query',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(docGlobalPrefix, app, document);
