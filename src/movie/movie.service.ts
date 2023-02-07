@@ -2,26 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { IFindManyMovie } from './interfaces/find-many-movie.interface';
+import { InjectModel } from '@nestjs/mongoose';
+import { Movie, MovieDocument, MovieSchema } from './schemas/movie.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class MovieService {
-  create(createMovieDto: CreateMovieDto) {
-    return 'This action adds a new movie';
+  constructor(
+    @InjectModel('movies') private readonly movieModel: Model<MovieDocument>,
+  ) {}
+
+  findMany(filters: IFindManyMovie): any {
+    return this.movieModel
+      .find({})
+      .limit(filters.limit)
+      .skip((filters.page - 1) * filters.limit)
+      .lean();
   }
 
-  findMany(flters: IFindManyMovie): any {
-    return `This action returns all movie`;
-  }
-
-  findOne(id: number): any {
-    return `This action returns a #${id} movie`;
-  }
-
-  update(id: number, updateMovieDto: UpdateMovieDto) {
-    return `This action updates a #${id} movie`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+  async findOne(id: number): Promise<Movie> {
+    return this.movieModel.findOne({ id }).lean();
   }
 }

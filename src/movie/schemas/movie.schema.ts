@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types, Document, HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ParseNumber } from '../../common/decorators/transform/parse-number.decorator';
 import { IsNumber, IsOptional } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
@@ -414,7 +414,6 @@ export class Movie {
   @Prop({ index: true })
   typeNumber: number;
 
-  // FIXME: null from uno
   @Prop({ index: true })
   subType: string;
 
@@ -435,7 +434,6 @@ export class Movie {
   @Prop()
   slogan: string;
 
-  // FIXME: null from uno
   @Prop({ index: true })
   status: string;
 
@@ -580,4 +578,4 @@ export class Movie {
   top250: number;
 }
 
-export const MovieSchema = SchemaFactory.createForClass(Person);
+export const MovieSchema = SchemaFactory.createForClass(Movie);

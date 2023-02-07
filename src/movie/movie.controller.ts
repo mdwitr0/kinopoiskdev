@@ -12,7 +12,6 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
 import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
 import { MovieDocsResponseDto } from './dto/movie-docs.response.dto';
-import { IFindManyMovieDto } from './dto/find-many-movie.dto';
 import { Movie } from './schemas/movie.schema';
 import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 import { IFindManyMovie } from './interfaces/find-many-movie.interface';
@@ -36,7 +35,7 @@ export class MovieController {
 
   @ApiResponse({ type: Movie })
   @Get(':id')
-  findOne(@Param('id') id: string): Movie {
+  async findOne(@Param('id') id: string): Promise<Movie> {
     return this.movieService.findOne(+id);
   }
 }
