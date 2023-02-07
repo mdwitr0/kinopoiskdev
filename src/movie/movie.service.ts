@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { IFindManyMovie } from './interfaces/find-many-movie.interface';
 
 @Injectable()
 export class MovieService {
@@ -8,7 +9,7 @@ export class MovieService {
     return 'This action adds a new movie';
   }
 
-  findMany(dto: any): any {
+  findMany(flters: IFindManyMovie): any {
     return `This action returns all movie`;
   }
 
