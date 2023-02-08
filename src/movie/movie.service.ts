@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 import { IFindManyMovie } from './interfaces/find-many-movie.interface';
 import { InjectModel } from '@nestjs/mongoose';
-import { Movie, MovieDocument, MovieSchema } from './schemas/movie.schema';
+import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
