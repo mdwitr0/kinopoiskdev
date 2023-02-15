@@ -85,6 +85,17 @@ export class QueryPipe implements PipeTransform {
       }
     };
 
+    const createTextSearchRegExp = (phrase: string) => {
+      if (!phrase) {
+        return phrase;
+      }
+
+      const words = phrase.split(' ').map((word) => `(?=.*${word}.*)`);
+      const regExp = `^${words.join('')}.*$`;
+
+      return new RegExp(regExp, 'i');
+    };
+
     const transformFieldValue = (field: string, value: string): any => {
       const isNullValue = value === '!null';
       const isNumberField = FIELDS.numberSearchKeys.includes(field);
@@ -110,7 +121,7 @@ export class QueryPipe implements PipeTransform {
       }
 
       if (isRegexField) {
-        return { $regex: new RegExp(`.*${value}.*`, 'i') };
+        return { $regex: createTextSearchRegExp(value) };
       }
 
       return value;
