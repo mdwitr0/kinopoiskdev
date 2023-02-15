@@ -6,6 +6,7 @@ import {
   Query,
   SerializeOptions,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -15,6 +16,7 @@ import { MovieDocsResponseDto } from './dto/movie-docs.response.dto';
 import { Movie } from './schemas/movie.schema';
 import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 import { IFindManyMovie } from './interfaces/find-many-movie.interface';
+import { QueryPipe } from 'src/common/pipes/query.pipe';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -24,12 +26,15 @@ export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Get()
+  @UsePipes(new QueryPipe())
   @ApiOperation({ summary: 'Поиск фильмов' })
   @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Movie)
   @ApiResponse({ type: MovieDocsResponseDto, isArray: true })
   async finManyByQuery(
     @Query() filters: IFindManyMovie,
   ): Promise<MovieDocsResponseDto> {
+    console.log(filters);
+
     return this.movieService.findMany(filters);
   }
 
