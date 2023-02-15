@@ -1,10 +1,4 @@
-import {
-  PipeTransform,
-  Injectable,
-  ArgumentMetadata,
-  BadRequestException,
-} from '@nestjs/common';
-import { Types } from 'mongoose';
+import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 
 const SYSTEM_KEYS = [
@@ -20,32 +14,47 @@ const SYSTEM_KEYS = [
 @Injectable()
 export class QueryPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata): IQuery {
-    const query: any = {};
+    const filter: any = {};
     const sort: any = {};
     const select: any = {};
     let page = 1;
     let limit = 10;
 
-    // Парсим параметры для поиска
-    if (value.search) {
-      if (Array.isArray(value.field) && Array.isArray(value.search)) {
-        value.field.forEach((field: string, index: number) => {
-          query[field] = value.search[index];
-        });
-      } else if (
-        typeof value.field === 'string' &&
-        typeof value.search === 'string'
-      ) {
-        query[value.field] = value.search;
+    const setValueToField = (
+      field: string,
+      value: string | number | Array<any> | any,
+    ) => {
+      if (filter[field]) {
+        filter[field] = [filter[field], value].flat(2);
       } else {
-        throw new BadRequestException('Invalid search parameters');
+        filter[field] = value;
+      }
+    };
+
+    // Парсим параметры поиска в старом формате
+    if (value.field && value.search) {
+      if (Array.isArray(value.field) && Array.isArray(value.search)) {
+        value.field.forEach((field, index) =>
+          setValueToField(field, value.search[index]),
+        );
+      } else {
+        setValueToField(value.field, value.search);
       }
     }
 
-    // Парсим параметры для поиска
-    for (const [key, val] of Object.entries(value)) {
-      if (SYSTEM_KEYS.includes(key)) {
-        query[key] = val;
+    // Парсим параметры для поиска в новом формате
+    for (const [field, fieldValue] of Object.entries(value)) {
+      if (!SYSTEM_KEYS.includes(field)) setValueToField(field, fieldValue);
+    }
+
+    // Форматируем данные, под валидный для mongo запрос
+    for (const [key, keyValue] of Object.entries(filter)) {
+      if (!SYSTEM_KEYS.includes(key)) {
+        if (Array.isArray(keyValue)) {
+          filter[key] = { $in: keyValue };
+        } else {
+          filter[key] = keyValue;
+        }
       }
     }
 
@@ -74,13 +83,9 @@ export class QueryPipe implements PipeTransform {
     }
 
     // Парсим параметры для пагинации
-    if (value.page) {
-      page = parseInt(value.page, 10);
-    }
-    if (value.limit) {
-      limit = parseInt(value.limit, 10);
-    }
+    if (value.page) page = parseInt(value.page, 10);
+    if (value.limit) limit = parseInt(value.limit, 10);
 
-    return { query, sort, select, limit, skip: (page - 1) * limit };
+    return { filter, sort, select, limit, skip: (page - 1) * limit };
   }
 }

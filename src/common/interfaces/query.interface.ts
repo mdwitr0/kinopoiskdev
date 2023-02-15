@@ -1,5 +1,5 @@
 export interface IQuery {
-  query?: any;
+  filter?: any;
   sort?: any;
   select?: any;
   limit?: number;
