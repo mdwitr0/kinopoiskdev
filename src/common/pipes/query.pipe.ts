@@ -1,5 +1,7 @@
 import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+import { Value } from 'src/movie/schemas/movie.schema';
 import { IQuery } from '../interfaces/query.interface';
+import { normalizeDate } from '../utils/query/parse-date.util';
 
 const SYSTEM_KEYS = [
   'sortField',
@@ -10,6 +12,58 @@ const SYSTEM_KEYS = [
   'field',
   'search',
 ];
+
+const FIELDS = {
+  idKeys: ['id', 'externalId.imdb'],
+  regexSearchKeys: [
+    'name',
+    'alternativeName',
+    'enName',
+    'names.name',
+    'tagline',
+    'slogan',
+    'description',
+    'persons.name',
+    'persons.enName',
+    'persons.description',
+  ],
+  dateSearchKeys: [
+    'premiere.world',
+    'premiere.russia',
+    'premiere.digital',
+    'premiere.bluray',
+    'premiere.dvd',
+  ],
+  numberSearchKeys: [
+    'id',
+    'externalId.imdb',
+    'externalId.tmdb',
+    'typeNumber',
+    'movieLength',
+    'year',
+    'rating.kp',
+    'rating.imdb',
+    'rating.tmdb',
+    'votes.kp',
+    'votes.imdb',
+    'votes.tmdb',
+    'ratingAgeLimits',
+    'persons.id',
+    'budget.value',
+    'fees.world',
+    'fees.usa',
+    'fees.russia',
+    'image.postersCount',
+    'image.backdropsCount',
+    'image.framesCount',
+    'reviewInfo.count',
+    'reviewInfo.positiveCount',
+    'seasonsInfo.number',
+    'seasonsInfo.episodesCount',
+    'videos.trailers.size',
+    'videos.teasers.size',
+  ],
+};
 
 @Injectable()
 export class QueryPipe implements PipeTransform {
@@ -31,6 +85,37 @@ export class QueryPipe implements PipeTransform {
       }
     };
 
+    const transformFieldValue = (field: string, value: string): any => {
+      const isNullValue = value === '!null';
+      const isNumberField = FIELDS.numberSearchKeys.includes(field);
+      const isDateField = FIELDS.dateSearchKeys.includes(field);
+      const isRegexField = FIELDS.regexSearchKeys.includes(field);
+
+      if (isNullValue) {
+        return { $ne: null };
+      }
+
+      if ((isNumberField || isDateField) && value.includes('-')) {
+        const [minValue, maxValue] = value.split('-');
+        const result = maxValue
+          ? {
+              $gte: isDateField ? normalizeDate(minValue) : minValue,
+              $lte: isDateField ? normalizeDate(maxValue) : maxValue,
+            }
+          : isDateField
+          ? normalizeDate(minValue)
+          : minValue;
+
+        return result;
+      }
+
+      if (isRegexField) {
+        return { $regex: new RegExp(`.*${value}.*`, 'i') };
+      }
+
+      return value;
+    };
+
     // Парсим параметры поиска в старом формате
     if (value.field && value.search) {
       if (Array.isArray(value.field) && Array.isArray(value.search)) {
@@ -50,10 +135,14 @@ export class QueryPipe implements PipeTransform {
     // Форматируем данные, под валидный для mongo запрос
     for (const [key, keyValue] of Object.entries(filter)) {
       if (!SYSTEM_KEYS.includes(key)) {
-        if (Array.isArray(keyValue)) {
-          filter[key] = { $in: keyValue };
+        const isArray = Array.isArray(keyValue);
+
+        if (isArray) {
+          filter[key] = {
+            $in: keyValue.map((val) => transformFieldValue(key, val)),
+          };
         } else {
-          filter[key] = keyValue;
+          filter[key] = transformFieldValue(key, keyValue as string);
         }
       }
     }
