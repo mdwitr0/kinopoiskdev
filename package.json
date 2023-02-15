@@ -33,6 +33,7 @@
     "@nestjs/swagger": "^6.1.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "luxon": "^3.2.1",
     "mongoose": "^6.9.0",
     "mongoose-paginate-v2": "^1.7.1",
     "reflect-metadata": "^0.1.13",
