@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Model } from 'mongoose';
 import { IQuery } from '../interfaces/query.interface';
 
@@ -19,16 +20,19 @@ export abstract class BaseService<T> implements IBaseService<T> {
 
   async findMany(query: IQuery): Promise<IFindMany<T>> {
     const [total, docs] = await Promise.all([
-      this.model.countDocuments(query.filter).limit(query.limit),
+      this.model.countDocuments(query.filter),
       this.model
         .find(query.filter)
         .limit(query.limit)
         .skip(query.skip)
-        .sort(query.sort),
+        .sort(query.sort)
+        .exec(),
     ]);
 
+    // @ts-ignore
+    const docsToJson = docs.map((doc) => doc?.toJSON());
     return {
-      docs,
+      docs: docsToJson,
       total,
       limit: query.limit,
       page: query.skip / query.limit + 1,
@@ -37,6 +41,8 @@ export abstract class BaseService<T> implements IBaseService<T> {
   }
 
   async findOne(id: number): Promise<T | null> {
-    return this.model.findOne({ id }).lean();
+    const found = await this.model.findOne({ id });
+    // @ts-ignore
+    return found.toJSON();
   }
 }
