@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSeasonDto } from './dto/create-season.dto';
-import { UpdateSeasonDto } from './dto/update-season.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IQuery } from 'src/common/interfaces/query.interface';
+
+import { SeasonDocument } from './schemas/season.schema';
 
 @Injectable()
 export class SeasonService {
-  create(createSeasonDto: CreateSeasonDto) {
-    return 'This action adds a new season';
+  constructor(
+    @InjectModel('seasons') private readonly imageModel: Model<SeasonDocument>,
+  ) {}
+
+  async findMany(query: IQuery): Promise<SeasonDocument[]> {
+    return this.imageModel
+      .find(query.filter)
+      .limit(query.limit)
+      .skip(query.skip)
+      .sort(query.sort)
+      .lean();
   }
 
-  findAll(dto: any): any {
-    return `This action returns all season`;
-  }
-
-  findOne(id: number): any {
-    return `This action returns a #${id} season`;
-  }
-
-  update(id: number, updateSeasonDto: UpdateSeasonDto) {
-    return `This action updates a #${id} season`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} season`;
+  async findOne(id: number): Promise<SeasonDocument> {
+    return this.imageModel.findOne({ id }).lean();
   }
 }

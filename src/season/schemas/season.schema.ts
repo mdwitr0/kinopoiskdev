@@ -57,4 +57,4 @@ export class Season {
   episodes: Episode[];
 }
 
-const SeasonSchema = SchemaFactory.createForClass(Episode);
+export const SeasonSchema = SchemaFactory.createForClass(Episode);

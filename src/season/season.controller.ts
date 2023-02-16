@@ -6,19 +6,15 @@ import {
   Query,
   SerializeOptions,
   UseInterceptors,
-  ValidationPipe,
 } from '@nestjs/common';
 import { SeasonService } from './season.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
 import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
-import { MovieDocsResponseDto } from '../movie/dto/movie-docs.response.dto';
-import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
 import { Season } from './schemas/season.schema';
-import { FindManySeasonDto } from './dto/find-many-season.dto';
 import { SeasonDocsResponseDto } from './dto/season-docs.response.dto';
-import { Movie } from '../movie/schemas/movie.schema';
 import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
+import { IQuery } from 'src/common/interfaces/query.interface';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -31,15 +27,13 @@ export class SeasonController {
   @ApiOperation({ summary: 'Поиск сезонов' })
   @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Season)
   @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
-  async finManyByQuery(
-    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManySeasonDto,
-  ): Promise<SeasonDocsResponseDto> {
-    return this.seasonService.findAll(dto);
+  async finManyByQuery(@Query() query: IQuery) {
+    return this.seasonService.findMany(query);
   }
 
   @ApiResponse({ type: SeasonDocsResponseDto, isArray: true })
   @Get(':movieId')
-  findOne(@Param('movieId') movieId: string): SeasonDocsResponseDto {
+  findOne(@Param('movieId') movieId: string) {
     return this.seasonService.findOne(+movieId);
   }
 }
