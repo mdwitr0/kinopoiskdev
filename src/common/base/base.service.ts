@@ -40,7 +40,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
     };
   }
 
-  async findOne(id: number): Promise<T | null> {
+  async findOne(id: number | string): Promise<T | null> {
     const found = await this.model.findOne({ id });
     // @ts-ignore
     return found.toJSON();

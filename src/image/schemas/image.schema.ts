@@ -6,7 +6,13 @@ export type ImageDocument = HydratedDocument<Image>;
 
 @Schema({
   timestamps: true,
-  toJSON: { virtuals: true },
+  toJSON: {
+    virtuals: true,
+    transform: function (doc, ret) {
+      delete ret._id;
+      delete ret.__v;
+    },
+  },
   toObject: { virtuals: true },
 })
 export class Image {

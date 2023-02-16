@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export type ReviewDocument = HydratedDocument<Review>;

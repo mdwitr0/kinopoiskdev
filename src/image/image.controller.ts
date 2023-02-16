@@ -29,7 +29,7 @@ export class ImageController {
   @ApiOperation({ summary: 'Поиск изображений' })
   @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Image)
   @ApiResponse({ type: ImageDocsResponseDto, isArray: true })
-  async finManyByQuery(@Query() query: IQuery) {
+  async finManyByQuery(@Query() query: IQuery): Promise<any> {
     return this.imageService.findMany(query);
   }
 
