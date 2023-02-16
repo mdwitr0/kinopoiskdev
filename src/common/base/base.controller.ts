@@ -1,7 +1,7 @@
 import { ApiResponse } from '@nestjs/swagger';
 import { Get, Param, Query } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
-import { PaginatedDecorator } from '../decorators/find-many.decorator';
+import { PaginatedDecorator } from '../decorators/paginated.decorator';
 
 type Constructor<T> = new (...args: any[]) => T;
 
