@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { HydratedDocument } from 'mongoose';
+
+export type ImageDocument = HydratedDocument<Image>;
 
 @Schema({
   timestamps: true,

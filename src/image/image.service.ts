@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { CreateImageDto } from './dto/create-image.dto';
-import { UpdateImageDto } from './dto/update-image.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IQuery } from 'src/common/interfaces/query.interface';
+import { Movie } from 'src/movie/schemas/movie.schema';
+
+import { ImageDocument } from './schemas/image.schema';
 
 @Injectable()
 export class ImageService {
-  create(createImageDto: CreateImageDto) {
-    return 'This action adds a new image';
+  constructor(
+    @InjectModel('images') private readonly imageModel: Model<ImageDocument>,
+  ) {}
+
+  async findMany(query: IQuery): Promise<ImageDocument[]> {
+    return this.imageModel
+      .find(query.filter)
+      .limit(query.limit)
+      .skip(query.skip)
+      .sort(query.sort)
+      .lean();
   }
 
-  findAll(data: any): any {
-    return `This action returns all image`;
-  }
-
-  findOne(id: number): any {
-    return `This action returns a #${id} image`;
-  }
-
-  update(id: number, updateImageDto: UpdateImageDto) {
-    return `This action updates a #${id} image`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} image`;
+  async findOne(id: number): Promise<ImageDocument> {
+    return this.imageModel.findOne({ id }).lean();
   }
 }
