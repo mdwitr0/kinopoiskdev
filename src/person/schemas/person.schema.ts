@@ -1,6 +1,6 @@
 import mongoosePaginate from 'mongoose-paginate-v2';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, HydratedDocument } from 'mongoose';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 class BirthPlace {
@@ -86,6 +86,8 @@ class Movie {
   @Prop()
   enProfession: string;
 }
+
+export type PersonDocument = HydratedDocument<Person>;
 
 @Schema({
   timestamps: true,

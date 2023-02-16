@@ -1,18 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePersonDto } from './dto/create-person.dto';
-import { UpdatePersonDto } from './dto/update-person.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IQuery } from 'src/common/interfaces/query.interface';
+import { PersonDocument } from './schemas/person.schema';
 
 @Injectable()
 export class PersonService {
-  create(createPersonDto: CreatePersonDto) {
-    return 'This action adds a new person';
+  constructor(
+    @InjectModel('people') private readonly personModel: Model<PersonDocument>,
+  ) {}
+
+  async findMany(query: IQuery): Promise<PersonDocument[]> {
+    return this.personModel
+      .find(query.filter)
+      .limit(query.limit)
+      .skip(query.skip)
+      .sort(query.sort)
+      .lean();
   }
 
-  findMany(data: any): any {
-    return `This action returns all person`;
-  }
-
-  findOne(id: number): any {
-    return `This action returns a #${id} person`;
+  async findOne(id: number): Promise<PersonDocument> {
+    return this.personModel.findOne({ id }).lean();
   }
 }

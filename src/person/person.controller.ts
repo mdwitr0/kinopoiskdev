@@ -17,6 +17,7 @@ import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
 import { PersonDocsResponseDto } from './dto/person-docs.response.dto';
 import { Person } from './schemas/person.schema';
 import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
+import { IQuery } from 'src/common/interfaces/query.interface';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -29,15 +30,13 @@ export class PersonController {
   @ApiOperation({ summary: 'Поиск персон' })
   @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Person)
   @ApiResponse({ type: PersonDocsResponseDto })
-  async finManyByQuery(
-    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyPersonDto,
-  ): Promise<PersonDocsResponseDto> {
-    return this.personService.findMany(dto);
+  async finManyByQuery(@Query() query: IQuery) {
+    return this.personService.findMany(query);
   }
 
   @ApiResponse({ type: Person })
   @Get(':id')
-  findOne(@Param('id') id: string): Person {
+  findOne(@Param('id') id: string) {
     return this.personService.findOne(+id);
   }
 }
