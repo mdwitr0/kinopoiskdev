@@ -3,6 +3,7 @@ import { IFindManyMovie } from './interfaces/find-many-movie.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
+import { IQuery } from 'src/common/interfaces/query.interface';
 
 @Injectable()
 export class MovieService {
@@ -10,11 +11,12 @@ export class MovieService {
     @InjectModel('movies') private readonly movieModel: Model<MovieDocument>,
   ) {}
 
-  findMany(filters: IFindManyMovie): any {
+  findMany(query: IQuery): any {
     return this.movieModel
-      .find({})
-      .limit(filters.limit)
-      .skip((filters.page - 1) * filters.limit)
+      .find(query.filter)
+      .limit(query.limit)
+      .skip(query.skip)
+      .sort(query.sort)
       .lean();
   }
 

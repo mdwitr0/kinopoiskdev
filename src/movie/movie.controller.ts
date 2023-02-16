@@ -17,6 +17,7 @@ import { Movie } from './schemas/movie.schema';
 import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
 import { IFindManyMovie } from './interfaces/find-many-movie.interface';
 import { QueryPipe } from 'src/common/pipes/query.pipe';
+import { IQuery } from 'src/common/interfaces/query.interface';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -30,12 +31,8 @@ export class MovieController {
   @ApiOperation({ summary: 'Поиск фильмов' })
   @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Movie)
   @ApiResponse({ type: MovieDocsResponseDto, isArray: true })
-  async finManyByQuery(
-    @Query() filters: IFindManyMovie,
-  ): Promise<MovieDocsResponseDto> {
-    console.log(filters);
-
-    return this.movieService.findMany(filters);
+  async finManyByQuery(@Query() query: IQuery): Promise<MovieDocsResponseDto> {
+    return this.movieService.findMany(query);
   }
 
   @ApiResponse({ type: Movie })
