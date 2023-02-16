@@ -6,18 +6,15 @@ import {
   Query,
   SerializeOptions,
   UseInterceptors,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ApiDotNotationQuery } from '../common/decorators/api-dot-notation-query.decorator';
 import { PaginatedQueryDto } from '../common/dto/query/paginated.query.dto';
-import { ParseDotNotationQuery } from '../common/pipes/parse-dot-notation-query.pipe';
-import { MovieDocsResponseDto } from '../movie/dto/movie-docs.response.dto';
 import { Review } from './schemas/review.schema';
 import { ReviewDocsResponseDto } from './dto/review-docs-response.dto';
-import { FindManyReviewDto } from './dto/find-many-review.dto';
 import { ToolsQueryDto } from '../common/dto/query/tools.query.dto';
+import { IQuery } from 'src/common/interfaces/query.interface';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludeExtraneousValues: true })
@@ -30,15 +27,13 @@ export class ReviewController {
   @ApiOperation({ summary: 'Поиск отзывов' })
   @ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, Review)
   @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
-  async finManyByQuery(
-    @Query(ParseDotNotationQuery, ValidationPipe) dto: FindManyReviewDto,
-  ): Promise<ReviewDocsResponseDto> {
-    return this.reviewService.findAll(dto);
+  async finManyByQuery(@Query() query: IQuery) {
+    return this.reviewService.findMany(query);
   }
 
   @ApiResponse({ type: ReviewDocsResponseDto, isArray: true })
   @Get(':movieId')
-  findOne(@Param('movieId') movieId: string): ReviewDocsResponseDto {
+  findOne(@Param('movieId') movieId: string) {
     return this.reviewService.findOne(+movieId);
   }
 }

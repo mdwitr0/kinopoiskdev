@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IQuery } from 'src/common/interfaces/query.interface';
+
+import { ReviewDocument } from './schemas/review.schema';
 
 @Injectable()
 export class ReviewService {
-  create(createReviewDto: CreateReviewDto) {
-    return 'This action adds a new review';
+  constructor(
+    @InjectModel('reviews') private readonly imageModel: Model<ReviewDocument>,
+  ) {}
+
+  async findMany(query: IQuery): Promise<ReviewDocument[]> {
+    return this.imageModel
+      .find(query.filter)
+      .limit(query.limit)
+      .skip(query.skip)
+      .sort(query.sort)
+      .lean();
   }
 
-  findAll(data: any): any {
-    return `This action returns all review`;
-  }
-
-  findOne(id: number): any {
-    return `This action returns a #${id} review`;
-  }
-
-  update(id: number, updateReviewDto: UpdateReviewDto) {
-    return `This action updates a #${id} review`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} review`;
+  async findOne(id: number): Promise<ReviewDocument> {
+    return this.imageModel.findOne({ id }).lean();
   }
 }
