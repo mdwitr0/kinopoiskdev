@@ -6,7 +6,7 @@ type Constructor<T> = new (...args: any[]) => T;
 export function AbstractFindManyDto<TQueryDto, TSortDto, TPaginationDto>(
   QueryDto: Constructor<TQueryDto>,
   SortDto: Constructor<TSortDto>,
-  PaginationDto: Constructor<TPaginationDto>
+  PaginationDto: Constructor<TPaginationDto>,
 ) {
   abstract class AbstractFindManyDto {
     @Type(() => QueryDto)

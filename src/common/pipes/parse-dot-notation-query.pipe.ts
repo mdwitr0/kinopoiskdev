@@ -13,13 +13,8 @@ type Filters = {
 };
 
 @Injectable()
-export class ParseDotNotationQuery<I = Filters>
-  implements PipeTransform<I, any>
-{
-  async transform(
-    value: I,
-    { metatype, type }: ArgumentMetadata,
-  ): Promise<any> {
+export class ParseDotNotationQuery<I = Filters> implements PipeTransform<I, any> {
+  async transform(value: I, { metatype, type }: ArgumentMetadata): Promise<any> {
     if (type !== 'query') return value;
     if (!metatype || !this.toValidate(metatype)) return value;
 

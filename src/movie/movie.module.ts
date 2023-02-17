@@ -5,9 +5,7 @@ import { Movie, MovieSchema } from './schemas/movie.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: 'movies', schema: MovieSchema }]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: 'movies', schema: MovieSchema }])],
   controllers: [MovieController],
   providers: [MovieService],
 })

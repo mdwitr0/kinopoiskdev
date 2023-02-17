@@ -5,11 +5,7 @@ import { PersonService } from './person.service';
 import { Person } from './schemas/person.schema';
 
 @Controller('person', 'Актеры, режисеры, операторы, и т.д')
-export class PersonController extends BaseController(
-  Person,
-  PersonDocsResponseDto,
-  'Поиск персон',
-) {
+export class PersonController extends BaseController(Person, PersonDocsResponseDto, 'Поиск персон') {
   constructor(private readonly personService: PersonService) {
     super(personService);
   }

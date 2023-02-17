@@ -6,9 +6,7 @@ import { BaseService } from 'src/common/base/base.service';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
-  constructor(
-    @InjectModel('movies') private readonly movieModel: Model<MovieDocument>,
-  ) {
+  constructor(@InjectModel('movies') private readonly movieModel: Model<MovieDocument>) {
     super(movieModel);
   }
 }

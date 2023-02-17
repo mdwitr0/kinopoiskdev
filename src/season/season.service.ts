@@ -7,9 +7,7 @@ import { Season, SeasonDocument } from './schemas/season.schema';
 
 @Injectable()
 export class SeasonService extends BaseService<Season> {
-  constructor(
-    @InjectModel('seasons') private readonly seasonModel: Model<SeasonDocument>,
-  ) {
+  constructor(@InjectModel('seasons') private readonly seasonModel: Model<SeasonDocument>) {
     super(seasonModel);
   }
 }

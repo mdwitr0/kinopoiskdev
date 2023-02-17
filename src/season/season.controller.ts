@@ -5,11 +5,7 @@ import { SeasonDocsResponseDto } from './dto/season-docs.response.dto';
 import { SeasonService } from './season.service';
 
 @Controller('season', 'Сезоны и эпизоды')
-export class SeasonController extends BaseController(
-  Season,
-  SeasonDocsResponseDto,
-  'Поиск сезонов',
-) {
+export class SeasonController extends BaseController(Season, SeasonDocsResponseDto, 'Поиск сезонов') {
   constructor(private readonly seasonService: SeasonService) {
     super(seasonService);
   }

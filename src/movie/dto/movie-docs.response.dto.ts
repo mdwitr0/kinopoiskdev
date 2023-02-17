@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/swagger';
 import { AbstractDocsResponseDto } from '../../common/dto/abstract/abstract-docs.response.dto';
 import { Movie } from '../schemas/movie.schema';
 

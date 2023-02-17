@@ -3,9 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 type Constructor<T> = new (...args: any[]) => T;
 
-export function AbstractDocsResponseDto<TEntityDto, T>(
-  EntityDto: Constructor<TEntityDto>,
-) {
+export function AbstractDocsResponseDto<TEntityDto, T>(EntityDto: Constructor<TEntityDto>) {
   abstract class AbstractDocsResponseDto {
     @ApiProperty({ type: [EntityDto] })
     @Type(() => EntityDto)

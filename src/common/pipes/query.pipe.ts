@@ -3,15 +3,7 @@ import { Value } from 'src/movie/schemas/movie.schema';
 import { IQuery } from '../interfaces/query.interface';
 import { normalizeDate } from '../utils/query/parse-date.util';
 
-const SYSTEM_KEYS = [
-  'sortField',
-  'sortType',
-  'selectFields',
-  'page',
-  'limit',
-  'field',
-  'search',
-];
+const SYSTEM_KEYS = ['sortField', 'sortType', 'selectFields', 'page', 'limit', 'field', 'search'];
 
 const FIELDS = {
   idKeys: ['id', 'externalId.imdb'],
@@ -27,13 +19,7 @@ const FIELDS = {
     'persons.enName',
     'persons.description',
   ],
-  dateSearchKeys: [
-    'premiere.world',
-    'premiere.russia',
-    'premiere.digital',
-    'premiere.bluray',
-    'premiere.dvd',
-  ],
+  dateSearchKeys: ['premiere.world', 'premiere.russia', 'premiere.digital', 'premiere.bluray', 'premiere.dvd'],
   numberSearchKeys: [
     'id',
     'externalId.imdb',
@@ -74,10 +60,7 @@ export class QueryPipe implements PipeTransform {
     let page = 1;
     let limit = 10;
 
-    const setValueToField = (
-      field: string,
-      value: string | number | Array<any> | any,
-    ) => {
+    const setValueToField = (field: string, value: string | number | Array<any> | any) => {
       if (filter[field]) {
         filter[field] = [filter[field], value].flat(2);
       } else {
@@ -130,9 +113,7 @@ export class QueryPipe implements PipeTransform {
     // Парсим параметры поиска в старом формате
     if (value.field && value.search) {
       if (Array.isArray(value.field) && Array.isArray(value.search)) {
-        value.field.forEach((field, index) =>
-          setValueToField(field, value.search[index]),
-        );
+        value.field.forEach((field, index) => setValueToField(field, value.search[index]));
       } else {
         setValueToField(value.field, value.search);
       }
@@ -160,12 +141,8 @@ export class QueryPipe implements PipeTransform {
 
     // Парсим параметры для сортировки
     if (value.sortField) {
-      const fields = Array.isArray(value.sortField)
-        ? value.sortField
-        : [value.sortField];
-      const types = Array.isArray(value.sortType)
-        ? value.sortType
-        : [value.sortType];
+      const fields = Array.isArray(value.sortField) ? value.sortField : [value.sortField];
+      const types = Array.isArray(value.sortType) ? value.sortType : [value.sortType];
 
       fields.forEach((field: string, index: number) => {
         sort[field] = types[index] === '1' ? 1 : -1;
@@ -174,9 +151,7 @@ export class QueryPipe implements PipeTransform {
 
     // Парсим параметры для выбора полей
     if (value.selectFields) {
-      const fields = Array.isArray(value.selectFields)
-        ? value.selectFields.join(' ')
-        : value.selectFields;
+      const fields = Array.isArray(value.selectFields) ? value.selectFields.join(' ') : value.selectFields;
       fields.split(' ').forEach((field: string) => {
         select[field] = 1;
       });

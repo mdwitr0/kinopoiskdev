@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
@@ -17,18 +13,12 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
     const user = await this.authService.findUserByToken(token);
     if (!user) throw new UnauthorizedException('Токен указан некорретно!');
 
-    const violatedRulesForFreeTariff =
-      !user.password &&
-      user.tariffId?.name?.toLowerCase() === 'free' &&
-      !user.inChat;
+    const violatedRulesForFreeTariff = !user.password && user.tariffId?.name?.toLowerCase() === 'free' && !user.inChat;
 
-    const hasExhaustedRequests =
-      user.tariffId.requestsLimit <= user.requestsUsed;
+    const hasExhaustedRequests = user.tariffId.requestsLimit <= user.requestsUsed;
 
     if (!violatedRulesForFreeTariff)
-      throw new ForbiddenException(
-        'Вы не выполнили обязательное условие для бесплатного тарифа!',
-      );
+      throw new ForbiddenException('Вы не выполнили обязательное условие для бесплатного тарифа!');
 
     if (hasExhaustedRequests)
       throw new ForbiddenException(

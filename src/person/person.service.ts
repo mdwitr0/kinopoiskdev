@@ -7,9 +7,7 @@ import { Person, PersonDocument } from './schemas/Person.schema';
 
 @Injectable()
 export class PersonService extends BaseService<Person> {
-  constructor(
-    @InjectModel('people') private readonly personModel: Model<PersonDocument>,
-  ) {
+  constructor(@InjectModel('people') private readonly personModel: Model<PersonDocument>) {
     super(personModel);
   }
 }

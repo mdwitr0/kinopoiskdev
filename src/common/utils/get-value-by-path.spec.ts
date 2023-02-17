@@ -23,8 +23,7 @@ describe('ParseValue', () => {
       persons: [
         {
           id: 1874956,
-          photo:
-            'https://st.kp.yandex.net/images/actor_iphone/iphone360_1874956.jpg',
+          photo: 'https://st.kp.yandex.net/images/actor_iphone/iphone360_1874956.jpg',
           name: 'Кэнъитиро Охаси',
           enName: 'Kenichiro Ohashi',
           enProfession: 'actor',

@@ -13,15 +13,10 @@ export class AuthService {
     private readonly userRepository: Model<UserDocument>,
   ) {}
 
-  async findUserByToken(
-    token: string,
-  ): Promise<UserDocument & { tariffId: TariffDocument }> {
+  async findUserByToken(token: string): Promise<UserDocument & { tariffId: TariffDocument }> {
     // @ts-ignore
     const tokenUuid = ApiKey.toUUID(token);
 
-    return this.userRepository.findOne(
-      { token: tokenUuid },
-      { populate: 'tariffId' },
-    );
+    return this.userRepository.findOne({ token: tokenUuid }, { populate: 'tariffId' });
   }
 }

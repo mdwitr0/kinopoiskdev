@@ -13,17 +13,12 @@ const getDescription = (text: string, example: any) => {
 const getQueryDecorators = (model: Function, parentProperty?: string) => {
   const constructor = model.prototype;
 
-  const properties = Reflect.getMetadata(
-    'swagger/apiModelPropertiesArray',
-    constructor,
-  ).map((prop) => prop.substring(1));
+  const properties = Reflect.getMetadata('swagger/apiModelPropertiesArray', constructor).map((prop) =>
+    prop.substring(1),
+  );
 
   return properties.flatMap((property) => {
-    const meta = Reflect.getMetadata(
-      'swagger/apiModelProperties',
-      constructor,
-      property,
-    );
+    const meta = Reflect.getMetadata('swagger/apiModelProperties', constructor, property);
 
     const type = meta?.type();
     if (!type?.name) {

@@ -7,9 +7,7 @@ import { Image, ImageDocument } from './schemas/image.schema';
 
 @Injectable()
 export class ImageService extends BaseService<Image> {
-  constructor(
-    @InjectModel('images') private readonly imageModel: Model<ImageDocument>,
-  ) {
+  constructor(@InjectModel('images') private readonly imageModel: Model<ImageDocument>) {
     super(imageModel);
   }
 }

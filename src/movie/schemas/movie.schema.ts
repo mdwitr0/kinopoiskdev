@@ -367,8 +367,7 @@ export type MovieDocument = HydratedDocument<Movie>;
       if (ret?._id) delete ret._id;
       if (ret?.externalId?._id) delete ret.externalId._id;
       if (ret?.videos?._id) delete ret.videos._id;
-      if (ret?.videos?.trailers)
-        ret?.videos?.trailers.forEach((i) => delete i._id);
+      if (ret?.videos?.trailers) ret?.videos?.trailers.forEach((i) => delete i._id);
     },
   },
   toObject: { virtuals: true },

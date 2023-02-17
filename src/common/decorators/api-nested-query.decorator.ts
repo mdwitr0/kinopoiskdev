@@ -1,30 +1,14 @@
 import { applyDecorators } from '@nestjs/common';
-import {
-  ApiExtraModels,
-  ApiQuery,
-  ApiQueryOptions,
-  getSchemaPath,
-} from '@nestjs/swagger';
+import { ApiExtraModels, ApiQuery, ApiQueryOptions, getSchemaPath } from '@nestjs/swagger';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/ban-types
 function getDecorators(fn: Function) {
   const constructor = fn.prototype;
-  const properties = Reflect.getMetadata(
-    'swagger/apiModelPropertiesArray',
-    constructor,
-  ).map((prop) => prop.substr(1));
+  const properties = Reflect.getMetadata('swagger/apiModelPropertiesArray', constructor).map((prop) => prop.substr(1));
 
   return properties.flatMap((property) => {
-    const propertyType = Reflect.getMetadata(
-      'design:type',
-      constructor,
-      property,
-    );
-    const meta = Reflect.getMetadata(
-      'swagger/apiModelProperties',
-      constructor,
-      property,
-    );
+    const propertyType = Reflect.getMetadata('design:type', constructor, property);
+    const meta = Reflect.getMetadata('swagger/apiModelProperties', constructor, property);
     const subClass = meta.type();
 
     if (subClass) getDecorators(subClass);

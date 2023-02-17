@@ -4,8 +4,7 @@ import { Expose } from 'class-transformer';
 
 export class ToolsQueryDto {
   @ApiPropertyOptional({
-    description:
-      'Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию',
+    description: 'Поля которые нужно вывести в ответе. Если не указано, то будут выведены поля по умолчанию',
     example: 'id name',
     isArray: true,
   })

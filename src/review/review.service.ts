@@ -7,9 +7,7 @@ import { Review, ReviewDocument } from './schemas/review.schema';
 
 @Injectable()
 export class ReviewService extends BaseService<Review> {
-  constructor(
-    @InjectModel('reviews') private readonly reviewModel: Model<ReviewDocument>,
-  ) {
+  constructor(@InjectModel('reviews') private readonly reviewModel: Model<ReviewDocument>) {
     super(reviewModel);
   }
 }

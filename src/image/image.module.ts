@@ -5,9 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ImageSchema } from './schemas/image.schema';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: 'images', schema: ImageSchema }]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: 'images', schema: ImageSchema }])],
   controllers: [ImageController],
   providers: [ImageService],
 })
