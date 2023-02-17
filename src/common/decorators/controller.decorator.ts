@@ -1,15 +1,15 @@
 import {
   applyDecorators,
   ClassSerializerInterceptor,
-  Controller,
+  Controller as ControllerDecorator,
   SerializeOptions,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-export const ControllerDecorator = (name: string, tag?: string) => {
+export const Controller = (name: string, tag?: string) => {
   return applyDecorators(
-    Controller(name),
+    ControllerDecorator(name),
     UseInterceptors(ClassSerializerInterceptor),
     SerializeOptions({ excludeExtraneousValues: true }),
     ApiTags(tag || name),

@@ -1,4 +1,4 @@
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 type Constructor<T> = new (...args: any[]) => T;
