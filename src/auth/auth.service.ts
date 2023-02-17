@@ -16,7 +16,13 @@ export class AuthService {
   async findUserByToken(token: string): Promise<UserDocument & { tariffId: TariffDocument }> {
     // @ts-ignore
     const tokenUuid = ApiKey.toUUID(token);
+    const user: UserDocument & { tariffId: TariffDocument } = await this.userRepository
+      .findOne({ token: tokenUuid })
+      .populate('tariffId')
+      .lean();
 
-    return this.userRepository.findOne({ token: tokenUuid }, { populate: 'tariffId' });
+    if (user?.token === tokenUuid) return user;
+
+    return null;
   }
 }
