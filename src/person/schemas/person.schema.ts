@@ -1,6 +1,5 @@
-import mongoosePaginate from 'mongoose-paginate-v2';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 class BirthPlace {
