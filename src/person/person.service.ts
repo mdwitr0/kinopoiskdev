@@ -1,25 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IQuery } from 'src/common/interfaces/query.interface';
-import { PersonDocument } from './schemas/person.schema';
+import { BaseService } from 'src/common/base/base.service';
+
+import { Person, PersonDocument } from './schemas/Person.schema';
 
 @Injectable()
-export class PersonService {
+export class PersonService extends BaseService<Person> {
   constructor(
     @InjectModel('people') private readonly personModel: Model<PersonDocument>,
-  ) {}
-
-  async findMany(query: IQuery): Promise<PersonDocument[]> {
-    return this.personModel
-      .find(query.filter)
-      .limit(query.limit)
-      .skip(query.skip)
-      .sort(query.sort)
-      .lean();
-  }
-
-  async findOne(id: number): Promise<PersonDocument> {
-    return this.personModel.findOne({ id }).lean();
+  ) {
+    super(personModel);
   }
 }
