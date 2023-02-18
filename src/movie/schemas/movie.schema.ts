@@ -196,15 +196,15 @@ export class Distributor {
 }
 
 export class Premiere {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'США' })
   @Prop()
   country: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date, index: true })
   world: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date, index: true })
   russia: string;
 
@@ -212,15 +212,15 @@ export class Premiere {
   @Prop({ type: () => Date, index: true })
   digital: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date })
   cinema: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date })
   bluray: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date })
   dvd: string;
 }
@@ -360,16 +360,7 @@ export class YearRange {
 export type MovieDocument = HydratedDocument<Movie>;
 @Schema({
   timestamps: true,
-  toJSON: {
-    virtuals: true,
-    transform: (doc, ret) => {
-      if (ret?.__v) delete ret.__v;
-      if (ret?._id) delete ret._id;
-      if (ret?.externalId?._id) delete ret.externalId._id;
-      if (ret?.videos?._id) delete ret.videos._id;
-      if (ret?.videos?.trailers) ret?.videos?.trailers.forEach((i) => delete i._id);
-    },
-  },
+  toJSON: { virtuals: true },
   toObject: { virtuals: true },
 })
 export class Movie {
