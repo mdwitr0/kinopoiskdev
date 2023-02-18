@@ -26,10 +26,10 @@ const getQueryDecorators = (model: Function, parentProperty?: string) => {
       return [
         ApiQuery({
           name: parentProperty ? `${parentProperty}.${property}` : property,
-          type: meta.type,
+          ...meta,
+          type: 'string',
           required: false,
           example: undefined,
-
           description: getDescription(meta.description, meta.example, meta.type),
         }),
       ];
@@ -41,6 +41,8 @@ const getQueryDecorators = (model: Function, parentProperty?: string) => {
         return [
           ApiQuery({
             name: parentProperty ? `${parentProperty}.${property}` : property,
+            ...meta,
+            type: 'string',
             description: getDescription(meta.description, meta.example, meta.type),
             required: false,
             example: undefined,
