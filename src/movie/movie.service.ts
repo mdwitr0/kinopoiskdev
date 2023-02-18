@@ -4,6 +4,8 @@ import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/common/base/base.service';
 import { getRandomInt } from 'src/common/utils/get-random-int.util';
+import { GetPosibleValueDto } from './dto/get-posible-values.dto';
+import { PosibleValueDto } from './dto/response/posible-value.response.dto';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
@@ -24,5 +26,11 @@ export class MovieService extends BaseService<Movie> {
     const count = await this.movieModel.countDocuments(filter);
 
     return this.movieModel.findOne(filter).skip(getRandomInt(1, count)).lean();
+  }
+
+  async getPossibleValuesByFieldName({ field }: GetPosibleValueDto): Promise<PosibleValueDto[]> {
+    const values = await this.movieModel.distinct(field).exec();
+
+    return values.filter((value) => value).map((value) => new PosibleValueDto(value));
   }
 }

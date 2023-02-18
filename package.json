@@ -42,6 +42,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "transliteration": "^2.3.5",
     "uuid-apikey": "^1.5.3"
   },
   "devDependencies": {

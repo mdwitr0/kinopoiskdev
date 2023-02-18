@@ -4,7 +4,7 @@ import * as cluster from 'cluster';
 import * as os from 'os';
 import { Injectable } from '@nestjs/common';
 
-const numCPUs = os.cpus().length;
+const numCPUs = process.env.NODE_ENV === 'production' ? os.cpus().length : 1;
 
 @Injectable()
 export class AppClusterService {
