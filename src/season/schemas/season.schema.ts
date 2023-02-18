@@ -4,7 +4,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class Episode {
   @ApiPropertyOptional()
-  @Prop()
+  @Prop({ index: true })
   movieId: number;
 
   @ApiPropertyOptional()
@@ -57,4 +57,4 @@ export class Season {
   episodes: Episode[];
 }
 
-export const SeasonSchema = SchemaFactory.createForClass(Episode);
+export const SeasonSchema = SchemaFactory.createForClass(Season);

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export type ReviewDocument = HydratedDocument<Review>;
@@ -9,7 +9,7 @@ export type ReviewDocument = HydratedDocument<Review>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
 })
-export class Review extends Document {
+export class Review {
   @ApiPropertyOptional()
   @Prop({ required: true, unique: true, index: true })
   id: number;
