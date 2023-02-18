@@ -9,56 +9,68 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 export class ExternalId {
   @ApiPropertyOptional({
     description: 'ID из kinopoisk HD',
-    example: 'gsdfgujsdfgiowe23413',
+    example: '48e8d0acb0f62d8585101798eaeceec5',
   })
   @Prop({ index: true })
   kpHD: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'tt0232500' })
   @Prop({ index: true })
   imdb: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 9799 })
   @Prop({ index: true })
   tmdb: number;
 }
 
-export class Rating {
-  @ApiPropertyOptional()
-  @Prop({ unique: true })
+export class Votes {
+  @ApiPropertyOptional({ example: 60000 })
+  @Prop({ index: true })
   kpHD: string;
 
-  @ApiPropertyOptional()
-  @Prop({ unique: true })
+  @ApiPropertyOptional({ example: 50000 })
+  @Prop({ index: true })
   imdb: string;
 
-  @ApiPropertyOptional()
-  @Prop()
-  tmdb: number;
-}
-
-export class VendorNumbers {
-  @ApiPropertyOptional()
-  @Prop({ index: true })
-  kp: number;
-
-  @ApiPropertyOptional()
-  @Prop({ index: true })
-  imdb: number;
-
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 10000 })
   @Prop({ index: true })
   tmdb: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 10000, description: 'Количество голосов кинокритиков' })
   @Prop({ index: true })
   filmCritics: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 4000, description: 'Количество голосов кинокритиков из РФ' })
   @Prop({ index: true })
   russianFilmCritics: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 34000, description: 'Количество ожидающих выхода' })
+  @Prop({ index: true })
+  await: number;
+}
+
+export class Rating {
+  @ApiPropertyOptional({ example: 6.2, description: 'Рейтинг кинопоиска' })
+  @Prop({ index: true })
+  kp: number;
+
+  @ApiPropertyOptional({ example: 8.4, description: 'Рейтинг IMDB' })
+  @Prop({ index: true })
+  imdb: number;
+
+  @ApiPropertyOptional({ example: 3.2, description: 'Рейтинг TMDB' })
+  @Prop({ index: true })
+  tmdb: number;
+
+  @ApiPropertyOptional({ example: 10, description: 'Рейтинг кинокритиков' })
+  @Prop({ index: true })
+  filmCritics: number;
+
+  @ApiPropertyOptional({ example: 5.1, description: 'Рейтинг кинокритиков из РФ' })
+  @Prop({ index: true })
+  russianFilmCritics: number;
+
+  @ApiPropertyOptional({ example: 6.1, description: 'Рейтинг основанный на ожиданиях пользователей' })
   @Prop({ index: true })
   await: number;
 }
@@ -100,23 +112,22 @@ export class Name {
 }
 
 export class Video {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'https://www.youtube.com/embed/ZsJz2TJAPjw', description: 'Url трейлера' })
   @Prop()
   url: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'Official Trailer' })
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'youtube | yandex' })
   @Prop()
   site: string;
 
-  @ApiPropertyOptional()
   @Prop()
   size: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'TRAILER' })
   @Prop()
   type: string;
 }
@@ -126,47 +137,44 @@ export class VideoTypes {
   @Prop({ type: () => [Video] })
   trailers: Video[];
 
-  @ApiPropertyOptional({ type: () => Video, isArray: true })
   @Prop({ type: () => [Video] })
   teasers: Video[];
 }
 
 export class Person {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 6317, description: 'Id персоны с кинопоиска' })
   @Prop({ index: true })
   id: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'https://st.kp.yandex.net/images/actor_iphone/iphone360_6317.jpg' })
   @Prop()
   photo: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'Пол Уокер' })
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'Paul Walker' })
   @Prop()
   enName: string;
 
-  @ApiPropertyOptional()
   @Prop()
   description: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'actor' })
   @Prop()
   profession: string;
 
-  @ApiPropertyOptional()
   @Prop()
   enProfession: string;
 }
 
 export class CurrencyValue {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 207283925, description: 'Сумма' })
   @Prop({ index: true })
   value: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '$', description: 'Валюта' })
   @Prop()
   currency: string;
 }
@@ -347,11 +355,11 @@ export class Technology {
 }
 
 export class YearRange {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 2022, description: 'Год начала' })
   @Prop()
   start: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 2023, description: 'Год окончания' })
   @Prop()
   end: number;
 }
@@ -380,15 +388,14 @@ export class Movie {
   externalId: ExternalId;
 
   // INFO: Name values
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'Человек паук' })
   @Prop({ index: true })
   name: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 'Spider man' })
   @Prop({ index: true })
   alternativeName: string;
 
-  @ApiPropertyOptional()
   @Prop({ index: true })
   enName: string;
 
@@ -397,10 +404,17 @@ export class Movie {
   names: Name[];
 
   // INFO: Type values
-  @ApiPropertyOptional()
-  @Prop()
+  @ApiPropertyOptional({
+    example: 'movie | tv-series | cartoon | anime | animated-series | tv-show',
+    description: 'Тип тайтла',
+  })
+  @Prop({ index: true })
   type: string;
 
+  @ApiPropertyOptional({
+    example: '1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)',
+    description: 'Тип тайтла в числовом обозначении',
+  })
   @Prop({ index: true })
   typeNumber: number;
 
@@ -408,22 +422,36 @@ export class Movie {
   subType: string;
 
   // INFO: Year values
+  @ApiPropertyOptional({
+    example: '1860-2030',
+    description: 'Год премьеры',
+  })
   @Prop({ index: true })
   year: number;
 
   // INFO: Description values
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description: 'Описание тайтла',
+  })
   @Prop()
   description: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description: 'Сокращенное описание',
+  })
   @Prop()
   shortDescription: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description: 'Слоган',
+  })
   @Prop()
   slogan: string;
 
+  @ApiPropertyOptional({
+    example: 'filming | pre-production | completed | announced | post-production',
+    description: 'Статус релиза тайтла',
+  })
   @Prop({ index: true })
   status: string;
 
@@ -432,25 +460,31 @@ export class Movie {
   facts: Fact[];
 
   // INFO: Movie rating values
-  @ApiPropertyOptional({ type: () => VendorNumbers })
-  @Prop({ type: () => VendorNumbers })
-  rating: VendorNumbers;
+  @ApiPropertyOptional({ type: () => Rating })
+  @Prop({ type: () => Rating })
+  rating: Rating;
 
-  @ApiPropertyOptional()
-  @Prop()
-  votes: VendorNumbers;
+  @ApiPropertyOptional({ type: () => Votes })
+  @Prop({ type: () => Votes })
+  votes: Votes;
 
   // INFO: Length value
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 120, description: 'Продолжительность фильма' })
   @Prop()
   movieLength: number;
 
   // INFO: Age rating values
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    example: 'pg13',
+    description: 'Возрастной рейтинг по MPAA',
+  })
   @Prop()
   ratingMpaa: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    example: '16',
+    description: 'Возрастной рейтинг',
+  })
   @Prop()
   ageRating: number;
 
@@ -463,7 +497,6 @@ export class Movie {
   @Prop({ type: () => ShortImage })
   poster: ShortImage;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   horizontalPoster: ShortImage;
 
@@ -471,7 +504,6 @@ export class Movie {
   @Prop({ type: () => ShortImage })
   backdrop: ShortImage;
 
-  @ApiPropertyOptional({ type: () => Images })
   @Prop({ type: () => Images })
   imagesInfo: Images;
 
@@ -493,7 +525,6 @@ export class Movie {
   @Prop({ type: () => [Person] })
   persons: Person[];
 
-  @ApiPropertyOptional()
   @Prop()
   color: string;
 
@@ -505,7 +536,6 @@ export class Movie {
   @Prop()
   distributors: Distributor;
 
-  @ApiPropertyOptional({ type: () => SpokenLanguages, isArray: true })
   @Prop({ type: () => [SpokenLanguages] })
   spokenLanguages: SpokenLanguages[];
 
@@ -535,7 +565,6 @@ export class Movie {
   @Prop({ type: () => Premiere })
   premiere: Premiere;
 
-  @ApiPropertyOptional()
   @Prop()
   ticketsOnSale: boolean;
 
@@ -559,11 +588,11 @@ export class Movie {
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 1, description: 'Позиция тайтла в топ 10' })
   @Prop()
   top10: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: 200, description: 'Позиция тайтла в топ 250' })
   @Prop()
   top250: number;
 }
