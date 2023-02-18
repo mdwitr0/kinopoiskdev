@@ -1,58 +1,14 @@
 import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
-import { Value } from 'src/movie/schemas/movie.schema';
+import { EntityFields } from '../decorators/paginated.decorator';
 import { IQuery } from '../interfaces/query.interface';
 import { normalizeDate } from '../utils/query/parse-date.util';
 
 const SYSTEM_KEYS = ['sortField', 'sortType', 'selectFields', 'page', 'limit', 'field', 'search'];
 
-const FIELDS = {
-  idKeys: ['id', 'externalId.imdb'],
-  regexSearchKeys: [
-    'name',
-    'alternativeName',
-    'enName',
-    'names.name',
-    'tagline',
-    'slogan',
-    'description',
-    'persons.name',
-    'persons.enName',
-    'persons.description',
-  ],
-  dateSearchKeys: ['premiere.world', 'premiere.russia', 'premiere.digital', 'premiere.bluray', 'premiere.dvd'],
-  numberSearchKeys: [
-    'id',
-    'externalId.imdb',
-    'externalId.tmdb',
-    'typeNumber',
-    'movieLength',
-    'year',
-    'rating.kp',
-    'rating.imdb',
-    'rating.tmdb',
-    'votes.kp',
-    'votes.imdb',
-    'votes.tmdb',
-    'ratingAgeLimits',
-    'persons.id',
-    'budget.value',
-    'fees.world',
-    'fees.usa',
-    'fees.russia',
-    'image.postersCount',
-    'image.backdropsCount',
-    'image.framesCount',
-    'reviewInfo.count',
-    'reviewInfo.positiveCount',
-    'seasonsInfo.number',
-    'seasonsInfo.episodesCount',
-    'videos.trailers.size',
-    'videos.teasers.size',
-  ],
-};
-
 @Injectable()
 export class QueryPipe implements PipeTransform {
+  constructor(private readonly FIELDS: EntityFields) {}
+
   transform(value: any, metadata: ArgumentMetadata): IQuery {
     const filter: any = {};
     const sort: any = {};
@@ -81,9 +37,9 @@ export class QueryPipe implements PipeTransform {
 
     const transformFieldValue = (field: string, value: string): any => {
       const isNullValue = value === '!null';
-      const isNumberField = FIELDS.numberSearchKeys.includes(field);
-      const isDateField = FIELDS.dateSearchKeys.includes(field);
-      const isRegexField = FIELDS.regexSearchKeys.includes(field);
+      const isNumberField = this.FIELDS.numberSearchKeys.includes(field);
+      const isDateField = this.FIELDS.dateSearchKeys.includes(field);
+      const isRegexField = this.FIELDS.regexSearchKeys.includes(field);
 
       if (isNullValue) {
         return { $ne: null };
@@ -93,14 +49,16 @@ export class QueryPipe implements PipeTransform {
         const [minValue, maxValue] = value.split('-');
         const result = maxValue
           ? {
-              $gte: isDateField ? normalizeDate(minValue) : minValue,
-              $lte: isDateField ? normalizeDate(maxValue) : maxValue,
+              $gte: isDateField ? normalizeDate(minValue) : parseInt(minValue),
+              $lte: isDateField ? normalizeDate(maxValue) : parseInt(maxValue),
             }
           : isDateField
           ? normalizeDate(minValue)
-          : minValue;
+          : parseInt(minValue);
 
         return result;
+      } else if (isNumberField) {
+        return parseInt(value);
       }
 
       if (isRegexField) {
@@ -150,12 +108,11 @@ export class QueryPipe implements PipeTransform {
     }
 
     // Парсим параметры для выбора полей
-    if (value.selectFields) {
-      const fields = Array.isArray(value.selectFields) ? value.selectFields.join(' ') : value.selectFields;
-      fields.split(' ').forEach((field: string) => {
-        select[field] = 1;
-      });
-    }
+    let selectFields = Array.isArray(value.selectFields) ? value.selectFields : value?.selectFields?.split(' ');
+    if (!selectFields) selectFields = this.FIELDS.allowFieldsFindAll;
+    selectFields.forEach((field: string) => {
+      select[field] = 1;
+    });
 
     // Парсим параметры для пагинации
     if (value.page) page = parseInt(value.page, 10);
