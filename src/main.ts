@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe, Logger as NestLogger, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -6,12 +6,13 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import fastifyHelmet from '@fastify/helmet';
 import compression from '@fastify/compress';
 import { AppClusterService } from './app-cluster.service';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const docGlobalPrefix = 'documentation';
 
   // Init logger
-  const logger = new Logger('Main');
+  const logger = new NestLogger('Main');
   // Init fastify adapter
   const adapter = new FastifyAdapter({
     trustProxy: true,
@@ -26,6 +27,7 @@ async function bootstrap() {
   });
 
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, { bufferLogs: true });
+  app.useLogger(app.get(Logger));
 
   // Set global version
   app.enableCors({ origin: '*' });

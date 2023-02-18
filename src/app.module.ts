@@ -15,9 +15,16 @@ import { SeasonController } from './season/season.controller';
 import { ReviewController } from './review/review.controller';
 import { PersonController } from './person/person.controller';
 import { ImageController } from './image/image.controller';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
+        transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined,
+      },
+    }),
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
