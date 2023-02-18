@@ -3,9 +3,10 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiQuery } from '@nestjs/swagger';
 
-const getDescription = (text: string, example: any) => {
+const getDescription = (text: string, example: any, type?: any) => {
   let description = '';
   if (text) description += text + '. <br/>';
+  if (type) description += `Тип в базе: \`${type}\``;
   if (example) description += `<br/>Пример: \`${example}\``;
   return description;
 };
@@ -29,7 +30,7 @@ const getQueryDecorators = (model: Function, parentProperty?: string) => {
           required: false,
           example: undefined,
 
-          description: getDescription(meta.description, meta.example),
+          description: getDescription(meta.description, meta.example, meta.type),
         }),
       ];
     }
@@ -40,8 +41,7 @@ const getQueryDecorators = (model: Function, parentProperty?: string) => {
         return [
           ApiQuery({
             name: parentProperty ? `${parentProperty}.${property}` : property,
-            ...meta,
-            description: getDescription(meta.description, meta.example),
+            description: getDescription(meta.description, meta.example, meta.type),
             required: false,
             example: undefined,
           }),
