@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import fastifyHelmet from '@fastify/helmet';
 import compression from '@fastify/compress';
+import { AppClusterService } from './app-cluster.service';
 
 async function bootstrap() {
   const docGlobalPrefix = 'documentation';
@@ -64,4 +65,4 @@ async function bootstrap() {
   logger.log(`📑 API Documentation is running on: http://localhost:${port}/${docGlobalPrefix}`);
 }
 
-bootstrap();
+AppClusterService.clusterize(bootstrap);
