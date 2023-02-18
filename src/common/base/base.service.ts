@@ -21,7 +21,13 @@ export abstract class BaseService<T> implements IBaseService<T> {
   async findMany(query: IQuery): Promise<IFindMany<T>> {
     const [total, docs] = await Promise.all([
       this.model.countDocuments(query.filter),
-      this.model.find(query.filter).limit(query.limit).skip(query.skip).sort(query.sort).exec(),
+      this.model
+        .find(query.filter)
+        .limit(query.limit)
+        .skip(query.skip)
+        .select(query.select)
+        .sort(query.sort?.length ? query.sort : { 'votes.kp': -1 })
+        .exec(),
     ]);
 
     // @ts-ignore

@@ -15,16 +15,9 @@ export function BaseController<TEntity, TEntityDto>(
 
     @Get()
     @ApiOperation({ summary: description })
-    @Paginated(EntityDto, Entity)
+    @Paginated(EntityDto, Entity, true)
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
-    }
-
-    @Get(':movieId')
-    @ApiOperation({ summary: 'Поиск по movieId' })
-    @Paginated(EntityDto)
-    async findManyByMovieId(@Param('movieId') movieId: string): Promise<TEntityDto> {
-      return this.service.findMany({ movieId });
     }
   }
 
@@ -41,7 +34,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
 
     @Get()
     @ApiOperation({ summary: description })
-    @Paginated(EntityDto, Entity)
+    @Paginated(EntityDto, Entity, true)
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
