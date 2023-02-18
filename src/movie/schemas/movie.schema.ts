@@ -170,11 +170,11 @@ export class Person {
 }
 
 export class CurrencyValue {
-  @ApiPropertyOptional({ example: 207283925, description: 'Сумма' })
+  @ApiPropertyOptional({ example: 207283, description: 'Сумма' })
   @Prop({ index: true })
   value: number;
 
-  @ApiPropertyOptional({ example: '$', description: 'Валюта' })
+  @ApiPropertyOptional({ example: '€', description: 'Валюта' })
   @Prop()
   currency: string;
 }
