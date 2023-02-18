@@ -28,7 +28,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, { bufferLogs: true });
   app.useLogger(app.get(Logger));
-
+  app.flushLogs();
   // Set global version
   app.enableCors({ origin: '*' });
   app.useGlobalPipes(

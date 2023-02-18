@@ -19,18 +19,15 @@ import { LoggerModule } from 'nestjs-pino';
 import pino from 'pino';
 @Module({
   imports: [
-    LoggerModule.forRoot({
-      pinoHttp: {
-        stream: pino.destination({
-          mkdir: true,
-          dest: './logs/api.log',
-          minLength: 4096,
-          sync: false,
-        }),
-        level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-        transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined,
-      },
-    }),
+    LoggerModule.forRoot(
+      process.env.NODE_ENV === 'production'
+        ? {}
+        : {
+            pinoHttp: {
+              transport: { target: 'pino-pretty' },
+            },
+          },
+    ),
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
