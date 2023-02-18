@@ -17,7 +17,6 @@ import { PersonController } from './person/person.controller';
 import { ImageController } from './image/image.controller';
 import { LoggerModule } from 'nestjs-pino';
 import pino from 'pino';
-
 @Module({
   imports: [
     LoggerModule.forRoot({
@@ -28,8 +27,8 @@ import pino from 'pino';
           minLength: 4096,
           sync: false,
         }),
-        level: 'info',
-        transport: undefined,
+        level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
+        transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined,
       },
     }),
     ConfigModule.forRoot(),
