@@ -1,6 +1,4 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MovieModule } from './movie/movie.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,7 +14,6 @@ import { ReviewController } from './review/review.controller';
 import { PersonController } from './person/person.controller';
 import { ImageController } from './image/image.controller';
 import { LoggerModule } from 'nestjs-pino';
-import pino from 'pino';
 @Module({
   imports: [
     LoggerModule.forRoot(

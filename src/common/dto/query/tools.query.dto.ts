@@ -11,4 +11,22 @@ export class ToolsQueryDto {
   @Expose()
   @IsArray()
   selectFields: string[];
+
+  @ApiPropertyOptional({
+    description: 'Поля по которым нужно отсортировать. Доступны все любые поля из модели!',
+    example: 'year | rating.kp | votes.kp',
+    isArray: true,
+  })
+  @Expose()
+  @IsArray()
+  sortField: string;
+
+  @ApiPropertyOptional({
+    description: 'Тип сортировки. Для каждого поля нужно указать тип сортировки: 1 - по возрастанию -1 - по убыванию',
+    example: '1 | -1',
+    isArray: true,
+  })
+  @Expose()
+  @IsArray()
+  sortType: string[];
 }
