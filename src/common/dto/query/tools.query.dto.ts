@@ -13,7 +13,7 @@ export class ToolsQueryDto {
   selectFields: string[];
 
   @ApiPropertyOptional({
-    description: 'Поля по которым нужно отсортировать. Доступны все любые поля из модели!',
+    description: 'Поля по которым нужно отсортировать. Доступны все любые поля из модели',
     example: 'year | rating.kp | votes.kp',
     isArray: true,
   })

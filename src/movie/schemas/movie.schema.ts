@@ -76,17 +76,17 @@ export class Rating {
 }
 
 export class Logo {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
   @Prop()
   url: string;
 }
 
 export class ShortImage {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
   @Prop()
   url: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
   @Prop()
   previewUrl: string;
 }
