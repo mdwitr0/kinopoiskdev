@@ -161,7 +161,6 @@ export class Person {
   @Prop()
   description: string;
 
-  @ApiPropertyOptional({ example: 'actor' })
   @Prop()
   profession: string;
 
@@ -194,11 +193,9 @@ export class Fees {
 }
 
 export class Distributor {
-  @ApiPropertyOptional()
   @Prop()
   distributor: string;
 
-  @ApiPropertyOptional()
   @Prop()
   distributorRelease: string;
 }
@@ -224,53 +221,39 @@ export class Premiere {
   @Prop({ type: () => Date })
   cinema: string;
 
-  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date })
   bluray: string;
 
-  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date })
   dvd: string;
 }
 
 export class SpokenLanguages {
-  @ApiPropertyOptional()
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
   @Prop()
   nameEn: string;
 }
 
 export class Images {
-  @ApiPropertyOptional()
   @Prop()
   postersCount: number;
 
-  @ApiPropertyOptional()
   @Prop()
   backdropsCount: number;
 
-  @ApiPropertyOptional()
   @Prop()
   framesCount: number;
 }
 
-export class Value {
-  @ApiPropertyOptional()
-  @Prop()
-  value: string;
-}
-
 export class Fact {
-  @ApiPropertyOptional()
   @Prop()
   value: string;
-  @ApiPropertyOptional()
+
   @Prop()
   type: string;
-  @ApiPropertyOptional()
+
   @Prop()
   spoiler: boolean;
 }
@@ -304,23 +287,18 @@ export class LinkedMovie {
   @Prop()
   id: number;
 
-  @ApiPropertyOptional()
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
   @Prop()
   enName: string;
 
-  @ApiPropertyOptional()
   @Prop()
   alternativeName: string;
 
-  @ApiPropertyOptional()
   @Prop()
   type?: string;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop()
   poster: ShortImage;
 }
@@ -336,20 +314,17 @@ export class WatchabilityItem {
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
   @Prop({ type: () => Logo })
   logo: Logo;
 
-  @ApiPropertyOptional()
   @Prop()
   url: string;
 }
 
 export class Technology {
-  @ApiPropertyOptional()
   @Prop()
   hasImax: boolean;
-  @ApiPropertyOptional()
+
   @Prop()
   has3D: boolean;
 }
@@ -455,7 +430,6 @@ export class Movie {
   @Prop({ index: true })
   status: string;
 
-  @ApiPropertyOptional({ type: () => Fact, isArray: true })
   @Prop({ type: () => [Fact] })
   facts: Fact[];
 
@@ -528,11 +502,9 @@ export class Movie {
   @Prop()
   color: string;
 
-  @ApiPropertyOptional({ type: () => VendorImage })
   @Prop({ type: () => VendorImage })
   networks: VendorImage;
 
-  @ApiPropertyOptional()
   @Prop()
   distributors: Distributor;
 
@@ -547,7 +519,6 @@ export class Movie {
   @Prop({ type: () => [SeasonInfo] })
   seasonsInfo: SeasonInfo[];
 
-  @ApiPropertyOptional({ type: () => VendorImage, isArray: true })
   @Prop({ type: () => [VendorImage] })
   productionCompanies: VendorImage[];
 
@@ -568,7 +539,6 @@ export class Movie {
   @Prop()
   ticketsOnSale: boolean;
 
-  @ApiPropertyOptional({ type: () => Technology })
   @Prop()
   technology: Technology;
 
@@ -588,11 +558,17 @@ export class Movie {
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
 
-  @ApiPropertyOptional({ example: 1, description: 'Позиция тайтла в топ 10' })
+  @ApiPropertyOptional({
+    example: 1,
+    description: 'Позиция тайтла в топ 10. Чтобы найти фильмы усаствующие в рейтинге используйте: `!null`',
+  })
   @Prop()
   top10: number;
 
-  @ApiPropertyOptional({ example: 200, description: 'Позиция тайтла в топ 250' })
+  @ApiPropertyOptional({
+    example: 200,
+    description: 'Позиция тайтла в топ 250. Чтобы найти фильмы усаствующие в рейтинге используйте: `!null`',
+  })
   @Prop()
   top250: number;
 }
