@@ -2,6 +2,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Get, Param, Query } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 import { Paginated } from '../decorators/paginated.decorator';
+import { ApiBaseResponse } from '../decorators/api-base-response.decorator';
 
 type Constructor<T> = new (...args: any[]) => T;
 
@@ -41,7 +42,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
 
     @Get(':id')
     @ApiOperation({ summary: 'Поиск по id' })
-    @ApiResponse({ type: Entity })
+    @ApiBaseResponse({ type: Entity })
     async findOne(@Param('id') id: string): Promise<TEntity> {
       return this.service.findOne(+id);
     }
