@@ -1,20 +1,21 @@
-FROM node:18 AS production
+FROM node:18-alpine AS builder
 
-# Установка зависимостей
 WORKDIR /app
-COPY package.json .
-COPY yarn.lock .
-RUN yarn install --production --frozen-lockfile
 
-EXPOSE 3111
+COPY package*.json ./
 
-# Копирование исходных файлов
+RUN npm install
+
 COPY . .
 
-RUN apt-get -q update && apt-get -qy install netcat
+RUN npm run build
 
-# Сборка приложения
-RUN yarn build
+FROM node:18-alpine
 
-# Запуск приложения
-CMD ["sh", "-c", "yarn start:prod"]
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+
+CMD [ "npm", "run", "start:prod" ]

@@ -61,12 +61,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(docGlobalPrefix, app, document);
 
-  const port = process.env.PORT || 3111;
+  const port = process.env.PORT || 3000;
   const nodeEnv = process.env.NODE_ENV;
-  await app.listen(port);
-  logger.log(`🚀 API app is running on: http://localhost:${port}/`);
+  await app.listen(+port, '0.0.0.0');
+  const appUrl = await app.getUrl();
+  logger.log(`🚀 API app is running on: ${appUrl}`);
   logger.log(`🌚 ENV: ${nodeEnv}`);
-  logger.log(`📑 API Documentation is running on: http://localhost:${port}/${docGlobalPrefix}`);
+  logger.log(`📑 API Documentation is running on: ${appUrl}/${docGlobalPrefix}`);
 }
 
 AppClusterService.clusterize(bootstrap);
