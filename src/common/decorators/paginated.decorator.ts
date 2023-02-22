@@ -159,12 +159,16 @@ const entitiesField: Entities = {
   },
 };
 
-export const Paginated = (entityDto: any, entity: any, findForAllProperties?: boolean) => {
+export const Paginated = (
+  entityDto: any,
+  entity: any,
+  { findForAllProperties, isArray }: { findForAllProperties?: boolean; isArray?: boolean },
+) => {
   return applyDecorators(
     UsePipes(new QueryPipe(entitiesField[entity.name.toLowerCase()])),
     findForAllProperties
       ? ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, entity)
       : ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto),
-    ApiBaseResponse({ type: entityDto, isArray: true }),
+    ApiBaseResponse({ type: entityDto, isArray }),
   );
 };

@@ -16,7 +16,7 @@ export function BaseController<TEntity, TEntityDto>(
 
     @Get()
     @ApiOperation({ summary: description })
-    @Paginated(EntityDto, Entity, true)
+    @Paginated(EntityDto, Entity, { findForAllProperties: true })
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
@@ -35,7 +35,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
 
     @Get()
     @ApiOperation({ summary: description })
-    @Paginated(EntityDto, Entity, true)
+    @Paginated(EntityDto, Entity, { findForAllProperties: true })
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
