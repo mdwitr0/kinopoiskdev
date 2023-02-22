@@ -12,7 +12,7 @@ services:
     environment:
       PORT: 3111
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: 6380
       MONGO_URI: ${MONGO_URI}
       NODE_ENV: ${NODE_ENV}
     networks:
@@ -21,7 +21,7 @@ services:
   redis:
     image: "redis:latest"
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis_data:/data
     environment:
