@@ -21,8 +21,10 @@ export class AuthService {
       .populate('tariffId')
       .lean();
 
-    if (user?.token === tokenUuid) return user;
-
+    if (user?.token === tokenUuid) {
+      await this.userRepository.updateOne({ _id: user._id }, { requestsUsed: user.requestsUsed + 1 });
+      return user;
+    }
     return null;
   }
 }
