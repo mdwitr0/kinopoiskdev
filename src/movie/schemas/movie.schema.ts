@@ -3,137 +3,138 @@ import { HydratedDocument } from 'mongoose';
 import { ParseNumber } from '../../common/decorators/transform/parse-number.decorator';
 import { IsNumber, IsOptional } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiNullablePropery } from '../../common/decorators/api-nullble-property.decorator';
 
 // INFO: Objects
 
 export class ExternalId {
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     description: 'ID из kinopoisk HD',
     example: '48e8d0acb0f62d8585101798eaeceec5',
   })
   @Prop({ index: true })
-  kpHD: string;
+  kpHD?: string;
 
-  @ApiPropertyOptional({ example: 'tt0232500' })
+  @ApiNullablePropery({ example: 'tt0232500' })
   @Prop({ index: true })
-  imdb: string;
+  imdb?: string;
 
-  @ApiPropertyOptional({ example: 9799 })
+  @ApiNullablePropery({ example: 9799 })
   @Prop({ index: true })
-  tmdb: number;
+  tmdb?: number;
 }
 
 export class Votes {
-  @ApiPropertyOptional({ example: 60000 })
+  @ApiNullablePropery({ example: 60000 })
   @Prop({ index: true })
   kpHD: string;
 
-  @ApiPropertyOptional({ example: 50000 })
+  @ApiNullablePropery({ example: 50000 })
   @Prop({ index: true })
   imdb: string;
 
-  @ApiPropertyOptional({ example: 10000 })
+  @ApiNullablePropery({ example: 10000 })
   @Prop({ index: true })
   tmdb: number;
 
-  @ApiPropertyOptional({ example: 10000, description: 'Количество голосов кинокритиков' })
+  @ApiNullablePropery({ example: 10000, description: 'Количество голосов кинокритиков' })
   @Prop({ index: true })
   filmCritics: number;
 
-  @ApiPropertyOptional({ example: 4000, description: 'Количество голосов кинокритиков из РФ' })
+  @ApiNullablePropery({ example: 4000, description: 'Количество голосов кинокритиков из РФ' })
   @Prop({ index: true })
   russianFilmCritics: number;
 
-  @ApiPropertyOptional({ example: 34000, description: 'Количество ожидающих выхода' })
+  @ApiNullablePropery({ example: 34000, description: 'Количество ожидающих выхода' })
   @Prop({ index: true })
   await: number;
 }
 
 export class Rating {
-  @ApiPropertyOptional({ example: 6.2, description: 'Рейтинг кинопоиска' })
+  @ApiNullablePropery({ example: 6.2, description: 'Рейтинг кинопоиска' })
   @Prop({ index: true })
   kp: number;
 
-  @ApiPropertyOptional({ example: 8.4, description: 'Рейтинг IMDB' })
+  @ApiNullablePropery({ example: 8.4, description: 'Рейтинг IMDB' })
   @Prop({ index: true })
   imdb: number;
 
-  @ApiPropertyOptional({ example: 3.2, description: 'Рейтинг TMDB' })
+  @ApiNullablePropery({ example: 3.2, description: 'Рейтинг TMDB' })
   @Prop({ index: true })
   tmdb: number;
 
-  @ApiPropertyOptional({ example: 10, description: 'Рейтинг кинокритиков' })
+  @ApiNullablePropery({ example: 10, description: 'Рейтинг кинокритиков' })
   @Prop({ index: true })
   filmCritics: number;
 
-  @ApiPropertyOptional({ example: 5.1, description: 'Рейтинг кинокритиков из РФ' })
+  @ApiNullablePropery({ example: 5.1, description: 'Рейтинг кинокритиков из РФ' })
   @Prop({ index: true })
   russianFilmCritics: number;
 
-  @ApiPropertyOptional({ example: 6.1, description: 'Рейтинг основанный на ожиданиях пользователей' })
+  @ApiNullablePropery({ example: 6.1, description: 'Рейтинг основанный на ожиданиях пользователей' })
   @Prop({ index: true })
   await: number;
 }
 
 export class Logo {
-  @ApiPropertyOptional({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
+  @ApiNullablePropery({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
   @Prop()
   url: string;
 }
 
 export class ShortImage {
-  @ApiPropertyOptional({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
+  @ApiNullablePropery({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
   @Prop()
   url: string;
 
-  @ApiPropertyOptional({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
+  @ApiNullablePropery({ description: 'Чтобы найти фильмы с этим полем, используйте: `!null`' })
   @Prop()
   previewUrl: string;
 }
 
 export class VendorImage {
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop({ index: true })
   name: string;
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   url: string;
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   previewUrl: string;
 }
 
 export class Name {
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop({ index: true })
   name: string;
 }
 
 export class Video {
-  @ApiPropertyOptional({ example: 'https://www.youtube.com/embed/ZsJz2TJAPjw', description: 'Url трейлера' })
+  @ApiNullablePropery({ example: 'https://www.youtube.com/embed/ZsJz2TJAPjw', description: 'Url трейлера' })
   @Prop()
   url: string;
 
-  @ApiPropertyOptional({ example: 'Official Trailer' })
+  @ApiNullablePropery({ example: 'Official Trailer' })
   @Prop()
   name: string;
 
-  @ApiPropertyOptional({ example: 'youtube | yandex' })
+  @ApiNullablePropery({ example: 'youtube | yandex' })
   @Prop()
   site: string;
 
   @Prop()
   size: number;
 
-  @ApiPropertyOptional({ example: 'TRAILER' })
+  @ApiNullablePropery({ example: 'TRAILER' })
   @Prop()
   type: string;
 }
 
 export class VideoTypes {
-  @ApiPropertyOptional({ type: () => Video, isArray: true })
+  @ApiNullablePropery({ type: () => Video, isArray: true })
   @Prop({ type: () => [Video] })
   trailers: Video[];
 
@@ -142,19 +143,19 @@ export class VideoTypes {
 }
 
 export class Person {
-  @ApiPropertyOptional({ example: 6317, description: 'Id персоны с кинопоиска' })
+  @ApiNullablePropery({ example: 6317, description: 'Id персоны с кинопоиска' })
   @Prop({ index: true })
   id: number;
 
-  @ApiPropertyOptional({ example: 'https://st.kp.yandex.net/images/actor_iphone/iphone360_6317.jpg' })
+  @ApiNullablePropery({ example: 'https://st.kp.yandex.net/images/actor_iphone/iphone360_6317.jpg' })
   @Prop()
   photo: string;
 
-  @ApiPropertyOptional({ example: 'Пол Уокер' })
+  @ApiNullablePropery({ example: 'Пол Уокер' })
   @Prop()
   name: string;
 
-  @ApiPropertyOptional({ example: 'Paul Walker' })
+  @ApiNullablePropery({ example: 'Paul Walker' })
   @Prop()
   enName: string;
 
@@ -169,25 +170,25 @@ export class Person {
 }
 
 export class CurrencyValue {
-  @ApiPropertyOptional({ example: 207283, description: 'Сумма' })
+  @ApiNullablePropery({ example: 207283, description: 'Сумма' })
   @Prop({ index: true })
   value: number;
 
-  @ApiPropertyOptional({ example: '€', description: 'Валюта' })
+  @ApiNullablePropery({ example: '€', description: 'Валюта' })
   @Prop()
   currency: string;
 }
 
 export class Fees {
-  @ApiPropertyOptional({ type: () => CurrencyValue })
+  @ApiNullablePropery({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   world: CurrencyValue;
 
-  @ApiPropertyOptional({ type: () => CurrencyValue })
+  @ApiNullablePropery({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   russia: CurrencyValue;
 
-  @ApiPropertyOptional({ type: () => CurrencyValue })
+  @ApiNullablePropery({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   usa: CurrencyValue;
 }
@@ -201,23 +202,23 @@ export class Distributor {
 }
 
 export class Premiere {
-  @ApiPropertyOptional({ example: 'США' })
+  @ApiNullablePropery({ example: 'США' })
   @Prop()
   country: string;
 
-  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
+  @ApiNullablePropery({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date, index: true })
   world: string;
 
-  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
+  @ApiNullablePropery({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date, index: true })
   russia: string;
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop({ type: () => Date, index: true })
   digital: string;
 
-  @ApiPropertyOptional({ example: '01.02.2023', type: Date })
+  @ApiNullablePropery({ example: '01.02.2023', type: Date })
   @Prop({ type: () => Date })
   cinema: string;
 
@@ -259,31 +260,31 @@ export class Fact {
 }
 
 export class ReviewInfo {
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   count: number;
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   positiveCount: number;
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   percentage: string;
 }
 
 export class SeasonInfo {
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   number: number;
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   episodesCount: number;
 }
 
 export class LinkedMovie {
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   id: number;
 
@@ -304,13 +305,13 @@ export class LinkedMovie {
 }
 
 export class Watchability {
-  @ApiPropertyOptional({ type: () => WatchabilityItem, isArray: true })
+  @ApiNullablePropery({ type: () => WatchabilityItem, isArray: true })
   @Prop({ type: () => [WatchabilityItem] })
   items: WatchabilityItem[];
 }
 
 export class WatchabilityItem {
-  @ApiPropertyOptional()
+  @ApiNullablePropery()
   @Prop()
   name: string;
 
@@ -330,11 +331,11 @@ export class Technology {
 }
 
 export class YearRange {
-  @ApiPropertyOptional({ example: 2022, description: 'Год начала' })
+  @ApiNullablePropery({ example: 2022, description: 'Год начала' })
   @Prop()
   start: number;
 
-  @ApiPropertyOptional({ example: 2023, description: 'Год окончания' })
+  @ApiNullablePropery({ example: 2023, description: 'Год окончания' })
   @Prop()
   end: number;
 }
@@ -363,11 +364,11 @@ export class Movie {
   externalId: ExternalId;
 
   // INFO: Name values
-  @ApiPropertyOptional({ example: 'Человек паук' })
+  @ApiNullablePropery({ example: 'Человек паук' })
   @Prop({ index: true })
   name: string;
 
-  @ApiPropertyOptional({ example: 'Spider man' })
+  @ApiNullablePropery({ example: 'Spider man' })
   @Prop({ index: true })
   alternativeName: string;
 
@@ -405,25 +406,25 @@ export class Movie {
   year: number;
 
   // INFO: Description values
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     description: 'Описание тайтла',
   })
   @Prop()
   description: string;
 
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     description: 'Сокращенное описание',
   })
   @Prop()
   shortDescription: string;
 
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     description: 'Слоган',
   })
   @Prop()
   slogan: string;
 
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     example: 'filming | pre-production | completed | announced | post-production',
     description: 'Статус релиза тайтла',
   })
@@ -434,28 +435,28 @@ export class Movie {
   facts: Fact[];
 
   // INFO: Movie rating values
-  @ApiPropertyOptional({ type: () => Rating })
+  @ApiNullablePropery({ type: () => Rating })
   @Prop({ type: () => Rating })
   rating: Rating;
 
-  @ApiPropertyOptional({ type: () => Votes })
+  @ApiNullablePropery({ type: () => Votes })
   @Prop({ type: () => Votes })
   votes: Votes;
 
   // INFO: Length value
-  @ApiPropertyOptional({ example: 120, description: 'Продолжительность фильма' })
+  @ApiNullablePropery({ example: 120, description: 'Продолжительность фильма' })
   @Prop()
   movieLength: number;
 
   // INFO: Age rating values
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     example: 'pg13',
     description: 'Возрастной рейтинг по MPAA',
   })
   @Prop()
   ratingMpaa: string;
 
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     example: '16',
     description: 'Возрастной рейтинг',
   })
@@ -463,18 +464,18 @@ export class Movie {
   ageRating: number;
 
   // INFO: Image values
-  @ApiPropertyOptional({ type: () => Logo })
+  @ApiNullablePropery({ type: () => Logo })
   @Prop({ type: () => Logo })
   logo: Logo;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
+  @ApiNullablePropery({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   poster: ShortImage;
 
   @Prop({ type: () => ShortImage })
   horizontalPoster: ShortImage;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
+  @ApiNullablePropery({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   backdrop: ShortImage;
 
@@ -482,7 +483,7 @@ export class Movie {
   imagesInfo: Images;
 
   // INFO: Vadeo value
-  @ApiPropertyOptional({ type: () => VideoTypes })
+  @ApiNullablePropery({ type: () => VideoTypes })
   @Prop({ type: () => VideoTypes })
   videos: VideoTypes;
 
@@ -511,11 +512,11 @@ export class Movie {
   @Prop({ type: () => [SpokenLanguages] })
   spokenLanguages: SpokenLanguages[];
 
-  @ApiPropertyOptional({ type: () => ReviewInfo })
+  @ApiNullablePropery({ type: () => ReviewInfo })
   @Prop({ type: () => ReviewInfo })
   reviewInfo: ReviewInfo;
 
-  @ApiPropertyOptional({ type: () => SeasonInfo, isArray: true })
+  @ApiNullablePropery({ type: () => SeasonInfo, isArray: true })
   @Prop({ type: () => [SeasonInfo] })
   seasonsInfo: SeasonInfo[];
 
@@ -523,16 +524,16 @@ export class Movie {
   productionCompanies: VendorImage[];
 
   // INFO: Currency values
-  @ApiPropertyOptional({ type: () => CurrencyValue })
+  @ApiNullablePropery({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   budget: CurrencyValue;
 
-  @ApiPropertyOptional({ type: () => Fees })
+  @ApiNullablePropery({ type: () => Fees })
   @Prop({ type: () => Fees })
   fees: Fees;
 
   // INFO: Date values
-  @ApiPropertyOptional({ type: () => Premiere })
+  @ApiNullablePropery({ type: () => Premiere })
   @Prop({ type: () => Premiere })
   premiere: Premiere;
 
@@ -542,35 +543,35 @@ export class Movie {
   @Prop()
   technology: Technology;
 
-  @ApiPropertyOptional({ type: () => LinkedMovie, isArray: true })
+  @ApiNullablePropery({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
   similarMovies: LinkedMovie[];
 
-  @ApiPropertyOptional({ type: () => LinkedMovie, isArray: true })
+  @ApiNullablePropery({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
   sequelsAndPrequels: LinkedMovie[];
 
-  @ApiPropertyOptional()
+  @ApiNullablePropery({ type: () => Watchability })
   @Prop({ type: () => Watchability })
-  watchability: Watchability;
+  watchability: Watchability | null;
 
-  @ApiPropertyOptional({ type: () => YearRange, isArray: true })
+  @ApiNullablePropery({ type: () => YearRange, isArray: true })
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
 
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     example: 1,
     description: 'Позиция тайтла в топ 10. Чтобы найти фильмы усаствующие в рейтинге используйте: `!null`',
   })
   @Prop()
-  top10: number;
+  top10?: number | null;
 
-  @ApiPropertyOptional({
+  @ApiNullablePropery({
     example: 200,
     description: 'Позиция тайтла в топ 250. Чтобы найти фильмы усаствующие в рейтинге используйте: `!null`',
   })
   @Prop()
-  top250: number;
+  top250?: number | null;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
