@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MovieModule } from './movie/movie.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -8,11 +8,6 @@ import { PersonModule } from './person/person.module';
 import { ImageModule } from './image/image.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
-import { MovieController } from './movie/movie.controller';
-import { SeasonController } from './season/season.controller';
-import { ReviewController } from './review/review.controller';
-import { PersonController } from './person/person.controller';
-import { ImageController } from './image/image.controller';
 import { LoggerModule } from 'nestjs-pino';
 @Module({
   imports: [
@@ -43,8 +38,11 @@ import { LoggerModule } from 'nestjs-pino';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes(MovieController, SeasonController, ReviewController, PersonController, ImageController);
+    consumer.apply(AuthMiddleware).forRoutes(
+      ...['movie', 'season', 'person', 'review', 'image'].map((name) => ({
+        path: `/${name}`,
+        method: RequestMethod.GET,
+      })),
+    );
   }
 }
