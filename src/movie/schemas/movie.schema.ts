@@ -358,7 +358,7 @@ export class Movie {
   @Prop({ unique: true })
   id: number;
 
-  @ApiPropertyOptional({ type: () => ExternalId, isArray: true })
+  @ApiPropertyOptional({ type: () => ExternalId })
   @Prop({ index: true, type: () => ExternalId })
   externalId: ExternalId;
 
