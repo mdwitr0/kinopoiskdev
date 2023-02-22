@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3111:3111"
+    depends_on:
+      - redis
+      - mongo
+    environment:
+      PORT: 3111
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MONGO_URI: ${MONGO_URI}
+      NODE_ENV: ${NODE_ENV}
+    networks:
+      - app_network
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    networks:
+      - app_network
+
+  mongo:
+    image: mongo:6.0.1
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    networks:
+      - app_network
+
+volumes:
+  redis_data:
+
+networks:
+  app_network:
