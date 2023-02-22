@@ -394,9 +394,6 @@ export class Movie {
   @Prop({ index: true })
   typeNumber: number;
 
-  @Prop({ index: true })
-  subType: string;
-
   // INFO: Year values
   @ApiPropertyOptional({
     example: '1860-2030',
@@ -472,13 +469,11 @@ export class Movie {
   @Prop({ type: () => ShortImage })
   poster: ShortImage;
 
-  @Prop({ type: () => ShortImage })
-  horizontalPoster: ShortImage;
-
   @ApiNullablePropery({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   backdrop: ShortImage;
 
+  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
   @Prop({ type: () => Images })
   imagesInfo: Images;
 
@@ -500,28 +495,15 @@ export class Movie {
   @Prop({ type: () => [Person] })
   persons: Person[];
 
-  @Prop()
-  color: string;
-
-  @Prop({ type: () => VendorImage })
-  networks: VendorImage;
-
-  @Prop()
-  distributors: Distributor;
-
-  @Prop({ type: () => [SpokenLanguages] })
-  spokenLanguages: SpokenLanguages[];
-
+  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
   @ApiNullablePropery({ type: () => ReviewInfo })
   @Prop({ type: () => ReviewInfo })
   reviewInfo: ReviewInfo;
 
+  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
   @ApiNullablePropery({ type: () => SeasonInfo, isArray: true })
   @Prop({ type: () => [SeasonInfo] })
   seasonsInfo: SeasonInfo[];
-
-  @Prop({ type: () => [VendorImage] })
-  productionCompanies: VendorImage[];
 
   // INFO: Currency values
   @ApiNullablePropery({ type: () => CurrencyValue })
@@ -536,12 +518,6 @@ export class Movie {
   @ApiNullablePropery({ type: () => Premiere })
   @Prop({ type: () => Premiere })
   premiere: Premiere;
-
-  @Prop()
-  ticketsOnSale: boolean;
-
-  @Prop()
-  technology: Technology;
 
   @ApiNullablePropery({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
