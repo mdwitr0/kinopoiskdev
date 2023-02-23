@@ -1,0 +1,135 @@
+:root {
+    --primary-color: #336cfb;
+    --primary-dark-color: #365383;
+    --primary-extra-dark-color: #1a2537;
+    --secondary-color: #eef5ff;
+    --tertinary-color: #6ed797;
+    --code-color: #ffb417;
+    --gray-color: #c6d4ee;
+    --white-color: #fff;
+}
+
+
+body {
+    background: var(--white-color);
+}
+
+.swagger-ui .info .title {
+    color: var(--primary-color);
+}
+
+.swagger-ui {
+    color: var(--primary-dark-color);
+}
+
+.swagger-ui .info a:hover {
+    color: var(--secondary-color);
+}
+
+.swagger-ui .topbar {
+    background-color: var(--secondary-color);
+}
+
+.swagger-ui .topbar a {
+    max-width: 50px;
+}
+
+.link img {
+    display: none;
+}
+
+.link {
+    background: url("/icon.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.topbar-wrapper {
+    height: 60px;
+}
+
+.swagger-ui .info a:hover {
+    color: var(--primary-dark-color);
+}
+
+.swagger-ui .info a {
+    color: var(--primary-color);
+}
+
+.models.is-open {
+    background: var(--secondary-color);
+}
+
+.swagger-ui .opblock-tag {
+    color: var(--primary-color);
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+    background: var(--primary-color);
+}
+
+.swagger-ui .opblock.is-open .opblock-summary {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.swagger-ui .opblock.opblock-get {
+    background: var(--secondary-color);
+    border-color: var(--primary-color);
+}
+
+.swagger-ui .opblock.opblock-get .tab-header .tab-item.active h4 span::after {
+    background: var(--primary-color);
+}
+
+.swagger-ui section.models .model-container {
+    background: var(--white-color);
+}
+
+.swagger-ui section.models {
+    border: 1px solid var(--primary-color);
+}
+
+.swagger-ui section.models .model-container:hover {
+    background: var(--white-color);
+}
+
+.swagger-ui .model .property.primitive {
+    color: var(--primary-dark-color);
+}
+
+.swagger-ui section.models.is-open h4 {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.swagger-ui .response-control-media-type--accept-controller select {
+    border-color: var(--tertinary-color);
+}
+
+.example.microlight {
+    background: var(--primary-extra-dark-color) !important;
+}
+
+.swagger-ui .btn.authorize {
+    border-color: var(--tertinary-color);
+    color: var(--tertinary-color);
+}
+
+.swagger-ui .opblock .opblock-summary-description,
+.swagger-ui .info li,
+.swagger-ui .info p,
+.swagger-ui .info table {
+    color: var(--primary-dark-color);
+}
+
+.swagger-ui .model-box {
+    background: var(--white-color);
+}
+
+.swagger-ui .markdown code,
+.swagger-ui .renderedMarkdown code {
+    background: unset;
+    color: var(--primary-color);
+    padding: 0;
+}

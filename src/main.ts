@@ -67,6 +67,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(docGlobalPrefix, app, document, {
     customSiteTitle: 'Документация: для неофициального kinopoisk api',
+    customCssUrl: '/swagger.css',
     customfavIcon: '/icon.png',
   });
 
