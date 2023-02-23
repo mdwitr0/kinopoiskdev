@@ -9,7 +9,7 @@ import { AppClusterService } from './app-cluster.service';
 import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
-  const docGlobalPrefix = 'documentation';
+  const docGlobalPrefix = 'v1/documentation';
 
   // Init logger
   const logger = new NestLogger('Main');
