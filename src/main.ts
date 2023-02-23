@@ -59,12 +59,16 @@ async function bootstrap() {
       </ul>
       <p></p>
       <p>Если у вас есть какие-либо вопросы, пожалуйста пишите в чат <a href="https://t.me/dev_to_dev">@dev_to_dev</a>.</p>
-      <p>Если вы нашли баг, или хотете получить дополнительный функционал, пожалуйста создайте issue на github <a href="https://github.com/mdwitr0/kinopoiskdev">kinopoiskdev</a>.</p>`,
+      <p>Если вы нашли баг, или хотете получить дополнительный функционал, пожалуйста создайте issue на github <a href="https://github.com/mdwitr0/kinopoiskdev">kinopoiskdev</a>.</p>
+      `,
     )
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(docGlobalPrefix, app, document);
+  SwaggerModule.setup(docGlobalPrefix, app, document, {
+    customSiteTitle: 'Документация: для неофициального kinopoisk api',
+    customfavIcon: 'https://kinopoisk.dev/assets/images/favicon/apple-touch-icon-120x120.png',
+  });
 
   const port = process.env.PORT || 3000;
   const nodeEnv = process.env.NODE_ENV;
