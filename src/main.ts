@@ -30,6 +30,11 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.flushLogs();
   // Set global version
+  app.enableVersioning({
+    defaultVersion: '1',
+    type: VersioningType.URI,
+  });
+
   app.enableCors({ origin: '*' });
   app.useGlobalPipes(
     new ValidationPipe({
