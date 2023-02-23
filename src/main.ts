@@ -67,7 +67,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(docGlobalPrefix, app, document, {
     customSiteTitle: 'Документация: для неофициального kinopoisk api',
-    customfavIcon: 'https://kinopoisk.dev/assets/images/favicon/apple-touch-icon-120x120.png',
+    customfavIcon: '/icon.png',
   });
 
   const port = process.env.PORT || 3000;

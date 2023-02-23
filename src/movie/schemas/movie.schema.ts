@@ -537,14 +537,14 @@ export class Movie {
 
   @ApiNullablePropery({
     example: 1,
-    description: 'Позиция тайтла в топ 10. Чтобы найти фильмы усаствующие в рейтинге используйте: `!null`',
+    description: 'Позиция тайтла в топ 10. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`',
   })
   @Prop()
   top10?: number | null;
 
   @ApiNullablePropery({
     example: 200,
-    description: 'Позиция тайтла в топ 250. Чтобы найти фильмы усаствующие в рейтинге используйте: `!null`',
+    description: 'Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`',
   })
   @Prop()
   top250?: number | null;
