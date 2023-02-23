@@ -40,7 +40,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes(
       ...['movie', 'season', 'person', 'review', 'image'].map((name) => ({
-        path: `/${name}`,
+        path: `/v1/${name}`,
         method: RequestMethod.GET,
       })),
     );
