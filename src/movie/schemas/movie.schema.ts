@@ -27,7 +27,7 @@ export class ExternalId {
 export class Votes {
   @ApiNullablePropery({ example: 60000 })
   @Prop({ index: true })
-  kpHD: string;
+  kp: string;
 
   @ApiNullablePropery({ example: 50000 })
   @Prop({ index: true })
