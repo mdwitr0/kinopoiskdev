@@ -114,6 +114,26 @@ export class QueryPipe implements PipeTransform {
       });
     }
 
+    // Форматируем данные, под валидный для mongo запрос
+    for (const [key, keyValue] of Object.entries(filter)) {
+      if (!SYSTEM_KEYS.includes(key)) {
+        const isInOperator = keyValue.hasOwnProperty('$in');
+
+        if (isInOperator) {
+          const inValues = keyValue['$in'];
+          const neValues = inValues.filter((val) => val.$ne !== undefined).map((val) => val.$ne);
+          const values = inValues.filter((val) => val.$ne === undefined);
+
+          if (neValues.length) {
+            filter[key] = { $nin: neValues };
+            if (values.length) filter[key]['$in'] = values;
+          } else {
+            filter[key] = { $in: values };
+          }
+        }
+      }
+    }
+
     // Парсим параметры для выбора полей
     let selectFields = Array.isArray(value.selectFields) ? value.selectFields : value?.selectFields?.split(' ');
     if (!selectFields) selectFields = this.FIELDS.allowFieldsFindAll;
