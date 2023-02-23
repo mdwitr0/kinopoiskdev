@@ -37,12 +37,19 @@ export class QueryPipe implements PipeTransform {
 
     const transformFieldValue = (field: string, value: string): any => {
       const isNullValue = value === '!null';
+      const isExcludedFields = this.FIELDS.excludedValuesFields.includes(field) && value.includes('!');
       const isNumberField = this.FIELDS.numberSearchKeys.includes(field);
       const isDateField = this.FIELDS.dateSearchKeys.includes(field);
       const isRegexField = this.FIELDS.regexSearchKeys.includes(field);
 
       if (isNullValue) {
         return { $ne: null };
+      }
+
+      if (isExcludedFields) {
+        return {
+          $ne: value.substring(1),
+        };
       }
 
       if ((isNumberField || isDateField) && value.includes('-')) {

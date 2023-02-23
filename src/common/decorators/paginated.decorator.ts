@@ -7,6 +7,7 @@ import { ApiDotNotationQuery } from './api-dot-notation-query.decorator';
 
 export interface EntityFields {
   allowFieldsFindAll: string[];
+  excludedValuesFields: string[];
   idKeys: string[];
   regexSearchKeys: string[];
   dateSearchKeys: string[];
@@ -45,6 +46,7 @@ const entitiesField: Entities = {
       'watchability',
       'releaseYears',
     ],
+    excludedValuesFields: ['genres.name', 'countries.name'],
     idKeys: ['id', 'externalId.imdb'],
     regexSearchKeys: [
       'name',
@@ -99,6 +101,7 @@ const entitiesField: Entities = {
       '-movies._id',
       '-isParse',
     ],
+    excludedValuesFields: [],
     allowFieldsFindAll: ['id', 'name', 'enName', 'photo', 'age', 'sex'],
     idKeys: ['id'],
     regexSearchKeys: [
@@ -125,6 +128,7 @@ const entitiesField: Entities = {
     ],
   },
   review: {
+    excludedValuesFields: [],
     blacklistFields: ['-_id', '-episodes._id'],
     allowFieldsFindAll: ['movieId', 'id', 'title', 'type', 'review', 'author', 'date'],
     idKeys: ['id'],
@@ -133,6 +137,7 @@ const entitiesField: Entities = {
     numberSearchKeys: ['movieId', 'id'],
   },
   season: {
+    excludedValuesFields: [],
     blacklistFields: ['-_id', '-episodes._id'],
     allowFieldsFindAll: [
       'movieId',
@@ -150,6 +155,7 @@ const entitiesField: Entities = {
     numberSearchKeys: ['movieId', 'number', 'episodesCount', 'episodes.number'],
   },
   image: {
+    excludedValuesFields: [],
     blacklistFields: ['-_id'],
     allowFieldsFindAll: ['url', 'previewUrl', 'width', 'language', 'height', 'type', 'movieId'],
     idKeys: ['id'],
