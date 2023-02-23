@@ -28,13 +28,14 @@ export function BaseController<TEntity, TEntityDto>(
 export function BaseControllerWithFindById<TEntity, TEntityDto>(
   Entity: Constructor<TEntity>,
   EntityDto: Constructor<TEntityDto>,
+  summary?: string,
   description?: string,
 ) {
   abstract class BaseControllerWithFindById {
     protected constructor(readonly service: any) {}
 
     @Get()
-    @ApiOperation({ summary: description })
+    @ApiOperation({ summary, description })
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
