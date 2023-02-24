@@ -38,7 +38,10 @@ export class RemoveSystemFieldsInterceptor implements NestInterceptor {
         } else if (typeof data[key] === 'object') {
           if (Array.isArray(data[key])) {
             this.deleteSystemFieldsRecursively(data[key]);
-          } else if (Object.keys(data[key] || {}).length === 0) {
+          } else if (
+            Object.keys(data[key] || {}).length === 0 &&
+            Object.prototype.toString.call(data[key]) === '[object Object]'
+          ) {
             data[key] = null;
           } else {
             this.deleteSystemFieldsRecursively(data[key]);
