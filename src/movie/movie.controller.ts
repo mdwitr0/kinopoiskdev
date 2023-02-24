@@ -6,8 +6,8 @@ import { BaseControllerWithFindById } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
 import { Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { PosibleValueDto } from './dto/response/posible-value.response.dto';
-import { GetPosibleValueDto } from './dto/get-posible-values.dto';
+import { PossibleValueDto as PossibleValueDto } from './dto/response/possible-value.response.dto';
+import { GetPossibleValueDto } from './dto/get-possible-values.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController extends BaseControllerWithFindById(Movie, MovieDocsResponseDto, 'Поиск тайтлов') {
@@ -24,8 +24,8 @@ export class MovieController extends BaseControllerWithFindById(Movie, MovieDocs
 
   @Get('possible-values-by-field')
   @ApiOperation({ summary: 'Получить все возможные значения полей' })
-  @ApiResponse({ type: PosibleValueDto, isArray: true })
-  async getPossibleValuesByFieldName(@Query() dto: GetPosibleValueDto): Promise<PosibleValueDto[]> {
+  @ApiResponse({ type: PossibleValueDto, isArray: true })
+  async getPossibleValuesByFieldName(@Query() dto: GetPossibleValueDto): Promise<PossibleValueDto[]> {
     return this.movieService.getPossibleValuesByFieldName(dto);
   }
 }
