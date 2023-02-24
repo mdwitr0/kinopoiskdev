@@ -9,12 +9,12 @@ export enum DistinctFields {
   STATUS = 'status',
 }
 
-export class GetPosibleValueDto {
+export class GetPossibleValueDto {
   @ApiProperty({ enum: DistinctFields })
   @IsEnum(DistinctFields)
   field: DistinctFields;
 
-  constructor(partial: Partial<GetPosibleValueDto>) {
+  constructor(partial: Partial<GetPossibleValueDto>) {
     Object.assign(this, partial);
   }
 }
