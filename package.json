@@ -1,10 +1,10 @@
 {
-  "name": "v1_api",
-  "version": "0.0.1",
+  "name": "kinopooiskdev_api",
+  "version": "0.0.0",
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -20,7 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "commit": "git-cz",
-    "release": "standard-version"
+    "release": "release-please --"
   },
   "dependencies": {
     "@fastify/compress": "^6.2.0",
@@ -43,6 +43,7 @@
     "pino-http": "^8.3.3",
     "pino-pretty": "^9.3.0",
     "reflect-metadata": "^0.1.13",
+    "release-please": "^15.8.0",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "transliteration": "^2.3.5",
