@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MovieModule } from './movie/movie.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -43,6 +43,7 @@ import { join } from 'path';
   ],
 })
 export class AppModule implements NestModule {
+  private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes(
       ...['movie', 'season', 'person', 'review', 'image'].map((name) => ({

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { transliterate } from 'transliteration';
 
-export class PosibleValueDto {
+export class PossibleValueDto {
   @ApiProperty({ description: 'Значение по которому нужно делать запрос в базу данных' })
   @Expose()
   name: string;
