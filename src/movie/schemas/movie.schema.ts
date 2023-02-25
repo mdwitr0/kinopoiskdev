@@ -545,6 +545,9 @@ export class Movie {
   @Prop({ type: () => Watchability })
   watchability: Watchability | null;
 
+  @Prop({ type: () => [VendorImage] })
+  productionCompanies: VendorImage[];
+
   @ApiNullablePropery({ type: () => YearRange, isArray: true })
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
