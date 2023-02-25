@@ -121,7 +121,7 @@ export class Video {
   @Prop()
   name: string;
 
-  @ApiNullablePropery({ example: 'youtube | yandex' })
+  @ApiNullablePropery({ example: 'youtube' })
   @Prop()
   site: string;
 
@@ -206,11 +206,19 @@ export class Premiere {
   @Prop()
   country: string;
 
-  @ApiNullablePropery({ example: '01.02.2023', type: Date })
+  @ApiNullablePropery({
+    example: '2023-02-25T02:44:39.359Z',
+    description: 'Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023',
+    type: Date,
+  })
   @Prop({ type: () => Date, index: true })
   world: string;
 
-  @ApiNullablePropery({ example: '01.02.2023', type: Date })
+  @ApiNullablePropery({
+    example: '2023-02-25T02:44:39.359Z',
+    description: 'Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023',
+    type: Date,
+  })
   @Prop({ type: () => Date, index: true })
   russia: string;
 
@@ -218,7 +226,11 @@ export class Premiere {
   @Prop({ type: () => Date, index: true })
   digital: string;
 
-  @ApiNullablePropery({ example: '01.02.2023', type: Date })
+  @ApiNullablePropery({
+    example: '2023-02-25T02:44:39.359Z',
+    description: 'Для более релевантного поиска, используйте интервал дат 01.02.2022-01.02.2023',
+    type: Date,
+  })
   @Prop({ type: () => Date })
   cinema: string;
 
@@ -381,23 +393,24 @@ export class Movie {
 
   // INFO: Type values
   @ApiPropertyOptional({
-    example: 'movie | tv-series | cartoon | anime | animated-series | tv-show',
-    description: 'Тип тайтла',
+    example: 'movie',
+    description: 'Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show',
   })
   @Prop({ index: true })
   type: string;
 
   @ApiPropertyOptional({
-    example: '1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)',
-    description: 'Тип тайтла в числовом обозначении',
+    example: 1,
+    description:
+      'Тип тайтла в числовом обозначении. Доступны: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)',
   })
   @Prop({ index: true })
   typeNumber: number;
 
   // INFO: Year values
   @ApiPropertyOptional({
-    example: '1860-2030',
-    description: 'Год премьеры',
+    example: 2023,
+    description: 'Год премьеры. При поиске по этому полю, можно использовать интервалы 1860-2030',
   })
   @Prop({ index: true })
   year: number;
@@ -422,8 +435,9 @@ export class Movie {
   slogan: string;
 
   @ApiNullablePropery({
-    example: 'filming | pre-production | completed | announced | post-production',
-    description: 'Статус релиза тайтла',
+    example: 'completed',
+    description:
+      'Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production',
   })
   @Prop({ index: true })
   status: string;
