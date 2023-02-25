@@ -37,10 +37,13 @@ export class RemoveSystemFieldsInterceptor implements NestInterceptor {
           delete data[key];
         } else if (typeof data[key] === 'object') {
           if (Array.isArray(data[key])) {
+            console.log(data[key]);
+
             this.deleteSystemFieldsRecursively(data[key]);
+            data[key] = data[key].filter((item) => Object.keys(item).length !== 0);
           } else if (
             Object.keys(data[key] || {}).length === 0 &&
-            Object.prototype.toString.call(data[key]) === '[object Object]'
+            ['[object Object]', '[object Array]'].includes(Object.prototype.toString.call(data[key]))
           ) {
             data[key] = null;
           } else {
