@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ApiNullableProperty } from 'src/common/decorators/api-nullble-property.decorator';
+import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
 
 class BirthPlace {
   @ApiPropertyOptional()
