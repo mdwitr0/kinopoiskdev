@@ -76,7 +76,7 @@ class MovieInPerson {
 
   @ApiNullableProperty()
   @Prop()
-  General: boolean;
+  general: boolean;
 
   @ApiNullableProperty()
   @Prop()
