@@ -543,7 +543,7 @@ export class Movie {
 
   @ApiPropertyOptional({ type: () => Watchability })
   @Prop({ type: () => Watchability })
-  watchability: Watchability | null;
+  watchability: Watchability;
 
   @Prop({ type: () => [VendorImage] })
   productionCompanies: VendorImage[];
