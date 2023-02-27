@@ -142,7 +142,7 @@ export class VideoTypes {
   teasers: Video[];
 }
 
-export class Person {
+export class PersonInMovie {
   @ApiNullablePropery({ example: 6317, description: 'Id персоны с кинопоиска' })
   @Prop({ index: true })
   id: number;
@@ -260,7 +260,7 @@ export class Images {
   framesCount: number;
 }
 
-export class Fact {
+export class FactInMovie {
   @Prop()
   value: string;
 
@@ -442,8 +442,8 @@ export class Movie {
   @Prop({ index: true })
   status: string;
 
-  @Prop({ type: () => [Fact] })
-  facts: Fact[];
+  @Prop({ type: () => [FactInMovie] })
+  facts: FactInMovie[];
 
   // INFO: Movie rating values
   @ApiNullablePropery({ type: () => Rating })
@@ -505,9 +505,9 @@ export class Movie {
   @Prop({ type: () => [Name] })
   countries: Name[];
 
-  @ApiPropertyOptional({ type: () => Person, isArray: true })
-  @Prop({ type: () => [Person] })
-  persons: Person[];
+  @ApiPropertyOptional({ type: () => PersonInMovie, isArray: true })
+  @Prop({ type: () => [PersonInMovie] })
+  persons: PersonInMovie[];
 
   // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
   @ApiNullablePropery({ type: () => ReviewInfo })
