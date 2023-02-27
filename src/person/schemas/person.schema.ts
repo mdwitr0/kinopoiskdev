@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
 
 class BirthPlace {
   @ApiPropertyOptional()
@@ -57,31 +58,31 @@ class FactInPerson {
 }
 
 class MovieInPerson {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop({ index: true })
   id: number;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   alternativeName: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   rating: number;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
-  General: boolean;
+  general: boolean;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   description: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   enProfession: string;
 }
@@ -94,39 +95,39 @@ export type PersonDocument = HydratedDocument<Person>;
   toObject: { virtuals: true },
 })
 export class Person {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop({ required: true, unique: true, index: true })
   id: number;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   name: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   enName: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   photo: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop({ index: true })
   sex: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop()
   growth: number;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop({ index: true, type: () => Date })
   birthday: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop({ index: true, type: () => Date })
   death: string;
 
-  @ApiPropertyOptional()
+  @ApiNullableProperty()
   @Prop({ index: true })
   age: number;
 
@@ -157,10 +158,6 @@ export class Person {
   @ApiPropertyOptional({ type: () => MovieInPerson, isArray: true })
   @Prop({ items: MovieInPerson })
   movies: MovieInPerson[];
-
-  @ApiPropertyOptional()
-  @Prop({ default: false })
-  isParse: boolean;
 }
 
 export const PersonSchema = SchemaFactory.createForClass(Person);
