@@ -50,13 +50,13 @@ class Profession {
   value: string;
 }
 
-class Fact {
+class FactInPerson {
   @ApiPropertyOptional()
   @Prop()
   value: string;
 }
 
-class Movie {
+class MovieInPerson {
   @ApiPropertyOptional()
   @Prop({ index: true })
   id: number;
@@ -150,13 +150,13 @@ export class Person {
   @Prop({ items: Profession })
   profession: Profession[];
 
-  @ApiPropertyOptional({ type: () => Fact, isArray: true })
-  @Prop({ items: Fact })
-  facts: Fact[];
+  @ApiPropertyOptional({ type: () => FactInPerson, isArray: true })
+  @Prop({ items: FactInPerson })
+  facts: FactInPerson[];
 
-  @ApiPropertyOptional({ type: () => Movie, isArray: true })
-  @Prop({ items: Movie })
-  movies: Movie[];
+  @ApiPropertyOptional({ type: () => MovieInPerson, isArray: true })
+  @Prop({ items: MovieInPerson })
+  movies: MovieInPerson[];
 
   @ApiPropertyOptional()
   @Prop({ default: false })
