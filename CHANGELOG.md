@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.2](https://github.com/mdwitr0/kinopoiskdev/compare/kinopooiskdev_api-v1.0.1...kinopooiskdev_api-v1.0.2) (2023-02-27)
+
+
+### Bug Fixes
+
+* 500 error. When the movie is not found ([99e4ba1](https://github.com/mdwitr0/kinopoiskdev/commit/99e4ba18843547ffd3f055fc13e4363db28a72cd))
+* models from nullable objects are not valid in swagger [#39](https://github.com/mdwitr0/kinopoiskdev/issues/39) ([8dea880](https://github.com/mdwitr0/kinopoiskdev/commit/8dea8800dfcfd79a156bbb030dc43e0a6197e722))
+* models from nullable objects are not valid in swagger [#39](https://github.com/mdwitr0/kinopoiskdev/issues/39) ([b6b2cc5](https://github.com/mdwitr0/kinopoiskdev/commit/b6b2cc534ba836c2e8de4d989bf004ace0a0d444))
+* **person:** general is not valid name of property ([e40048a](https://github.com/mdwitr0/kinopoiskdev/commit/e40048a0b6ae291a9199f011445c07ea82eb145c))
+* **person:** model is not valid in swagger ([8e9b45e](https://github.com/mdwitr0/kinopoiskdev/commit/8e9b45e5d9527a62b91a3f30e595244db094f948))
+
 ## [1.0.1](https://github.com/mdwitr0/kinopoiskdev/compare/kinopooiskdev_api-v1.0.0...kinopooiskdev_api-v1.0.1) (2023-02-25)
 
 
