@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ParseNumber } from '../../common/decorators/transform/parse-number.decorator';
 import { IsNumber, IsOptional } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullablePropery } from '../../common/decorators/api-nullble-property.decorator';
 
 // INFO: Objects
@@ -107,7 +107,7 @@ export class VendorImage {
 }
 
 export class Name {
-  @ApiNullablePropery()
+  @ApiPropertyOptional()
   @Prop({ index: true })
   name: string;
 }
@@ -317,7 +317,7 @@ export class LinkedMovie {
 }
 
 export class Watchability {
-  @ApiNullablePropery({ type: () => WatchabilityItem, isArray: true })
+  @ApiPropertyOptional({ type: () => WatchabilityItem, isArray: true })
   @Prop({ type: () => [WatchabilityItem] })
   items: WatchabilityItem[];
 }
@@ -361,7 +361,7 @@ export type MovieDocument = HydratedDocument<Movie>;
 })
 export class Movie {
   // INFO: Id values
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'Id фильма с кинопоиска',
     example: 666,
   })
@@ -371,7 +371,7 @@ export class Movie {
   @Prop({ unique: true })
   id: number;
 
-  @ApiPropertyOptional({ type: () => ExternalId })
+  @ApiProperty({ type: () => ExternalId })
   @Prop({ index: true, type: () => ExternalId })
   externalId: ExternalId;
 
@@ -387,7 +387,7 @@ export class Movie {
   @Prop({ index: true })
   enName: string;
 
-  @ApiPropertyOptional({ type: () => Name, isArray: true })
+  @ApiProperty({ type: () => Name, isArray: true })
   @Prop({ type: () => [Name] })
   names: Name[];
 
@@ -446,11 +446,11 @@ export class Movie {
   facts: FactInMovie[];
 
   // INFO: Movie rating values
-  @ApiNullablePropery({ type: () => Rating })
+  @ApiPropertyOptional({ type: () => Rating })
   @Prop({ type: () => Rating })
   rating: Rating;
 
-  @ApiNullablePropery({ type: () => Votes })
+  @ApiPropertyOptional({ type: () => Votes })
   @Prop({ type: () => Votes })
   votes: Votes;
 
@@ -475,15 +475,15 @@ export class Movie {
   ageRating: number;
 
   // INFO: Image values
-  @ApiNullablePropery({ type: () => Logo })
+  @ApiPropertyOptional({ type: () => Logo })
   @Prop({ type: () => Logo })
   logo: Logo;
 
-  @ApiNullablePropery({ type: () => ShortImage })
+  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   poster: ShortImage;
 
-  @ApiNullablePropery({ type: () => ShortImage })
+  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   backdrop: ShortImage;
 
@@ -492,7 +492,7 @@ export class Movie {
   imagesInfo: Images;
 
   // INFO: Vadeo value
-  @ApiNullablePropery({ type: () => VideoTypes })
+  @ApiPropertyOptional({ type: () => VideoTypes })
   @Prop({ type: () => VideoTypes })
   videos: VideoTypes;
 
@@ -510,45 +510,45 @@ export class Movie {
   persons: PersonInMovie[];
 
   // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
-  @ApiNullablePropery({ type: () => ReviewInfo })
+  @ApiPropertyOptional({ type: () => ReviewInfo })
   @Prop({ type: () => ReviewInfo })
   reviewInfo: ReviewInfo;
 
   // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
-  @ApiNullablePropery({ type: () => SeasonInfo, isArray: true })
+  @ApiPropertyOptional({ type: () => SeasonInfo, isArray: true })
   @Prop({ type: () => [SeasonInfo] })
   seasonsInfo: SeasonInfo[];
 
   // INFO: Currency values
-  @ApiNullablePropery({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   budget: CurrencyValue;
 
-  @ApiNullablePropery({ type: () => Fees })
+  @ApiPropertyOptional({ type: () => Fees })
   @Prop({ type: () => Fees })
   fees: Fees;
 
   // INFO: Date values
-  @ApiNullablePropery({ type: () => Premiere })
+  @ApiPropertyOptional({ type: () => Premiere })
   @Prop({ type: () => Premiere })
   premiere: Premiere;
 
-  @ApiNullablePropery({ type: () => LinkedMovie, isArray: true })
+  @ApiPropertyOptional({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
   similarMovies: LinkedMovie[];
 
-  @ApiNullablePropery({ type: () => LinkedMovie, isArray: true })
+  @ApiPropertyOptional({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
   sequelsAndPrequels: LinkedMovie[];
 
-  @ApiNullablePropery({ type: () => Watchability })
+  @ApiPropertyOptional({ type: () => Watchability })
   @Prop({ type: () => Watchability })
   watchability: Watchability | null;
 
   @Prop({ type: () => [VendorImage] })
   productionCompanies: VendorImage[];
 
-  @ApiNullablePropery({ type: () => YearRange, isArray: true })
+  @ApiPropertyOptional({ type: () => YearRange, isArray: true })
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
 
