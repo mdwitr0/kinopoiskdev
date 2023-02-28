@@ -2,8 +2,6 @@
   <a href="https://kinopoisk.dev/" target="blank"><img src="https://openmovieapi.dev/full-size-cover.png" alt="Open movie API logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 # Неофициальное API кinopoisk.dev
 
 API предоставляет максимальное количество информации о фильмах, сериалах, персонах и многом другом. Все данные, предоставляемые через kinopoisk.dev, собраны из открытых источников и не нарушают прав КиноПоиска.

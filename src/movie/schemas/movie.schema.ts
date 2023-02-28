@@ -491,7 +491,7 @@ export class Movie {
   @Prop({ type: () => Images })
   imagesInfo: Images;
 
-  // INFO: Vadeo value
+  // INFO: Video value
   @ApiPropertyOptional({ type: () => VideoTypes })
   @Prop({ type: () => VideoTypes })
   videos: VideoTypes;
