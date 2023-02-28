@@ -27,7 +27,7 @@ export const setupSwagger = (app: NestFastifyApplication) => {
     .setTitle(TITLE)
     .setDescription(DESCRIPTION)
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
-    .setVersion('1.0.2')
+    .setVersion('1.0.3')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

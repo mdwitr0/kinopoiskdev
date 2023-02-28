@@ -1,4 +1,4 @@
-import { ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
 import { Get, NotFoundException, Param, Query } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 import { Paginated } from '../decorators/paginated.decorator';
@@ -43,7 +43,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
     }
 
     @Get(':id')
-    @ApiOperation({ summary: 'Поиск по id' })
+    @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
     @ApiBaseResponse({ type: Entity })
     @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
     async findOne(@Param('id') id: string): Promise<TEntity> {
