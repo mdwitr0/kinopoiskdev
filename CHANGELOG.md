@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.2...v1.0.3) (2023-02-28)
+
+
+### Bug Fixes
+
+* errors in the text of the documentation [#53](https://github.com/mdwitr0/kinopoiskdev/issues/53) ([9fd2e7d](https://github.com/mdwitr0/kinopoiskdev/commit/9fd2e7d9825394d8362c1f7f50cbbb56754b2cfe))
+* **person:** there is no endpoint to get person by id [#50](https://github.com/mdwitr0/kinopoiskdev/issues/50) ([e2087c7](https://github.com/mdwitr0/kinopoiskdev/commit/e2087c795b0e560140afc946db5ac1d810390b67))
+
 ## 1.0.2 (2023-02-27)
 
 
