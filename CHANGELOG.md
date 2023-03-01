@@ -108,7 +108,7 @@
 * не верный тайтл страницы и favicon в сваггере [#16](https://github.com/mdwitr0/kinopoiskdev/issues/16) ([9cf6458](https://github.com/mdwitr0/kinopoiskdev/commit/9cf645871e39260a768b9a63cbf14555c42ec2e6))
 * не прокидывается порт из api на локалку [#11](https://github.com/mdwitr0/kinopoiskdev/issues/11) ([d5afd9d](https://github.com/mdwitr0/kinopoiskdev/commit/d5afd9d058567686477229f146d306f3a1c9026f))
 
-## [1.0.2](https://github.com/mdwitr0/kinopoiskdev/compare/kinopooiskdev_api-v1.0.1...kinopooiskdev_api-v1.0.2) (2023-02-27)
+## [1.0.2](https://github.com/mdwitr0/kinopoiskdev/compare/kinopoiskdev_api-v1.0.1...kinopoiskdev_api-v1.0.2) (2023-02-27)
 
 
 ### Bug Fixes
@@ -119,7 +119,7 @@
 * **person:** general is not valid name of property ([e40048a](https://github.com/mdwitr0/kinopoiskdev/commit/e40048a0b6ae291a9199f011445c07ea82eb145c))
 * **person:** model is not valid in swagger ([8e9b45e](https://github.com/mdwitr0/kinopoiskdev/commit/8e9b45e5d9527a62b91a3f30e595244db094f948))
 
-## [1.0.1](https://github.com/mdwitr0/kinopoiskdev/compare/kinopooiskdev_api-v1.0.0...kinopooiskdev_api-v1.0.1) (2023-02-25)
+## [1.0.1](https://github.com/mdwitr0/kinopoiskdev/compare/kinopoiskdev_api-v1.0.0...kinopoiskdev_api-v1.0.1) (2023-02-25)
 
 
 ### ⚠ BREAKING CHANGES

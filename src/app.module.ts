@@ -1,4 +1,4 @@
-import { Logger, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { CacheModule, Logger, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MovieModule } from './movie/movie.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -33,6 +33,10 @@ import { join } from 'path';
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get('MONGO_URI'),
       }),
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 1000 * 60 * 60,
     }),
     MovieModule,
     SeasonModule,

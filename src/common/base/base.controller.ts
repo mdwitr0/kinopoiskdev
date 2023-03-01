@@ -1,5 +1,5 @@
 import { ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
-import { Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 import { Paginated } from '../decorators/paginated.decorator';
 import { ApiBaseResponse } from '../decorators/api-base-response.decorator';
@@ -17,6 +17,7 @@ export function BaseController<TEntity, TEntityDto>(
 
     @Get()
     @ApiOperation({ summary: description })
+    @UseInterceptors(CacheInterceptor)
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
@@ -36,6 +37,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
     protected constructor(readonly service: any) {}
 
     @Get()
+    @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary, description })
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
     async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
@@ -43,6 +45,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
     }
 
     @Get(':id')
+    @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
     @ApiBaseResponse({ type: Entity })
     @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
