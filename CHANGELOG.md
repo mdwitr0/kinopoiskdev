@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.3...v1.0.4) (2023-03-02)
+
+
+### Bug Fixes
+
+* **movie:** age rating doesn't accept number the range [#59](https://github.com/mdwitr0/kinopoiskdev/issues/59) ([d6a35bf](https://github.com/mdwitr0/kinopoiskdev/commit/d6a35bf1de1a3fc9164534c9ebe03bb0a93f25b7))
+* package lock doesn't valid ([e8e3e63](https://github.com/mdwitr0/kinopoiskdev/commit/e8e3e6304f1eeb02d86b365bc873a287ea389ac5))
+
 ## [1.0.3](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.2...v1.0.3) (2023-02-28)
 
 
