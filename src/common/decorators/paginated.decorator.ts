@@ -81,6 +81,7 @@ const entitiesField: Entities = {
       'votes.russianFilmCritics',
       'votes.await',
       'ratingAgeLimits',
+      'ageRating',
       'persons.id',
       'budget.value',
       'fees.world',
