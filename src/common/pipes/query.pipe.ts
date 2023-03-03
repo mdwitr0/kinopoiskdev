@@ -66,6 +66,8 @@ export class QueryPipe implements PipeTransform {
         return result;
       } else if (isNumberField) {
         return parseInt(value);
+      } else if (isDateField) {
+        return normalizeDate(value);
       }
 
       if (isRegexField) {
