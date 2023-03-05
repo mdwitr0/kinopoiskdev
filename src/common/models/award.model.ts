@@ -1,7 +1,7 @@
-import { Prop } from "@nestjs/mongoose";
-import { ApiProperty } from "@nestjs/swagger";
+import { Prop } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class NomitationAward {
+export class NominationAward {
   @ApiProperty()
   @Prop()
   title: string;
@@ -12,9 +12,9 @@ export class NomitationAward {
 }
 
 export class Nomination {
-  @ApiProperty()
+  @ApiProperty({ type: () => NominationAward })
   @Prop()
-  award: NomitationAward;
+  award: NominationAward;
 
   @ApiProperty()
   @Prop()
@@ -26,7 +26,7 @@ export class Award {
   @Prop()
   nomination: Nomination;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Boolean })
   @Prop()
   winning: boolean;
 }

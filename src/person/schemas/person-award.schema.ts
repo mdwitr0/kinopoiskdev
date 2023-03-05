@@ -23,6 +23,7 @@ export type PersonAwardDocument = HydratedDocument<PersonAward>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  collection: 'people-award',
 })
 export class PersonAward extends Award {
   @ApiProperty()
