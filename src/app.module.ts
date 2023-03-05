@@ -54,6 +54,10 @@ export class AppModule implements NestModule {
         path: `/v1/${name}`,
         method: RequestMethod.GET,
       })),
+      ...['movie', 'season', 'person', 'review', 'image'].map((name) => ({
+        path: `/v1.1/${name}`,
+        method: RequestMethod.GET,
+      })),
     );
   }
 }
