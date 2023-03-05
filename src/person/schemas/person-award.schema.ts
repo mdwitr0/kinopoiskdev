@@ -1,41 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiPropertyOptional } from '@nestjs/swagger';
-
-class Award {
-  @ApiPropertyOptional()
-  @Prop()
-  title: string;
-  @ApiPropertyOptional()
-  @Prop()
-  year: number;
-}
-
-class Nomination {
-  @ApiPropertyOptional()
-  @Prop()
-  award: Award;
-  @ApiPropertyOptional()
-  @Prop()
-  title: string;
-}
+import { ApiProperty } from '@nestjs/swagger';
+import { Award } from 'src/common/models/award.model';
 
 class Movie {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop()
   id: number;
-  @ApiPropertyOptional()
+
+  @ApiProperty()
   @Prop()
   name: string;
-  @ApiPropertyOptional()
-  @Prop()
-  type: string;
-  @ApiPropertyOptional()
+
+  @ApiProperty()
   @Prop()
   rating: number;
-  @ApiPropertyOptional()
-  @Prop()
-  general: boolean;
 }
 
 export type PersonAwardDocument = HydratedDocument<PersonAward>;
@@ -45,19 +24,14 @@ export type PersonAwardDocument = HydratedDocument<PersonAward>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
 })
-export class PersonAward {
-  @ApiPropertyOptional()
+export class PersonAward extends Award {
+  @ApiProperty()
   @Prop()
   personId: number;
-  @ApiPropertyOptional()
-  @Prop()
-  nomination: Nomination;
-  @ApiPropertyOptional({ type: () => Nomination })
+
+  @ApiProperty({ type: () => Movie })
   @Prop()
   movie: Movie;
-  @ApiPropertyOptional({ type: () => Movie })
-  @Prop()
-  winning: true;
 }
 
 export const PersonAwardSchema = SchemaFactory.createForClass(PersonAward);
