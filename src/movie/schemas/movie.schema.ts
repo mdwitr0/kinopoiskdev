@@ -358,6 +358,7 @@ export type MovieDocument = HydratedDocument<Movie>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  collection: 'movies',
 })
 export class Movie {
   // INFO: Id values
