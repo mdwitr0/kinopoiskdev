@@ -19,7 +19,7 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
   @Version('1.1')
   @Get('awards')
   @UseInterceptors(CacheInterceptor)
-  @ApiOperation({ summary: 'Наград актеров' })
+  @ApiOperation({ summary: 'Награды актеров' })
   @Paginated(PersonAwardDocsResponseDto, PersonAward, { findForAllProperties: true })
   async findManyAwardsByQuery(@Query() query: IQuery): Promise<PersonAwardDocsResponseDto> {
     console.log(query);

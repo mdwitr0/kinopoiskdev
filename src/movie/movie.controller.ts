@@ -4,10 +4,15 @@ import { Movie } from './schemas/movie.schema';
 
 import { BaseControllerWithFindById } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
-import { Get, Query } from '@nestjs/common';
+import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PossibleValueDto as PossibleValueDto } from './dto/response/possible-value.response.dto';
 import { GetPossibleValueDto } from './dto/get-possible-values.dto';
+import { Paginated } from '../common/decorators/paginated.decorator';
+
+import { IQuery } from '../common/interfaces/query.interface';
+import { MovieAward } from './schemas/movie-award.schema';
+import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController extends BaseControllerWithFindById(Movie, MovieDocsResponseDto, 'Поиск тайтлов') {
@@ -27,5 +32,14 @@ export class MovieController extends BaseControllerWithFindById(Movie, MovieDocs
   @ApiResponse({ type: PossibleValueDto, isArray: true })
   async getPossibleValuesByFieldName(@Query() dto: GetPossibleValueDto): Promise<PossibleValueDto[]> {
     return this.movieService.getPossibleValuesByFieldName(dto);
+  }
+
+  @Version('1.1')
+  @Get('awards')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Награды тайтлов' })
+  @Paginated(MovieAwardDocsResponseDto, MovieAward, { findForAllProperties: true })
+  async findManyAwardsByQuery(@Query() query: IQuery): Promise<MovieAwardDocsResponseDto> {
+    return this.service.findManyAwards(query);
   }
 }

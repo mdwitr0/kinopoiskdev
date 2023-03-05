@@ -16,12 +16,7 @@ export interface EntityFields {
 }
 
 export interface Entities {
-  movie: EntityFields;
-  person: EntityFields;
-  review: EntityFields;
-  season: EntityFields;
-  image: EntityFields;
-  personaward: EntityFields;
+  [key: string]: EntityFields;
 }
 
 const entitiesField: Entities = {
@@ -179,6 +174,15 @@ const entitiesField: Entities = {
     regexSearchKeys: ['nomination.award.title', 'movie.name'],
     dateSearchKeys: [],
     numberSearchKeys: ['movie.id', 'personId', 'movie.rating'],
+  },
+  movieaward: {
+    excludedValuesFields: [],
+    blacklistFields: ['-_id', 'id'],
+    allowFieldsFindAll: [],
+    idKeys: ['movieId'],
+    regexSearchKeys: ['nomination.award.title', 'movie.name'],
+    dateSearchKeys: [],
+    numberSearchKeys: ['movieId'],
   },
 };
 
