@@ -4,16 +4,8 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class Episode {
   @ApiPropertyOptional()
-  @Prop({ index: true })
-  movieId: number;
-
-  @ApiPropertyOptional()
   @Prop()
-  seasonNumber?: number;
-
-  @ApiPropertyOptional()
-  @Prop()
-  episodeNumber?: number;
+  number?: number;
 
   @ApiPropertyOptional()
   @Prop()
@@ -21,14 +13,14 @@ export class Episode {
 
   @ApiPropertyOptional()
   @Prop()
-  alternativeName?: string;
+  enName?: string;
 
   @ApiPropertyOptional()
   @Prop()
   description?: string;
 
   @ApiPropertyOptional()
-  @Prop({ type: () => Date })
+  @Prop()
   date?: string;
 }
 
