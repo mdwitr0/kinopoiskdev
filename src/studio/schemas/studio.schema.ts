@@ -3,10 +3,10 @@ import { HydratedDocument } from 'mongoose';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum StudioType {
-  'Производство' = 1,
-  'Спецэффекты',
-  'Прокат',
-  'Студия дубляжа',
+  'Производство' = 'Производство',
+  'Спецэффекты' = 'Спецэффекты',
+  'Прокат' = 'Прокат',
+  'Студия дубляжа' = 'Студия дубляжа',
 }
 
 export class MovieFromStudio {
@@ -31,7 +31,7 @@ export class Studio {
   @Prop()
   title: string;
 
-  @ApiPropertyOptional({ enum: StudioType })
+  @ApiPropertyOptional()
   @Prop({ enum: StudioType })
   type: StudioType;
 }

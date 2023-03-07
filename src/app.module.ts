@@ -11,6 +11,7 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
 import { LoggerModule } from 'nestjs-pino';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { StudioModule } from './studio/studio.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { join } from 'path';
     SeasonModule,
     ReviewModule,
     PersonModule,
+    StudioModule,
     ImageModule,
     AuthModule,
   ],
