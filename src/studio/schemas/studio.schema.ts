@@ -24,8 +24,12 @@ export type StudioDocument = HydratedDocument<Studio>;
 })
 export class Studio {
   @ApiProperty()
-  @Prop({ required: true, unique: true, index: true })
-  id: number;
+  @Prop({ required: true, index: true })
+  id: string;
+
+  @ApiProperty()
+  @Prop()
+  subType: string;
 
   @ApiProperty()
   @Prop()
