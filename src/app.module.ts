@@ -12,6 +12,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { StudioModule } from './studio/studio.module';
+import { KeywordModule } from './keyword/keyword.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { StudioModule } from './studio/studio.module';
     ReviewModule,
     PersonModule,
     StudioModule,
+    KeywordModule,
     ImageModule,
     AuthModule,
   ],
