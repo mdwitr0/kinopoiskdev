@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum StudioType {
   'Производство' = 'Производство',
@@ -23,17 +23,21 @@ export type StudioDocument = HydratedDocument<Studio>;
   toObject: { virtuals: true },
 })
 export class Studio {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop({ required: true, unique: true, index: true })
   id: number;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop()
   title: string;
 
   @ApiPropertyOptional()
   @Prop({ enum: StudioType })
   type: StudioType;
+
+  @ApiPropertyOptional({ type: () => MovieFromStudio })
+  @Prop()
+  movies: MovieFromStudio;
 }
 
 export const StudioSchema = SchemaFactory.createForClass(Studio);
