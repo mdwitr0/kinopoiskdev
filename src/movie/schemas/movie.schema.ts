@@ -134,7 +134,7 @@ export class Video {
 }
 
 export class VideoTypes {
-  @ApiNullableProperty({ type: () => Video, isArray: true })
+  @ApiPropertyOptional({ type: () => Video, isArray: true })
   @Prop({ type: () => [Video] })
   trailers: Video[];
 
@@ -180,15 +180,15 @@ export class CurrencyValue {
 }
 
 export class Fees {
-  @ApiNullableProperty({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   world: CurrencyValue;
 
-  @ApiNullableProperty({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   russia: CurrencyValue;
 
-  @ApiNullableProperty({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   usa: CurrencyValue;
 }
