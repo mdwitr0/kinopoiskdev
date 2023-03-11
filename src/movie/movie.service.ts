@@ -9,6 +9,7 @@ import { PossibleValueDto } from './dto/response/possible-value.response.dto';
 import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward, MovieAwardDocument } from './schemas/movie-award.schema';
 import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
@@ -20,11 +21,14 @@ export class MovieService extends BaseService<Movie> {
   }
 
   async getRandomMovie(): Promise<Movie> {
+    const currentYear = DateTime.local().year;
+
     const filter = {
       'rating.kp': {
-        $gte: 4,
+        $gte: 6,
         $lte: 10,
       },
+      year: { $lte: currentYear, $gte: currentYear - 10 },
       name: { $ne: null },
       'poster.url': { $ne: null },
     };
