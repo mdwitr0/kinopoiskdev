@@ -41,6 +41,8 @@ const entitiesField: Entities = {
       'rating',
       'watchability',
       'releaseYears',
+      'genres',
+      'countries',
     ],
     excludedValuesFields: ['genres.name', 'countries.name'],
     idKeys: ['id', 'externalId.imdb'],
