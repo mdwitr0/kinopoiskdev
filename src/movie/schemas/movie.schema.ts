@@ -386,6 +386,7 @@ export class Movie {
   alternativeName: string;
 
   @Prop({ index: true })
+  @ApiNullableProperty({ example: 'Spider man' })
   enName: string;
 
   @ApiProperty({ type: () => Name, isArray: true })
