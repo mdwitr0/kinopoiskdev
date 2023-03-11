@@ -7,7 +7,15 @@ const TITLE = 'Документация для неофициального API 
 const SITE_TITLE = 'Документация: для неофициального kinopoisk api';
 
 const DESCRIPTION = `<p>API предоставляет максимальное количество информации о фильмах, сериалах, персонах и многом другом. </p>
-<p>Эта документация описывает только новые способы взаимодействия с API, но так же api поддерживает полную обратную совместимость со старыми запросами.</p>
+<p>Эта документация описывает только новые способы взаимодействия с API. </p>
+<p>Обязательные навыки и знания для работы с этим API:
+  <ul>
+    <li>Иметь представление о том, что такое <strong>REST</strong></li>
+    <li>Уметь пользоваться документацией сгенерированный на основе спецификации <strong>OpenApi (Swagger)</strong></li>
+    <li>Понимание того как работают <strong>HTTP</strong> запросы</li>
+    <li>Знать чем отличается <strong>query params</strong> от <strong>headers</strong></li>
+  </ul>
+</p>
 <p>Чтобы начать использование API, вам необходимо получить токен в боте <a href="https://t.me/kinopoiskdev_bot">@kinopoiskdev_bot</a>. После получения доступа вы сможете использовать этот API для получения данных из сех методов в этой документации.</p>
 <p>Все поля в нашем API могут принимать значение <code>!null</code>. Это означает, что вы можете получить записи только тех объектов, у которых данные поля не пусты.</p>
 <p>В запросах с пагинацией можно строить очень сложные запросы, для получения релевантной выдачи.</p>
@@ -20,6 +28,14 @@ const DESCRIPTION = `<p>API предоставляет максимальное 
 <p></p>
 <p>Если у вас есть какие-либо вопросы, пожалуйста пишите в чат <a href="https://t.me/dev_to_dev">@dev_to_dev</a>.</p>
 <p>Если вы нашли баг, или хотите получить дополнительный функционал, пожалуйста создайте issue на github <a href="https://github.com/mdwitr0/kinopoiskdev">kinopoiskdev</a>.</p>
+<p>
+
+Ссылки на спецификацию OpenAPI:
+<ul>
+  <li><a href="/v1/documentation-json">Documentation JSON</a></li>
+  <li><a href="/v1/documentation-yaml">Documentation YAML</a></li>
+</ul>
+<p>
 `;
 
 export const setupSwagger = (app: NestFastifyApplication) => {
@@ -27,7 +43,7 @@ export const setupSwagger = (app: NestFastifyApplication) => {
     .setTitle(TITLE)
     .setDescription(DESCRIPTION)
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
-    .setVersion('1.0.3')
+    .setVersion('1.1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
