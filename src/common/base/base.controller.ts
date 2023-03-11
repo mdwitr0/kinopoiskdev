@@ -13,7 +13,7 @@ export function BaseController<TEntity, TEntityDto>(
   description?: string,
 ) {
   abstract class BaseController {
-    protected constructor(readonly service: any) { }
+    protected constructor(readonly service: any) {}
 
     @Get()
     @ApiOperation({ summary: description })
@@ -34,7 +34,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
   description?: string,
 ) {
   abstract class BaseControllerWithFindById {
-    protected constructor(readonly service: any) { }
+    protected constructor(readonly service: any) {}
 
     @Get()
     @UseInterceptors(CacheInterceptor)
