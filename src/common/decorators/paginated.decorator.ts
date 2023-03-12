@@ -195,6 +195,15 @@ const entitiesField: Entities = {
     dateSearchKeys: [],
     numberSearchKeys: ['id', 'movies.id'],
   },
+  studio: {
+    excludedValuesFields: [],
+    blacklistFields: ['-_id'],
+    allowFieldsFindAll: [],
+    idKeys: ['movies.id', 'id'],
+    regexSearchKeys: ['title'],
+    dateSearchKeys: [],
+    numberSearchKeys: ['id', 'movies.id'],
+  },
 };
 
 export const Paginated = (
