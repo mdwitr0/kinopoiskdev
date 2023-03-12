@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.0...v1.1.1) (2023-03-12)
+
+
+### Bug Fixes
+
+* **studio:** invalid auth ([a81ac18](https://github.com/mdwitr0/kinopoiskdev/commit/a81ac18df80d8b2c9414121ce1a68468dfa52c0c))
+
 ## [1.1.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.4...v1.1.0) (2023-03-12)
 
 
