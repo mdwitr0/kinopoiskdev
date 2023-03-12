@@ -16,11 +16,7 @@ export interface EntityFields {
 }
 
 export interface Entities {
-  movie: EntityFields;
-  person: EntityFields;
-  review: EntityFields;
-  season: EntityFields;
-  image: EntityFields;
+  [key: string]: EntityFields;
 }
 
 const entitiesField: Entities = {
@@ -45,6 +41,8 @@ const entitiesField: Entities = {
       'rating',
       'watchability',
       'releaseYears',
+      'genres',
+      'countries',
     ],
     excludedValuesFields: ['genres.name', 'countries.name'],
     idKeys: ['id', 'externalId.imdb'],
@@ -169,6 +167,33 @@ const entitiesField: Entities = {
     regexSearchKeys: [],
     dateSearchKeys: [],
     numberSearchKeys: ['movieId', 'height', 'width'],
+  },
+  personaward: {
+    excludedValuesFields: [],
+    blacklistFields: ['-_id', 'id'],
+    allowFieldsFindAll: [],
+    idKeys: ['personId'],
+    regexSearchKeys: ['nomination.award.title', 'movie.name'],
+    dateSearchKeys: [],
+    numberSearchKeys: ['movie.id', 'personId', 'movie.rating'],
+  },
+  movieaward: {
+    excludedValuesFields: [],
+    blacklistFields: ['-_id', 'id'],
+    allowFieldsFindAll: [],
+    idKeys: ['movieId'],
+    regexSearchKeys: ['nomination.award.title', 'movie.name'],
+    dateSearchKeys: [],
+    numberSearchKeys: ['movieId'],
+  },
+  keyword: {
+    excludedValuesFields: [],
+    blacklistFields: ['-_id'],
+    allowFieldsFindAll: [],
+    idKeys: ['movies.id', 'id'],
+    regexSearchKeys: ['title'],
+    dateSearchKeys: [],
+    numberSearchKeys: ['id', 'movies.id'],
   },
 };
 

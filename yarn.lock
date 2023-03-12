@@ -2109,6 +2109,11 @@
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz"
   "version" "7.0.11"
 
+"@types/luxon@^3.2.0":
+  "integrity" "sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA=="
+  "resolved" "https://registry.npmjs.org/@types/luxon/-/luxon-3.2.0.tgz"
+  "version" "3.2.0"
+
 "@types/minimist@^1.2.0":
   "integrity" "sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ=="
   "resolved" "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.2.tgz"
@@ -6491,7 +6496,7 @@
   dependencies:
     "fast-diff" "^1.1.2"
 
-"prettier@^2.3.2", "prettier@>=2.0.0":
+"prettier@^2.8.4", "prettier@>=2.0.0":
   "integrity" "sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw=="
   "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.8.4.tgz"
   "version" "2.8.4"

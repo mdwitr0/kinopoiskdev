@@ -110,6 +110,18 @@ export class Name {
   @ApiPropertyOptional()
   @Prop({ index: true })
   name: string;
+
+  @Prop()
+  language?: string | null;
+
+  @Prop()
+  type?: string | null;
+}
+
+export class ItemName {
+  @ApiPropertyOptional()
+  @Prop({ index: true })
+  name: string;
 }
 
 export class Video {
@@ -134,7 +146,7 @@ export class Video {
 }
 
 export class VideoTypes {
-  @ApiNullableProperty({ type: () => Video, isArray: true })
+  @ApiPropertyOptional({ type: () => Video, isArray: true })
   @Prop({ type: () => [Video] })
   trailers: Video[];
 
@@ -180,15 +192,15 @@ export class CurrencyValue {
 }
 
 export class Fees {
-  @ApiNullableProperty({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   world: CurrencyValue;
 
-  @ApiNullableProperty({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   russia: CurrencyValue;
 
-  @ApiNullableProperty({ type: () => CurrencyValue })
+  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   usa: CurrencyValue;
 }
@@ -358,6 +370,7 @@ export type MovieDocument = HydratedDocument<Movie>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  collection: 'movies',
 })
 export class Movie {
   // INFO: Id values
@@ -385,6 +398,7 @@ export class Movie {
   alternativeName: string;
 
   @Prop({ index: true })
+  @ApiNullableProperty({ example: 'Spider man' })
   enName: string;
 
   @ApiProperty({ type: () => Name, isArray: true })
@@ -497,13 +511,13 @@ export class Movie {
   videos: VideoTypes;
 
   // INFO: Movie base values
-  @ApiPropertyOptional({ type: () => Name, isArray: true })
-  @Prop({ type: () => [Name] })
-  genres: Name[];
+  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
+  @Prop({ type: () => [ItemName] })
+  genres: ItemName[];
 
-  @ApiPropertyOptional({ type: () => Name, isArray: true })
-  @Prop({ type: () => [Name] })
-  countries: Name[];
+  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
+  @Prop({ type: () => [ItemName] })
+  countries: ItemName[];
 
   @ApiPropertyOptional({ type: () => PersonInMovie, isArray: true })
   @Prop({ type: () => [PersonInMovie] })

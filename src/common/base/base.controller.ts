@@ -19,7 +19,7 @@ export function BaseController<TEntity, TEntityDto>(
     @ApiOperation({ summary: description })
     @UseInterceptors(CacheInterceptor)
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
-    async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
+    async findManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
   }
@@ -40,7 +40,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary, description })
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
-    async finManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
+    async findManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
 
