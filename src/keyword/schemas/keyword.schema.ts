@@ -14,6 +14,7 @@ export type KeywordDocument = HydratedDocument<Keyword>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  collection: 'keywords',
 })
 export class Keyword {
   @ApiProperty()

@@ -54,11 +54,11 @@ export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes(
-      ...['movie', 'season', 'person', 'review', 'image'].map((name) => ({
+      ...['movie', 'season', 'person', 'review', 'image', 'keyword'].map((name) => ({
         path: `/v1/${name}`,
         method: RequestMethod.GET,
       })),
-      ...['movie', 'season', 'person', 'review', 'image'].map((name) => ({
+      ...['movie', 'season', 'person', 'review', 'image', 'keyword'].map((name) => ({
         path: `/v1.1/${name}`,
         method: RequestMethod.GET,
       })),
