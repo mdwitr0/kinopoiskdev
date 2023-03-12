@@ -110,6 +110,18 @@ export class Name {
   @ApiPropertyOptional()
   @Prop({ index: true })
   name: string;
+
+  @Prop()
+  language?: string | null;
+
+  @Prop()
+  type?: string | null;
+}
+
+export class ItemName {
+  @ApiPropertyOptional()
+  @Prop({ index: true })
+  name: string;
 }
 
 export class Video {
@@ -499,13 +511,13 @@ export class Movie {
   videos: VideoTypes;
 
   // INFO: Movie base values
-  @ApiPropertyOptional({ type: () => Name, isArray: true })
-  @Prop({ type: () => [Name] })
-  genres: Name[];
+  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
+  @Prop({ type: () => [ItemName] })
+  genres: ItemName[];
 
-  @ApiPropertyOptional({ type: () => Name, isArray: true })
-  @Prop({ type: () => [Name] })
-  countries: Name[];
+  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
+  @Prop({ type: () => [ItemName] })
+  countries: ItemName[];
 
   @ApiPropertyOptional({ type: () => PersonInMovie, isArray: true })
   @Prop({ type: () => [PersonInMovie] })
