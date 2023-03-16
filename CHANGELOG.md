@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.1...v1.1.2) (2023-03-16)
+
+
+### Bug Fixes
+
+* **movie:** movies doesn't found by imdb id ([cdb68b9](https://github.com/mdwitr0/kinopoiskdev/commit/cdb68b932b9f93167e4daa09490fd5c5a501dc01))
+
 ## [1.1.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.0...v1.1.1) (2023-03-12)
 
 
