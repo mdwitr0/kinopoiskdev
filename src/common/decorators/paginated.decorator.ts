@@ -61,7 +61,6 @@ const entitiesField: Entities = {
     dateSearchKeys: ['premiere.world', 'premiere.russia', 'premiere.digital', 'premiere.bluray', 'premiere.dvd'],
     numberSearchKeys: [
       'id',
-      'externalId.imdb',
       'externalId.tmdb',
       'typeNumber',
       'movieLength',
