@@ -13,6 +13,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { StudioModule } from './studio/studio.module';
 import { KeywordModule } from './keyword/keyword.module';
+import { MeiliSearchModule } from 'nestjs-meilisearch';
 
 @Module({
   imports: [
@@ -48,6 +49,14 @@ import { KeywordModule } from './keyword/keyword.module';
     KeywordModule,
     ImageModule,
     AuthModule,
+    MeiliSearchModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        host: configService.get<string>('MEILI_HOST'),
+        apiKey: configService.get<string>('MEILI_API_KEY'),
+      }),
+    }),
   ],
 })
 export class AppModule implements NestModule {
