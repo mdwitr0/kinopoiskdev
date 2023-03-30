@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MeiliSearchModule } from 'nestjs-meilisearch';
+import { MeiliService } from './meili.service';
 
 @Module({
   imports: [
@@ -14,5 +15,7 @@ import { MeiliSearchModule } from 'nestjs-meilisearch';
       }),
     }),
   ],
+  providers: [MeiliService],
+  exports: [MeiliService],
 })
 export class MeiliModule {}

@@ -10,19 +10,20 @@ import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward, MovieAwardDocument } from './schemas/movie-award.schema';
 import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
 import { DateTime } from 'luxon';
+import { MeiliService } from '../meili/meili.service';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
   constructor(
     @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
     @InjectModel(MovieAward.name) private readonly movieAwardModel: Model<MovieAwardDocument>,
+    private readonly meiliService: MeiliService,
   ) {
     super(movieModel);
   }
 
   async getRandomMovie(): Promise<Movie> {
     const currentYear = DateTime.local().year;
-
     const filter = {
       'rating.kp': {
         $gte: 6,
