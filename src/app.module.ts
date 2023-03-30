@@ -62,15 +62,16 @@ import { MeiliSearchModule } from 'nestjs-meilisearch';
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
-      ...['movie', 'season', 'person', 'review', 'image', 'keyword'].map((name) => ({
-        path: `/v1/${name}`,
-        method: RequestMethod.GET,
-      })),
-      ...['movie', 'season', 'person', 'review', 'image', 'keyword'].map((name) => ({
-        path: `/v1.1/${name}`,
+    const apiVersions = ['v1', 'v1.1', 'v1.2'];
+    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword'];
+
+    const routes = entities.flatMap((name) =>
+      apiVersions.map((version) => ({
+        path: `/${version}/${name}`,
         method: RequestMethod.GET,
       })),
     );
+
+    consumer.apply(AuthMiddleware).forRoutes(...routes);
   }
 }
