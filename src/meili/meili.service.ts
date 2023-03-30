@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Index, MeiliSearch } from 'meilisearch';
+import { Index, MeiliSearch, SearchResponse } from 'meilisearch';
 import { InjectMeiliSearch } from 'nestjs-meilisearch';
 
 @Injectable()
@@ -24,6 +24,16 @@ export class MeiliService {
   async findById<Entity>(id: string, indexName: string): Promise<Entity> {
     const index = await this.initIndex(indexName);
     return index.getDocument<Entity>(id);
+  }
+
+  async search<Entity>(
+    query: string,
+    indexName: string,
+    limit: number,
+    offset: number,
+  ): Promise<SearchResponse<Entity>> {
+    const index = await this.initIndex(indexName);
+    return index.search<Entity>(query, { limit, offset });
   }
 
   async save<Entity>(data: Entity, indexName: string): Promise<void> {
