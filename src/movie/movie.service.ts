@@ -11,6 +11,10 @@ import { MovieAward, MovieAwardDocument } from './schemas/movie-award.schema';
 import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
 import { DateTime } from 'luxon';
 import { MeiliService } from '../meili/meili.service';
+import { MeiliMovieEntity } from './entities/meili-movie.entity';
+import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
+import { SearchMovieDto } from './dto/search-movie.dto';
+import { MOVIE_INDEX } from './constants/movie-index';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
@@ -20,6 +24,21 @@ export class MovieService extends BaseService<Movie> {
     private readonly meiliService: MeiliService,
   ) {
     super(movieModel);
+  }
+
+  async searchMovie(dto: SearchMovieDto): Promise<SearchMovieResponseDto> {
+    const offset = (dto.page - 1) * dto.limit;
+    const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
+
+    const shortMovieResponseDtos = searchResponse.hits.map((movie) => new MeiliMovieEntity(movie));
+
+    return {
+      docs: shortMovieResponseDtos,
+      total: searchResponse.totalHits,
+      limit: dto.limit,
+      page: dto.page,
+      pages: Math.ceil(searchResponse.totalHits / dto.limit),
+    };
   }
 
   async getRandomMovie(): Promise<Movie> {

@@ -13,12 +13,14 @@ import { Paginated } from '../common/decorators/paginated.decorator';
 import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward } from './schemas/movie-award.schema';
 import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
+import { SearchMovieDto } from './dto/search-movie.dto';
+import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController extends BaseControllerWithFindById(
   Movie,
   MovieDocsResponseDto,
-  'Поиск тайтлов',
+  'Универсальный поиск с фильтрами',
   `В этом методе вы можете составить запрос на получение фильма любой сложности.
   \nДля этого используете значения представленные ниже. Вы можете комбинировать поля, так же указывать множественные и специальные значения полей! 
   \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
@@ -26,6 +28,18 @@ export class MovieController extends BaseControllerWithFindById(
 ) {
   constructor(private readonly movieService: MovieService) {
     super(movieService);
+  }
+
+  @Version('1.2')
+  @Get('search')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({
+    summary: 'Полнотекстовый поиск',
+    description: `Этот метод предназначен для полнотекстового поиска тайтлов по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
+  })
+  async searchMovie(@Query() query: SearchMovieDto): Promise<SearchMovieResponseDto> {
+    const data = await this.service.searchMovie(query);
+    return data;
   }
 
   @Get('random')
