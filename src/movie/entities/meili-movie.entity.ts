@@ -75,29 +75,31 @@ export class MeiliMovieEntity {
   @Expose()
   releaseYears: number[];
 
-  constructor(movie: MeiliMovieEntity) {
+  constructor(movie: Partial<MeiliMovieEntity>) {
     Object.assign(this, movie);
   }
 
   public fromMongoDocument(movie: Movie): this {
     this.id = movie.id;
-    this.name = movie.name;
-    this.alternativeName = movie.alternativeName;
-    this.enName = movie.enName;
-    this.names = movie.names.map(({ name }) => name);
-    this.type = movie.type;
-    this.year = movie.year;
-    this.description = movie.description;
-    this.shortDescription = movie.shortDescription;
-    this.logo = movie.logo.url;
-    this.poster = movie.poster.url;
-    this.backdrop = movie.backdrop.url;
+    this.name = movie.name || '';
+    this.alternativeName = movie.alternativeName || '';
+    this.enName = movie.enName || '';
+    this.names = movie.names ? movie.names.map(({ name }) => name) : [];
+    this.type = movie.type || '';
+    this.year = movie.year || 0;
+    this.description = movie.description || '';
+    this.shortDescription = movie.shortDescription || '';
+    this.logo = movie.logo?.url || null;
+    this.poster = movie.poster?.url || null;
+    this.backdrop = movie.backdrop?.url || null;
     this.rating = movie.rating.kp || movie.rating.imdb || 0;
     this.votes = Number(movie.votes.kp) || Number(movie.votes.imdb) || 0;
-    this.movieLength = movie.movieLength;
-    this.genres = movie.genres.map(({ name }) => name);
-    this.countries = movie.countries.map(({ name }) => name);
-    this.releaseYears = movie.releaseYears.map((yearRange) => [yearRange.start, yearRange.end]).flat(1);
+    this.movieLength = movie.movieLength || 0;
+    this.genres = movie.genres ? movie.genres.map(({ name }) => name) : [];
+    this.countries = movie.countries ? movie.countries.map(({ name }) => name) : [];
+    this.releaseYears = movie.releaseYears
+      ? movie.releaseYears.map((yearRange) => [yearRange.start, yearRange.end]).flat(1)
+      : [];
 
     return this;
   }
