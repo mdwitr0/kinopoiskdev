@@ -13,8 +13,8 @@ import { Paginated } from '../common/decorators/paginated.decorator';
 import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward } from './schemas/movie-award.schema';
 import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
-import { SearchMovieDto } from './dto/search-movie.dto';
 import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
+import { SearchDto } from 'src/common/dto/query/search.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController extends BaseControllerWithFindById(
@@ -37,7 +37,7 @@ export class MovieController extends BaseControllerWithFindById(
     summary: 'Полнотекстовый поиск',
     description: `Этот метод предназначен для полнотекстового поиска тайтлов по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
   })
-  async searchMovie(@Query() query: SearchMovieDto): Promise<SearchMovieResponseDto> {
+  async searchMovie(@Query() query: SearchDto): Promise<SearchMovieResponseDto> {
     const data = await this.service.searchMovie(query);
     return data;
   }

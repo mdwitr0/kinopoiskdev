@@ -13,8 +13,8 @@ import { DateTime } from 'luxon';
 import { MeiliService } from '../meili/meili.service';
 import { MeiliMovieEntity } from './entities/meili-movie.entity';
 import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
-import { SearchMovieDto } from './dto/search-movie.dto';
 import { MOVIE_INDEX } from './constants/movie-index';
+import { SearchDto } from 'src/common/dto/query/search.dto';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
@@ -26,7 +26,7 @@ export class MovieService extends BaseService<Movie> {
     super(movieModel);
   }
 
-  async searchMovie(dto: SearchMovieDto): Promise<SearchMovieResponseDto> {
+  async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDto> {
     const offset = (dto.page - 1) * dto.limit;
     const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
 
