@@ -16,5 +16,6 @@ import { MeiliModule } from '../meili/meili.module';
   ],
   controllers: [MovieController],
   providers: [MovieService],
+  exports: [MovieService],
 })
 export class MovieModule {}

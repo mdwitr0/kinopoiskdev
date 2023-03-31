@@ -27,6 +27,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
         .skip(query.skip)
         .select(query.select)
         .sort(Object.keys(query.sort)?.length ? query.sort : { 'votes.kp': -1 })
+        .allowDiskUse(true)
         .exec(),
     ]);
 

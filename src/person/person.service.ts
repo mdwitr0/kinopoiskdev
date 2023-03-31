@@ -25,6 +25,7 @@ export class PersonService extends BaseService<Person> {
         .skip(query.skip)
         .select(query.select)
         .sort(Object.keys(query.sort)?.length ? query.sort : { 'nomination.award.year': -1 })
+        .allowDiskUse(true)
         .exec(),
     ]);
 

@@ -14,6 +14,7 @@ import { join } from 'path';
 import { StudioModule } from './studio/studio.module';
 import { KeywordModule } from './keyword/keyword.module';
 import { MeiliSearchModule } from 'nestjs-meilisearch';
+import { SearchSyncModule } from './search-sync/search-sync.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { MeiliSearchModule } from 'nestjs-meilisearch';
         apiKey: configService.get<string>('MEILI_API_KEY'),
       }),
     }),
+    SearchSyncModule,
   ],
 })
 export class AppModule implements NestModule {

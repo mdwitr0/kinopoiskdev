@@ -14,5 +14,6 @@ import { PersonAward, PersonAwardSchema } from './schemas/person-award.schema';
   ],
   controllers: [PersonController],
   providers: [PersonService],
+  exports: [PersonService],
 })
 export class PersonModule {}
