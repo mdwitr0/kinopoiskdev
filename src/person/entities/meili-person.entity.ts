@@ -1,41 +1,54 @@
+import { Expose } from 'class-transformer';
 import { Person } from '../schemas/person.schema';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MeiliPersonEntity {
   @ApiProperty()
+  @Expose()
   id: number;
 
   @ApiProperty()
+  @Expose()
   name: string;
 
   @ApiProperty()
+  @Expose()
   enName: string;
 
   @ApiProperty()
+  @Expose()
   photo: string;
 
   @ApiProperty()
+  @Expose()
   sex: string;
 
   @ApiProperty()
+  @Expose()
   growth: number;
 
   @ApiProperty()
+  @Expose()
   birthday: string;
 
   @ApiProperty()
+  @Expose()
   death: string;
 
   @ApiProperty()
+  @Expose()
   age: number;
 
   @ApiProperty()
+  @Expose()
   birthPlace: string[];
 
   @ApiProperty()
+  @Expose()
   deathPlace: string[];
 
   @ApiProperty()
+  @Expose()
   profession: string[];
 
   constructor(person: Partial<MeiliPersonEntity>) {
