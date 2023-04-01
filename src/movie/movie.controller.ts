@@ -38,8 +38,7 @@ export class MovieController extends BaseControllerWithFindById(
     description: `Этот метод предназначен для полнотекстового поиска тайтлов по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
   })
   async searchMovie(@Query() query: SearchDto): Promise<SearchMovieResponseDto> {
-    const data = await this.service.searchMovie(query);
-    return data;
+    return this.service.searchMovie(query);
   }
 
   @Get('random')

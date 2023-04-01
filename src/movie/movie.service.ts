@@ -30,14 +30,14 @@ export class MovieService extends BaseService<Movie> {
     const offset = (dto.page - 1) * dto.limit;
     const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
 
-    const shortMovieResponseDtos = searchResponse.hits.map((movie) => new MeiliMovieEntity(movie));
+    const movieEntities = searchResponse.hits.map((movie) => new MeiliMovieEntity(movie));
 
     return {
-      docs: shortMovieResponseDtos,
-      total: searchResponse.totalHits,
+      docs: movieEntities,
+      total: searchResponse.estimatedTotalHits,
       limit: dto.limit,
       page: dto.page,
-      pages: Math.ceil(searchResponse.totalHits / dto.limit),
+      pages: Math.ceil(searchResponse.estimatedTotalHits / dto.limit),
     };
   }
 
