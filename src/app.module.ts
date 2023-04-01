@@ -15,6 +15,8 @@ import { StudioModule } from './studio/studio.module';
 import { KeywordModule } from './keyword/keyword.module';
 import { MeiliSearchModule } from 'nestjs-meilisearch';
 import { SearchSyncModule } from './search-sync/search-sync.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -60,6 +62,8 @@ import { SearchSyncModule } from './search-sync/search-sync.module';
     }),
     SearchSyncModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
