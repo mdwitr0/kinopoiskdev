@@ -35,10 +35,10 @@ export class PersonService extends BaseService<Person> {
 
     return {
       docs: personEntities,
-      total: searchResponse.totalHits,
+      total: searchResponse.estimatedTotalHits,
       limit: dto.limit,
       page: dto.page,
-      pages: Math.ceil(searchResponse.totalHits / dto.limit),
+      pages: Math.ceil(searchResponse.estimatedTotalHits / dto.limit),
     };
   }
 
