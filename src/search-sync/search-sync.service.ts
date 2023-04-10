@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { MeiliService } from 'src/meili/meili.service';
 import { MovieService } from 'src/movie/movie.service';
@@ -9,13 +9,17 @@ import { Person } from '../person/schemas/person.schema';
 import { Movie } from '../movie/schemas/movie.schema';
 import { MeiliMovieEntity } from '../movie/entities/meili-movie.entity';
 import { MeiliPersonEntity } from '../person/entities/meili-person.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { SearchSync, SearchSyncDocument } from './schemas/search-sync.schema';
 
 type EntityTypes = typeof MOVIE_INDEX | typeof PERSON_INDEX;
 
 @Injectable()
-export class SearchSyncService {
+export class SearchSyncService implements OnModuleInit {
   private readonly logger = new Logger(SearchSyncService.name);
   constructor(
+    @InjectModel(SearchSync.name) private readonly searchSyncModel: Model<SearchSyncDocument>,
     private readonly meiliService: MeiliService,
     private readonly movieService: MovieService,
     private readonly personService: PersonService,
@@ -35,6 +39,10 @@ export class SearchSyncService {
     service: MovieService | PersonService,
     pageSize = 1000,
   ): Promise<void> {
+    const process = await this.searchSyncModel.findOne({ entityType });
+    if (process?.processing) return;
+    await this.searchSyncModel.updateOne({ entityType }, { processing: true }, { upsert: true });
+
     let pageIndex = 1;
     let hasMoreData = true;
 
@@ -66,15 +74,21 @@ export class SearchSyncService {
       }
     };
 
-    while (hasMoreData) {
-      const pageIndices = Array.from({ length: 5 }, (_, i) => i + pageIndex);
-      const results = await Promise.all(pageIndices.map((index) => processPage(index)));
+    try {
+      while (hasMoreData) {
+        const pageIndices = Array.from({ length: 5 }, (_, i) => i + pageIndex);
+        const results = await Promise.all(pageIndices.map((index) => processPage(index)));
 
-      pageIndex += 5;
+        pageIndex += 5;
 
-      if (results.some((count) => count < pageSize)) {
-        hasMoreData = false;
+        if (results.some((count) => count < pageSize)) {
+          hasMoreData = false;
+        }
       }
+    } catch (error) {
+      this.logger.error(`Failed to sync ${entityType}: ${error.message}`);
+    } finally {
+      await this.searchSyncModel.updateOne({ entityType }, { processing: false });
     }
   }
 
@@ -90,5 +104,9 @@ export class SearchSyncService {
     this.logger.log('Starting sync for persons');
     await this.syncEntity<Person>(PERSON_INDEX, this.personService, 1000);
     this.logger.log('Finished sync for persons');
+  }
+
+  async onModuleInit() {
+    await Promise.all([this.syncMovies(), this.syncPersons()]);
   }
 }
