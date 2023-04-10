@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.2...v1.2.0) (2023-04-10)
+
+
+### Features
+
+* **movie:** add full-text search movie method [#78](https://github.com/mdwitr0/kinopoiskdev/issues/78) ([61ad808](https://github.com/mdwitr0/kinopoiskdev/commit/61ad80870c969cd643b8a0e4af8a25c387813d7a))
+* **person:** add full-text search method [#78](https://github.com/mdwitr0/kinopoiskdev/issues/78) ([0fb7e54](https://github.com/mdwitr0/kinopoiskdev/commit/0fb7e545854bca22f8dadec8d90cb1235fb5fb74))
+
+
+### Bug Fixes
+
+* **movie:** search returns wrong values in pagination [#78](https://github.com/mdwitr0/kinopoiskdev/issues/78) ([11fb508](https://github.com/mdwitr0/kinopoiskdev/commit/11fb508a2c680b09162f07576b49847fa10a9575))
+* **person:** search returns wrong values in pagination [#78](https://github.com/mdwitr0/kinopoiskdev/issues/78) ([bbfa01b](https://github.com/mdwitr0/kinopoiskdev/commit/bbfa01b073574c52e66ff81f95e1f63528fa32fd))
+
 ## [1.1.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.1...v1.1.2) (2023-03-16)
 
 
