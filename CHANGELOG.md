@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.2.0...v1.2.1) (2023-04-10)
+
+
+### Bug Fixes
+
+* **search:** synchronization is restarted before completion ([2eaa0e7](https://github.com/mdwitr0/kinopoiskdev/commit/2eaa0e7cfb5690ff6fbb3dcb584bdb048da8cfbc))
+* **search:** synchronization module works in all processes ([394338b](https://github.com/mdwitr0/kinopoiskdev/commit/394338bb5b5493b060d5418cc99a8e2604adbe05))
+
 ## [1.2.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.2...v1.2.0) (2023-04-10)
 
 
