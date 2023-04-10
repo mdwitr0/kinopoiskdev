@@ -10,7 +10,9 @@ const numCPUs = process.env.NODE_ENV === 'production' ? 5 : 1;
 export class AppClusterService {
   // eslint-disable-next-line @typescript-eslint/ban-types
   static clusterize(callback: Function): void {
-    if (cluster.isMaster) {
+    const isMaster = cluster.isMaster;
+
+    if (isMaster) {
       console.log(`Master server started on ${process.pid}`);
       for (let i = 0; i < numCPUs; i++) {
         cluster.fork();
@@ -21,7 +23,8 @@ export class AppClusterService {
       });
     } else {
       console.log(`Cluster server started on ${process.pid}`);
-      callback();
     }
+
+    callback(isMaster);
   }
 }
