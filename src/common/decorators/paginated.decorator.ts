@@ -61,7 +61,6 @@ const entitiesField: Entities = {
     dateSearchKeys: ['premiere.world', 'premiere.russia', 'premiere.digital', 'premiere.bluray', 'premiere.dvd'],
     numberSearchKeys: [
       'id',
-      'externalId.imdb',
       'externalId.tmdb',
       'typeNumber',
       'movieLength',
@@ -187,6 +186,15 @@ const entitiesField: Entities = {
     numberSearchKeys: ['movieId'],
   },
   keyword: {
+    excludedValuesFields: [],
+    blacklistFields: ['-_id'],
+    allowFieldsFindAll: [],
+    idKeys: ['movies.id', 'id'],
+    regexSearchKeys: ['title'],
+    dateSearchKeys: [],
+    numberSearchKeys: ['id', 'movies.id'],
+  },
+  studio: {
     excludedValuesFields: [],
     blacklistFields: ['-_id'],
     allowFieldsFindAll: [],

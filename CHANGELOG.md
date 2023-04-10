@@ -1,5 +1,47 @@
 # Changelog
 
+## [1.1.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.1...v1.1.2) (2023-03-16)
+
+
+### Bug Fixes
+
+* **movie:** movies doesn't found by imdb id ([cdb68b9](https://github.com/mdwitr0/kinopoiskdev/commit/cdb68b932b9f93167e4daa09490fd5c5a501dc01))
+
+## [1.1.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.1.0...v1.1.1) (2023-03-12)
+
+
+### Bug Fixes
+
+* **studio:** invalid auth ([a81ac18](https://github.com/mdwitr0/kinopoiskdev/commit/a81ac18df80d8b2c9414121ce1a68468dfa52c0c))
+
+## [1.1.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.4...v1.1.0) (2023-03-12)
+
+
+### Features
+
+* **keyword:** add find method [#69](https://github.com/mdwitr0/kinopoiskdev/issues/69) ([225ed25](https://github.com/mdwitr0/kinopoiskdev/commit/225ed2546b76d0442acd7175f8cfb55eced1e604))
+* **movie:** add countries & genres properties to findMany response [#72](https://github.com/mdwitr0/kinopoiskdev/issues/72) ([fd3cd51](https://github.com/mdwitr0/kinopoiskdev/commit/fd3cd514a87ba1db443e55b3646787c01dd2d421))
+* **movie:** add find movie awards method [#67](https://github.com/mdwitr0/kinopoiskdev/issues/67) ([8340043](https://github.com/mdwitr0/kinopoiskdev/commit/83400438560d7037f63ae90e82258bf3a51eb07f))
+* **movie:** add types and languages to names [#68](https://github.com/mdwitr0/kinopoiskdev/issues/68) ([08a6f5c](https://github.com/mdwitr0/kinopoiskdev/commit/08a6f5cd8515a7d60a1f257682c53aabc3c74c79))
+* **person:** add award method [#58](https://github.com/mdwitr0/kinopoiskdev/issues/58) ([56a79bb](https://github.com/mdwitr0/kinopoiskdev/commit/56a79bb4f475dcc99440ee9b80c681fd47dc9d08))
+* **studio:** add find studio methods [#63](https://github.com/mdwitr0/kinopoiskdev/issues/63) ([c075fbf](https://github.com/mdwitr0/kinopoiskdev/commit/c075fbf5d832137b7c55ee742a4b6b6343d1bf1a))
+
+
+### Bug Fixes
+
+* movies aren't found by date ([5475edc](https://github.com/mdwitr0/kinopoiskdev/commit/5475edc2e0251ad74838c0c8e308e40e2be7b9b2))
+* **movie:** the "AllOf" are still in the model ([911de08](https://github.com/mdwitr0/kinopoiskdev/commit/911de08402b0c6dd64fc6d96b6009a212c0b2ec9))
+* **season:** episode model isn't correct [#64](https://github.com/mdwitr0/kinopoiskdev/issues/64) ([65c668c](https://github.com/mdwitr0/kinopoiskdev/commit/65c668c76f5b9637880fb7b15de8472c0e82cd62))
+* the find method has not correct name ([2ae879a](https://github.com/mdwitr0/kinopoiskdev/commit/2ae879ae5d47b4ce7acac57a29454891f6b46758))
+
+## [1.0.4](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.3...v1.0.4) (2023-03-02)
+
+
+### Bug Fixes
+
+* **movie:** age rating doesn't accept number the range [#59](https://github.com/mdwitr0/kinopoiskdev/issues/59) ([d6a35bf](https://github.com/mdwitr0/kinopoiskdev/commit/d6a35bf1de1a3fc9164534c9ebe03bb0a93f25b7))
+* package lock doesn't valid ([e8e3e63](https://github.com/mdwitr0/kinopoiskdev/commit/e8e3e6304f1eeb02d86b365bc873a287ea389ac5))
+
 ## [1.0.3](https://github.com/mdwitr0/kinopoiskdev/compare/v1.0.2...v1.0.3) (2023-02-28)
 
 
