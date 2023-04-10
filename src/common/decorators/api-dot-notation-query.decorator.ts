@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types*/
+/* eslint-disable @typescript-eslint/ban-types */
 
 import { applyDecorators } from '@nestjs/common';
 import { ApiQuery } from '@nestjs/swagger';
@@ -11,48 +11,41 @@ const getDescription = (text: string, example: any, type?: any) => {
   return description;
 };
 
+const createApiQueryDecorator = (name: string, meta: any) => {
+  return ApiQuery({
+    name,
+    ...meta,
+    type: 'string',
+    isArray: true,
+    required: false,
+    example: undefined,
+    description: getDescription(meta.description, meta.example, meta.type),
+  });
+};
+
 const getQueryDecorators = (model: Function, ...parentProperties: string[]) => {
   const constructor = model.prototype;
 
-  const properties = Reflect.getMetadata('swagger/apiModelPropertiesArray', constructor).map((prop) =>
-    prop.substring(1),
-  );
+  const propertiesMetadata = Reflect.getMetadata('swagger/apiModelPropertiesArray', constructor);
+  if (!propertiesMetadata) return [];
+
+  const properties = propertiesMetadata.map((prop) => prop.substring(1));
 
   return properties.flatMap((property) => {
     const meta = Reflect.getMetadata('swagger/apiModelProperties', constructor, property);
+    const fullName = parentProperties.length ? `${parentProperties.join('.')}.${property}` : property;
 
     const type = meta?.type();
-    if (!type?.name) {
-      return [
-        ApiQuery({
-          name: parentProperties.length ? `${parentProperties.join('.')}.${property}` : property,
-          ...meta,
-          type: 'string',
-          isArray: true,
-          required: false,
-          example: undefined,
-          description: getDescription(meta.description, meta.example, meta.type),
-        }),
-      ];
+    if (!type || !type.name) {
+      return [createApiQueryDecorator(fullName, meta)];
     }
-    switch (type.name) {
-      case 'String':
-      case 'Number':
-      case 'Boolean':
-        return [
-          ApiQuery({
-            name: parentProperties.length ? `${parentProperties.join('.')}.${property}` : property,
-            ...meta,
-            type: 'string',
-            isArray: true,
-            description: getDescription(meta.description, meta.example, meta.type),
-            required: false,
-            example: undefined,
-          }),
-        ];
-      default:
-        return getQueryDecorators(type, ...[...parentProperties, property]);
+
+    const typeName = type.name;
+    if (['String', 'Number', 'Boolean'].includes(typeName)) {
+      return [createApiQueryDecorator(fullName, meta)];
     }
+
+    return getQueryDecorators(type, ...[...parentProperties, property]);
   });
 };
 

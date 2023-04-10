@@ -10,19 +10,39 @@ import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward, MovieAwardDocument } from './schemas/movie-award.schema';
 import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.response.dto';
 import { DateTime } from 'luxon';
+import { MeiliService } from '../meili/meili.service';
+import { MeiliMovieEntity } from './entities/meili-movie.entity';
+import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
+import { MOVIE_INDEX } from './constants/movie-index';
+import { SearchDto } from 'src/common/dto/query/search.dto';
 
 @Injectable()
 export class MovieService extends BaseService<Movie> {
   constructor(
     @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
     @InjectModel(MovieAward.name) private readonly movieAwardModel: Model<MovieAwardDocument>,
+    private readonly meiliService: MeiliService,
   ) {
     super(movieModel);
   }
 
+  async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDto> {
+    const offset = (dto.page - 1) * dto.limit;
+    const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
+
+    const movieEntities = searchResponse.hits.map((movie) => new MeiliMovieEntity(movie));
+
+    return {
+      docs: movieEntities,
+      total: searchResponse.estimatedTotalHits,
+      limit: dto.limit,
+      page: dto.page,
+      pages: Math.ceil(searchResponse.estimatedTotalHits / dto.limit),
+    };
+  }
+
   async getRandomMovie(): Promise<Movie> {
     const currentYear = DateTime.local().year;
-
     const filter = {
       'rating.kp': {
         $gte: 6,

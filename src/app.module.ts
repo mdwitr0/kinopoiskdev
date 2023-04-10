@@ -13,6 +13,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { StudioModule } from './studio/studio.module';
 import { KeywordModule } from './keyword/keyword.module';
+import { MeiliSearchModule } from 'nestjs-meilisearch';
+import { SearchSyncModule } from './search-sync/search-sync.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -48,20 +52,32 @@ import { KeywordModule } from './keyword/keyword.module';
     KeywordModule,
     ImageModule,
     AuthModule,
+    MeiliSearchModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        host: configService.get<string>('MEILI_HOST'),
+        apiKey: configService.get<string>('MEILI_API_KEY'),
+      }),
+    }),
+    SearchSyncModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
-      ...['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio'].map((name) => ({
-        path: `/v1/${name}`,
-        method: RequestMethod.GET,
-      })),
-      ...['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio'].map((name) => ({
-        path: `/v1.1/${name}`,
+    const apiVersions = ['v1', 'v1.1', 'v1.2'];
+    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword'];
+
+    const routes = entities.flatMap((name) =>
+      apiVersions.map((version) => ({
+        path: `/${version}/${name}`,
         method: RequestMethod.GET,
       })),
     );
+
+    consumer.apply(AuthMiddleware).forRoutes(...routes);
   }
 }

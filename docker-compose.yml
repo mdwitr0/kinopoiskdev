@@ -39,7 +39,19 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+  meilisearch:
+    image: getmeili/meilisearch
+    user: root
+    ports:
+      - "7700:7700"
+    volumes:
+      - meili_data:/meili_data/
+    environment:
+      MEILISEARCH_HOST: http://meilisearch:7700
+      MEILI_MASTER_KEY: ${MEILI_API_KEY}
+      MEILI_NO_ANALYTICS: true
 
 volumes:
   redis_data:
   mongo_data:
+  meili_data:
