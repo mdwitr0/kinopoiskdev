@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.2.1...v1.2.2) (2023-04-11)
+
+
+### Bug Fixes
+
+* search by rating rounds numbers up to int [#83](https://github.com/mdwitr0/kinopoiskdev/issues/83) ([9f7a1db](https://github.com/mdwitr0/kinopoiskdev/commit/9f7a1db92e2ca467782dbe9e1d3ca9ed1499e62f))
+
 ## [1.2.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.2.0...v1.2.1) (2023-04-10)
 
 
