@@ -94,7 +94,7 @@ export class AppModule implements NestModule {
 
     return {
       module: AppModule,
-      imports: [...masterImports, ...imports],
+      imports: [...imports, ...masterImports],
     };
   }
 }
