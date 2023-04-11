@@ -56,16 +56,16 @@ export class QueryPipe implements PipeTransform {
         const [minValue, maxValue] = value.split('-');
         const result = maxValue
           ? {
-              $gte: isDateField ? normalizeDate(minValue) : parseInt(minValue),
-              $lte: isDateField ? normalizeDate(maxValue) : parseInt(maxValue),
+              $gte: isDateField ? normalizeDate(minValue) : Number(minValue) || 0,
+              $lte: isDateField ? normalizeDate(maxValue) : Number(maxValue) || 0,
             }
           : isDateField
           ? normalizeDate(minValue)
-          : parseInt(minValue);
+          : Number(minValue) || 0;
 
         return result;
       } else if (isNumberField) {
-        return parseInt(value);
+        return Number(value) || 0;
       } else if (isDateField) {
         return normalizeDate(value);
       }
