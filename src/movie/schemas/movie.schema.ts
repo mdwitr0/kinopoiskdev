@@ -364,6 +364,16 @@ export class YearRange {
   end: number;
 }
 
+export class Audience {
+  @ApiProperty({ example: 1000, description: 'Количество просмотров в кино' })
+  @Prop()
+  count: number;
+
+  @ApiProperty({ example: 'Россия', description: 'Страна в которой проходил показ' })
+  @Prop()
+  country: string;
+}
+
 // INFO:Movie model
 export type MovieDocument = HydratedDocument<Movie>;
 @Schema({
@@ -511,6 +521,9 @@ export class Movie {
 
   @Prop()
   isSeries: boolean;
+
+  @Prop({ type: () => [Audience] })
+  audience: Audience[];
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

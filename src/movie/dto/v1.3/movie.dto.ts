@@ -1,6 +1,7 @@
 import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
 import { MovieDtoV1 } from '../v1/movie.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { Audience } from 'src/movie/schemas/movie.schema';
 
 export class MovieDtoV1_3 extends MovieDtoV1 {
   @ApiNullableProperty({
@@ -17,4 +18,7 @@ export class MovieDtoV1_3 extends MovieDtoV1 {
 
   @ApiProperty({ example: true, description: 'Признак сериала' })
   isSeries: boolean;
+
+  @ApiNullableProperty({ isArray: true, type: () => Audience })
+  audience: Audience[];
 }
