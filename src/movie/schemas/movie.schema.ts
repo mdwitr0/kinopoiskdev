@@ -431,6 +431,12 @@ export class Movie {
   @Prop()
   movieLength: number;
 
+  @Prop()
+  totalSeriesLength: number;
+
+  @Prop()
+  seriesLength: number;
+
   // INFO: Age rating values
   @Prop()
   ratingMpaa: string;
@@ -502,6 +508,9 @@ export class Movie {
 
   @Prop()
   top250?: number | null;
+
+  @Prop()
+  isSeries: boolean;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
