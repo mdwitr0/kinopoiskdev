@@ -16,10 +16,48 @@ import { SearchDto } from 'src/common/dto/query/search.dto';
 import { MovieDtoV1 } from './dto/v1/movie.dto';
 import { ApiBaseResponse } from 'src/common/decorators/api-base-response.decorator';
 import { ForbiddenErrorResponseDto } from 'src/common/dto/errors/forbidden-error.response.dto';
+import { MovieDtoV1_3 } from './dto/v1.3/movie.dto';
+import { MovieDocsResponseDtoV1_3 } from './dto/v1.3/movie-docs.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
+
+  @Version('1.3')
+  @Get()
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({
+    summary: 'Универсальный поиск с фильтрами',
+    description: `Это обновленная версия метода \`Универсальный поиск с фильтрами\` (findMany). В этой версии добавлены новые поля, а так же изменены некоторые.`,
+  })
+  @Paginated(MovieDocsResponseDtoV1_3, MovieDtoV1_3, { findForAllProperties: true })
+  async findManyByQueryV1_3(@Query() query: IQuery): Promise<MovieDocsResponseDtoV1> {
+    return this.movieService.findMany(query);
+  }
+
+  @Version('1.3')
+  @Get(':id')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
+  @ApiBaseResponse({ type: MovieDtoV1_3 })
+  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
+  async findOneV1_3(@Param('id') id: string): Promise<any> {
+    const found = await this.movieService.findOne(+id);
+    if (!found) throw new NotFoundException('По этому id ничего не найдено!');
+    // ts-ignore
+    return found;
+  }
+
+  @Version('1.3')
+  @Get('random')
+  @ApiOperation({
+    summary: 'Получить рандомный тайтл из базы',
+    description: `Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.`,
+  })
+  @ApiResponse({ type: MovieDtoV1_3 })
+  async getRandomMovieV1_3(): Promise<any> {
+    return this.movieService.getRandomMovie();
+  }
 
   @Version('1.2')
   @Get('search')
