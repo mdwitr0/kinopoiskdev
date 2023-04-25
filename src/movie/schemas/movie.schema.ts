@@ -524,6 +524,9 @@ export class Movie {
 
   @Prop({ type: () => [Audience] })
   audience: Audience[];
+
+  @Prop()
+  ticketsOnSale: boolean;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
