@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.2.2...v1.3.0) (2023-04-25)
+
+
+### Features
+
+* **app.module.ts:** add support for v1.3 API version in configure method of AppModule class ([f1ab0b8](https://github.com/mdwitr0/kinopoiskdev/commit/f1ab0b8f4ba176a2955b3d1147220f5b3b0a4561))
+* **movie.controller.ts:** add version 1.3 with new endpoints and update descriptions for existing endpoints ([0c86f13](https://github.com/mdwitr0/kinopoiskdev/commit/0c86f1371488a9d4a87bd9d1361a41af13098e62))
+* **movie.dto:** add MovieDtoV1 and MovieDocsResponseDtoV1 classes with properties and methods for movie data transfer objects. ([3a9b4c0](https://github.com/mdwitr0/kinopoiskdev/commit/3a9b4c0cb66f918ef533dcb41b59ee453fc2b19f))
+* **movie.schema.ts:** add isSeries, totalSeriesLength, and seriesLength properties to Movie schema ([7b5f232](https://github.com/mdwitr0/kinopoiskdev/commit/7b5f2326b33dccc0e87486a48606ef0bc5ec280e))
+* **paginated.decorator.ts:** add audience count to entitiesField in paginated decorator ([b1bf7d9](https://github.com/mdwitr0/kinopoiskdev/commit/b1bf7d95423f4444eba880ed7426f7121d57d20d))
+* **paginated.decorator.ts:** add booleanFields to entitiesField and versionsEntityField ([4c908d4](https://github.com/mdwitr0/kinopoiskdev/commit/4c908d480a417a780094017317b570d32f35e620))
+* **query.pipe.ts:** add support for boolean fields in query parameters ([fa97c7a](https://github.com/mdwitr0/kinopoiskdev/commit/fa97c7a1558efaea543863aabd81b6bf3c82eeb2))
+
 ## [1.2.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.2.1...v1.2.2) (2023-04-11)
 
 
