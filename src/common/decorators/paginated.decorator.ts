@@ -13,6 +13,7 @@ export interface EntityFields {
   dateSearchKeys: string[];
   numberSearchKeys: string[];
   blacklistFields?: string[];
+  booleanFields?: string[];
 }
 
 export interface Entities {
@@ -94,6 +95,7 @@ const entitiesField: Entities = {
       'videos.trailers.size',
       'videos.teasers.size',
     ],
+    booleanFields: ['ticketsOnSale', 'isSeries'],
   },
   person: {
     blacklistFields: [
@@ -130,6 +132,7 @@ const entitiesField: Entities = {
       'spouses.children',
       'spouses.name',
     ],
+    booleanFields: [],
   },
   review: {
     excludedValuesFields: [],
@@ -139,6 +142,7 @@ const entitiesField: Entities = {
     regexSearchKeys: [],
     dateSearchKeys: ['date'],
     numberSearchKeys: ['movieId', 'id'],
+    booleanFields: [],
   },
   season: {
     excludedValuesFields: [],
@@ -157,6 +161,7 @@ const entitiesField: Entities = {
     regexSearchKeys: [],
     dateSearchKeys: ['episodes.date'],
     numberSearchKeys: ['movieId', 'number', 'episodesCount', 'episodes.number'],
+    booleanFields: [],
   },
   image: {
     excludedValuesFields: [],
@@ -166,6 +171,7 @@ const entitiesField: Entities = {
     regexSearchKeys: [],
     dateSearchKeys: [],
     numberSearchKeys: ['movieId', 'height', 'width'],
+    booleanFields: [],
   },
   personaward: {
     excludedValuesFields: [],
@@ -175,6 +181,7 @@ const entitiesField: Entities = {
     regexSearchKeys: ['nomination.award.title', 'movie.name'],
     dateSearchKeys: [],
     numberSearchKeys: ['movie.id', 'personId', 'movie.rating'],
+    booleanFields: [],
   },
   movieaward: {
     excludedValuesFields: [],
@@ -184,6 +191,7 @@ const entitiesField: Entities = {
     regexSearchKeys: ['nomination.award.title', 'movie.name'],
     dateSearchKeys: [],
     numberSearchKeys: ['movieId'],
+    booleanFields: [],
   },
   keyword: {
     excludedValuesFields: [],
@@ -193,6 +201,7 @@ const entitiesField: Entities = {
     regexSearchKeys: ['title'],
     dateSearchKeys: [],
     numberSearchKeys: ['id', 'movies.id'],
+    booleanFields: [],
   },
   studio: {
     excludedValuesFields: [],
@@ -202,7 +211,21 @@ const entitiesField: Entities = {
     regexSearchKeys: ['title'],
     dateSearchKeys: [],
     numberSearchKeys: ['id', 'movies.id'],
+    booleanFields: [],
   },
+};
+
+const versionsEntityField: Entities = {
+  moviedtov1: entitiesField.movie,
+  moviedtov1_3: entitiesField.movie,
+  person: entitiesField.person,
+  review: entitiesField.review,
+  season: entitiesField.season,
+  image: entitiesField.image,
+  personaward: entitiesField.personaward,
+  movieaward: entitiesField.movieaward,
+  keyword: entitiesField.keyword,
+  studio: entitiesField.studio,
 };
 
 export const Paginated = (
@@ -211,7 +234,7 @@ export const Paginated = (
   { findForAllProperties, isArray }: { findForAllProperties?: boolean; isArray?: boolean },
 ) => {
   return applyDecorators(
-    UsePipes(new QueryPipe(entitiesField[entity.name.toLowerCase()])),
+    UsePipes(new QueryPipe(versionsEntityField[entity.name.toLowerCase()])),
     findForAllProperties
       ? ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, entity)
       : ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto),
