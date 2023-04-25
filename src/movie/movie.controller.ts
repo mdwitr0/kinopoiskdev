@@ -28,7 +28,10 @@ export class MovieController {
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Универсальный поиск с фильтрами',
-    description: `Это обновленная версия метода \`Универсальный поиск с фильтрами\` (findMany). В этой версии добавлены новые поля, а так же изменены некоторые.`,
+    description: `В этом методе вы можете составить запрос на получение фильма любой сложности.
+  \nДля этого используете значения представленные ниже. Вы можете комбинировать поля, так же указывать множественные и специальные значения полей! 
+  \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
+  \nЧтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр \`selectFields\` `,
   })
   @Paginated(MovieDocsResponseDtoV1_3, MovieDtoV1_3, { findForAllProperties: true })
   async findManyByQueryV1_3(@Query() query: IQuery): Promise<MovieDocsResponseDtoV1> {
@@ -83,10 +86,8 @@ export class MovieController {
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Универсальный поиск с фильтрами',
-    description: `В этом методе вы можете составить запрос на получение фильма любой сложности.
-  \nДля этого используете значения представленные ниже. Вы можете комбинировать поля, так же указывать множественные и специальные значения полей! 
-  \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
-  \nЧтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр \`selectFields\` `,
+    description: `Эта версия эндпоинта устарела. Новый в 1.3 версии.`,
+    deprecated: true,
   })
   @Paginated(MovieDocsResponseDtoV1, MovieDtoV1, { findForAllProperties: true })
   async findManyByQuery(@Query() query: IQuery): Promise<any> {
@@ -95,7 +96,11 @@ export class MovieController {
 
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
-  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
+  @ApiOperation({
+    summary: 'Поиск по id',
+    description: 'Эта версия эндпоинта устарела. Новый в 1.3 версии.',
+    deprecated: true,
+  })
   @ApiBaseResponse({ type: MovieDtoV1 })
   @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
   async findOne(@Param('id') id: string): Promise<MovieDtoV1> {
