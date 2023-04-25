@@ -94,6 +94,7 @@ const entitiesField: Entities = {
       'seasonsInfo.episodesCount',
       'videos.trailers.size',
       'videos.teasers.size',
+      'audience.count',
     ],
     booleanFields: ['ticketsOnSale', 'isSeries'],
   },
