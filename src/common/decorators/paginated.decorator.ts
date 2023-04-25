@@ -95,6 +95,8 @@ const entitiesField: Entities = {
       'videos.trailers.size',
       'videos.teasers.size',
       'audience.count',
+      'totalSeriesLength',
+      'seriesLength',
     ],
     booleanFields: ['ticketsOnSale', 'isSeries'],
   },
