@@ -364,6 +364,16 @@ export class YearRange {
   end: number;
 }
 
+export class Audience {
+  @ApiProperty({ example: 1000, description: 'Количество просмотров в кино' })
+  @Prop()
+  count: number;
+
+  @ApiProperty({ example: 'Россия', description: 'Страна в которой проходил показ' })
+  @Prop()
+  country: string;
+}
+
 // INFO:Movie model
 export type MovieDocument = HydratedDocument<Movie>;
 @Schema({
@@ -374,85 +384,46 @@ export type MovieDocument = HydratedDocument<Movie>;
 })
 export class Movie {
   // INFO: Id values
-  @ApiProperty({
-    description: 'Id фильма с кинопоиска',
-    example: 666,
-  })
-  @IsOptional()
-  @IsNumber()
-  @ParseNumber()
   @Prop({ unique: true })
   id: number;
 
-  @ApiProperty({ type: () => ExternalId })
   @Prop({ index: true, type: () => ExternalId })
   externalId: ExternalId;
 
   // INFO: Name values
-  @ApiNullableProperty({ example: 'Человек паук' })
   @Prop({ index: true })
   name: string;
 
-  @ApiNullableProperty({ example: 'Spider man' })
   @Prop({ index: true })
   alternativeName: string;
 
   @Prop({ index: true })
-  @ApiNullableProperty({ example: 'Spider man' })
   enName: string;
 
-  @ApiProperty({ type: () => Name, isArray: true })
   @Prop({ type: () => [Name] })
   names: Name[];
 
   // INFO: Type values
-  @ApiProperty({
-    example: 'movie',
-    description: 'Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show',
-  })
   @Prop({ index: true })
   type: string;
 
-  @ApiProperty({
-    example: 1,
-    description:
-      'Тип тайтла в числовом обозначении. Доступны: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)',
-  })
   @Prop({ index: true })
   typeNumber: number;
 
   // INFO: Year values
-  @ApiNullableProperty({
-    example: 2023,
-    description: 'Год премьеры. При поиске по этому полю, можно использовать интервалы 1860-2030',
-  })
   @Prop({ index: true })
   year: number;
 
   // INFO: Description values
-  @ApiNullableProperty({
-    description: 'Описание тайтла',
-  })
   @Prop()
   description: string;
 
-  @ApiNullableProperty({
-    description: 'Сокращенное описание',
-  })
   @Prop()
   shortDescription: string;
 
-  @ApiNullableProperty({
-    description: 'Слоган',
-  })
   @Prop()
   slogan: string;
 
-  @ApiNullableProperty({
-    example: 'completed',
-    description:
-      'Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production',
-  })
   @Prop({ index: true })
   status: string;
 
@@ -460,125 +431,102 @@ export class Movie {
   facts: FactInMovie[];
 
   // INFO: Movie rating values
-  @ApiPropertyOptional({ type: () => Rating })
   @Prop({ type: () => Rating })
   rating: Rating;
 
-  @ApiPropertyOptional({ type: () => Votes })
   @Prop({ type: () => Votes })
   votes: Votes;
 
   // INFO: Length value
-  @ApiNullableProperty({ example: 120, description: 'Продолжительность фильма' })
   @Prop()
   movieLength: number;
 
+  @Prop()
+  totalSeriesLength: number;
+
+  @Prop()
+  seriesLength: number;
+
   // INFO: Age rating values
-  @ApiNullableProperty({
-    example: 'pg13',
-    description: 'Возрастной рейтинг по MPAA',
-  })
   @Prop()
   ratingMpaa: string;
 
-  @ApiNullableProperty({
-    example: '16',
-    description: 'Возрастной рейтинг',
-  })
   @Prop()
   ageRating: number;
 
   // INFO: Image values
-  @ApiPropertyOptional({ type: () => Logo })
   @Prop({ type: () => Logo })
   logo: Logo;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   poster: ShortImage;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   backdrop: ShortImage;
 
-  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
   @Prop({ type: () => Images })
   imagesInfo: Images;
 
   // INFO: Video value
-  @ApiPropertyOptional({ type: () => VideoTypes })
   @Prop({ type: () => VideoTypes })
   videos: VideoTypes;
 
   // INFO: Movie base values
-  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
   @Prop({ type: () => [ItemName] })
   genres: ItemName[];
 
-  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
   @Prop({ type: () => [ItemName] })
   countries: ItemName[];
 
-  @ApiPropertyOptional({ type: () => PersonInMovie, isArray: true })
   @Prop({ type: () => [PersonInMovie] })
   persons: PersonInMovie[];
 
-  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
-  @ApiPropertyOptional({ type: () => ReviewInfo })
   @Prop({ type: () => ReviewInfo })
   reviewInfo: ReviewInfo;
 
-  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
-  @ApiPropertyOptional({ type: () => SeasonInfo, isArray: true })
   @Prop({ type: () => [SeasonInfo] })
   seasonsInfo: SeasonInfo[];
 
   // INFO: Currency values
-  @ApiPropertyOptional({ type: () => CurrencyValue })
   @Prop({ type: () => CurrencyValue })
   budget: CurrencyValue;
 
-  @ApiPropertyOptional({ type: () => Fees })
   @Prop({ type: () => Fees })
   fees: Fees;
 
   // INFO: Date values
-  @ApiPropertyOptional({ type: () => Premiere })
   @Prop({ type: () => Premiere })
   premiere: Premiere;
 
-  @ApiPropertyOptional({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
   similarMovies: LinkedMovie[];
 
-  @ApiPropertyOptional({ type: () => LinkedMovie, isArray: true })
   @Prop({ type: () => [LinkedMovie] })
   sequelsAndPrequels: LinkedMovie[];
 
-  @ApiPropertyOptional({ type: () => Watchability })
   @Prop({ type: () => Watchability })
   watchability: Watchability;
 
   @Prop({ type: () => [VendorImage] })
   productionCompanies: VendorImage[];
 
-  @ApiPropertyOptional({ type: () => YearRange, isArray: true })
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
 
-  @ApiNullableProperty({
-    example: 1,
-    description: 'Позиция тайтла в топ 10. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`',
-  })
   @Prop()
   top10?: number | null;
 
-  @ApiNullableProperty({
-    example: 200,
-    description: 'Позиция тайтла в топ 250. Чтобы найти фильмы участвующие в рейтинге используйте: `!null`',
-  })
   @Prop()
   top250?: number | null;
+
+  @Prop()
+  isSeries: boolean;
+
+  @Prop({ type: () => [Audience] })
+  audience: Audience[];
+
+  @Prop()
+  ticketsOnSale: boolean;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
