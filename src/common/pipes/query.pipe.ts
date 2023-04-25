@@ -41,6 +41,7 @@ export class QueryPipe implements PipeTransform {
       const isNumberField = this.FIELDS.numberSearchKeys.includes(field);
       const isDateField = this.FIELDS.dateSearchKeys.includes(field);
       const isRegexField = this.FIELDS.regexSearchKeys.includes(field);
+      const isBooleanField = this.FIELDS.booleanFields.includes(field);
 
       if (isNullValue) {
         return { $ne: null };
@@ -72,6 +73,10 @@ export class QueryPipe implements PipeTransform {
 
       if (isRegexField) {
         return { $regex: createTextSearchRegExp(value) };
+      }
+
+      if (isBooleanField) {
+        return value === 'true';
       }
 
       return value;
