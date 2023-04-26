@@ -53,7 +53,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
       const found = await this.service.findOne(+id);
       if (!found) throw new NotFoundException('По этому id ничего не найдено!');
 
-      return found.toJSON();
+      return found;
     }
   }
 
