@@ -77,7 +77,7 @@ export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
     const apiVersions = ['v1', 'v1.1', 'v1.2', 'v1.3'];
-    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword'];
+    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio'];
 
     const routes = entities.flatMap((name) =>
       apiVersions.map((version) => ({
