@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.0...v1.3.1) (2023-04-26)
+
+
+### Bug Fixes
+
+* **person:** 500 error ([5c3908c](https://github.com/mdwitr0/kinopoiskdev/commit/5c3908c271db81ed31c35c9fc2d7c1e2e47c408a))
+* **studio:** 401 error ([928b5cc](https://github.com/mdwitr0/kinopoiskdev/commit/928b5cc34297d5c433483a8234f06229a29e6fce))
+
 ## [1.3.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.2.2...v1.3.0) (2023-04-25)
 
 
