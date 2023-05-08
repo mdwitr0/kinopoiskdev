@@ -25,6 +25,8 @@ import { MeiliSearchModule } from 'nestjs-meilisearch';
 import { SearchSyncModule } from './search-sync/search-sync.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TerminusModule } from '@nestjs/terminus';
+import { HttpModule } from '@nestjs/axios';
 
 const imports = [
   LoggerModule.forRoot(
@@ -59,6 +61,17 @@ const imports = [
   KeywordModule,
   ImageModule,
   AuthModule,
+  TerminusModule,
+  HttpModule.registerAsync({
+    imports: [ConfigModule],
+    inject: [ConfigService],
+    useFactory: async (configService: ConfigService) => ({
+      baseURL: 'https://api.kinopoisk.dev',
+      headers: {
+        'X-API-KEY': configService.get<string>('DEFAULT_TOKEN'),
+      },
+    }),
+  }),
   MeiliSearchModule.forRootAsync({
     imports: [ConfigModule],
     inject: [ConfigService],
