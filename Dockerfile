@@ -1,21 +1,20 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine as build
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
-RUN npm install
+RUN yarn install --production
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 FROM node:18-alpine
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
+WORKDIR /app
 
-EXPOSE 3000
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
 
-CMD [ "npm", "run", "start:prod" ]
+CMD ["node", "dist/main.js"]

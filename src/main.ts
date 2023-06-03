@@ -45,4 +45,4 @@ async function bootstrap(isMaster = true) {
   statusAppMessage(app);
 }
 
-AppClusterService.clusterize(bootstrap);
+bootstrap();

@@ -5,45 +5,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: api 
     restart: always
     ports:
-      - "${PORT}:3000"
+      - 3000:3000
     depends_on:
-      - mongo
-      - redis
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      MONGO_URI: ${MONGO_URI}
-    healthcheck:
-      test: ["CMD", "curl", ":${PORT}"]
-      interval: 5s
-      timeout: 3s
-      retries: 6
+      - meilisearch
+    env_file:
+      - .env
 
-  redis:
-    image: "redis:latest"
-    ports:
-      - "6380:6379"
-    volumes:
-      - redis_data:/data
-    environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-
-  mongo:
-    image: mongo:6.0.1
-    ports:
-      - "27019:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
   meilisearch:
     image: getmeili/meilisearch
     user: root
-    ports:
-      - "7700:7700"
     volumes:
       - meili_data:/meili_data/
     environment:
@@ -53,5 +25,4 @@ services:
 
 volumes:
   redis_data:
-  mongo_data:
   meili_data:
