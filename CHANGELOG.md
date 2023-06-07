@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.1...v1.3.2) (2023-06-07)
+
+
+### Bug Fixes
+
+* **user:** add async to reset requests ([040a506](https://github.com/mdwitr0/kinopoiskdev/commit/040a506c1c0e5da5c57aa560aad7f36fc3e68858))
+* **user:** user tokens are not reset ([2389969](https://github.com/mdwitr0/kinopoiskdev/commit/238996969e8046a47df6b8942ffed3f0cef5f154))
+
 ## [1.3.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.0...v1.3.1) (2023-04-26)
 
 
