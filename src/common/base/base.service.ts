@@ -23,10 +23,10 @@ export abstract class BaseService<T> implements IBaseService<T> {
       this.model.countDocuments(query.filter),
       this.model
         .find(query.filter)
+        .sort(Object.keys(query.sort)?.length ? query.sort : { id: -1 })
         .limit(query.limit)
         .skip(query.skip)
         .select(query.select)
-        .sort(Object.keys(query.sort)?.length ? query.sort : { 'votes.kp': -1 })
         .allowDiskUse(true)
         .exec(),
     ]);
