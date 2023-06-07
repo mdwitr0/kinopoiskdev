@@ -6,23 +6,103 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - 3000:3000
     depends_on:
       - meilisearch
     env_file:
       - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.middlewares=default-headers@file"
+      - "traefik.http.routers.api.rule=Host(`api.kinopoisk.dev`) && (PathPrefix(`/v1/`) || PathPrefix(`/v1.`))"
+      - "traefik.http.routers.api.priority=10"
+      - "traefik.http.routers.api.entrypoints=https"
+      - "traefik.http.routers.api.tls.certresolver=certbot"
+      - "traefik.http.services.api.loadbalancer.server.port=3000"
+    networks:
+      - traefik
+    deploy:
+      replicas: 2
+
+  cloud-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - meilisearch
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cloud-api.middlewares=default-headers@file"
+      - "traefik.http.routers.cloud-api.rule=Host(`cloud-api.kinopoisk.dev`) && (PathPrefix(`/v1/`) || PathPrefix(`/v1.`))"
+      - "traefik.http.routers.cloud-api.priority=10"
+      - "traefik.http.routers.cloud-api.entrypoints=https"
+      - "traefik.http.routers.cloud-api.tls.certresolver=certbot"
+      - "traefik.http.services.cloud-api.loadbalancer.server.port=3000"
+    networks:
+      - traefik
+
+  api_old:
+    build:
+      context: ../kinopoiskdev_old
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - meilisearch
+    env_file:
+      - ../kinopoiskdev_old/.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-old.middlewares=default-headers@file"
+      - "traefik.http.routers.api-old.rule=Host(`api.kinopoisk.dev`) && PathPrefix(`/`)"
+      - "traefik.http.routers.api-old.priority=1"
+      - "traefik.http.routers.api-old.entrypoints=https"
+      - "traefik.http.routers.api-old.tls.certresolver=certbot"
+      - "traefik.http.services.api-old.loadbalancer.server.port=5000"
+    networks:
+      - traefik
+    deploy:
+      replicas: 2
+
+  cloud-api_old:
+    build:
+      context: ../kinopoiskdev_old
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - meilisearch
+    env_file:
+      - ../kinopoiskdev_old/.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cloud-api-old.middlewares=default-headers@file"
+      - "traefik.http.routers.cloud-api-old.rule=Host(`cloud-api.kinopoisk.dev`) && PathPrefix(`/`)"
+      - "traefik.http.routers.cloud-api-old.priority=1"
+      - "traefik.http.routers.cloud-api-old.entrypoints=https"
+      - "traefik.http.routers.cloud-api-old.tls.certresolver=certbot"
+      - "traefik.http.services.cloud-api-old.loadbalancer.server.port=5000"
+    networks:
+      - traefik
 
   meilisearch:
     image: getmeili/meilisearch
     user: root
     volumes:
       - meili_data:/meili_data/
+    restart: always
     environment:
       MEILISEARCH_HOST: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_API_KEY}
-      MEILI_NO_ANALYTICS: true
+    networks:
+      - traefik
 
 volumes:
   redis_data:
   meili_data:
+
+
+networks:
+  traefik:
+    name: traefik_proxy
+    external: true
