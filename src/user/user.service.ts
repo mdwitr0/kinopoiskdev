@@ -10,8 +10,8 @@ export class UserService {
   constructor(@InjectModel(User.name) private readonly userRepository: Model<UserDocument>) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  resetRequestsUsed() {
-    this.userRepository.updateMany({}, { requestsUsed: 0 });
+  async resetRequestsUsed() {
+    await this.userRepository.updateMany({}, { requestsUsed: 0 });
     this.logger.log('Finish: Reset requests used');
   }
 }
