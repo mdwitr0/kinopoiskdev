@@ -82,6 +82,7 @@ export class MovieController {
     return this.movieService.findManyAwards(query);
   }
 
+  @Version('1')
   @Get()
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
@@ -94,6 +95,7 @@ export class MovieController {
     return this.movieService.findMany(query);
   }
 
+  @Version('1')
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
@@ -110,6 +112,7 @@ export class MovieController {
     return found;
   }
 
+  @Version('1')
   @Get('random')
   @ApiOperation({
     summary: 'Получить рандомный тайтл из базы',
@@ -120,6 +123,7 @@ export class MovieController {
     return this.movieService.getRandomMovie();
   }
 
+  @Version('1')
   @Get('possible-values-by-field')
   @ApiOperation({
     summary: 'Получить все возможные значения полей',
