@@ -27,6 +27,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
+import { UserModule } from './user/user.module';
 
 const imports = [
   LoggerModule.forRoot(
@@ -61,6 +62,7 @@ const imports = [
   KeywordModule,
   ImageModule,
   AuthModule,
+  UserModule,
   TerminusModule,
   HttpModule.registerAsync({
     imports: [ConfigModule],
