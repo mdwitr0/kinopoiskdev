@@ -1,5 +1,5 @@
 import { ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
-import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 import { Paginated } from '../decorators/paginated.decorator';
 import { ApiBaseResponse } from '../decorators/api-base-response.decorator';
@@ -15,6 +15,7 @@ export function BaseController<TEntity, TEntityDto>(
   abstract class BaseController {
     protected constructor(readonly service: any) {}
 
+    @Version('1')
     @Get()
     @ApiOperation({ summary: description })
     @UseInterceptors(CacheInterceptor)
@@ -36,6 +37,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
   abstract class BaseControllerWithFindById {
     protected constructor(readonly service: any) {}
 
+    @Version('1')
     @Get()
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary, description })
@@ -44,6 +46,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
       return this.service.findMany(query);
     }
 
+    @Version('1')
     @Get(':id')
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })

@@ -23,10 +23,7 @@ async function bootstrap(isMaster = true) {
   app.useLogger(app.get(Logger));
   app.flushLogs();
 
-  app.enableVersioning({
-    defaultVersion: '1',
-    type: VersioningType.URI,
-  });
+  app.enableVersioning();
 
   app.enableCors({ origin: '*' });
 
