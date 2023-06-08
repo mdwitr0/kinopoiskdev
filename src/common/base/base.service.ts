@@ -2,7 +2,7 @@
 import { Model } from 'mongoose';
 import { IQuery } from '../interfaces/query.interface';
 
-interface IFindMany<T> {
+export interface IFindMany<T> {
   docs: T[];
   total: number;
   limit: number;
@@ -23,7 +23,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
       this.model.countDocuments(query.filter),
       this.model
         .find(query.filter)
-        .sort(Object.keys(query.sort)?.length ? query.sort : { id: -1 })
+        .sort(Object.keys(query.sort)?.length ? { ...query.sort, _id: -1 } : { _id: -1 })
         .limit(query.limit)
         .skip(query.skip)
         .select(query.select)

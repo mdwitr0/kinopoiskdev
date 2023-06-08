@@ -15,15 +15,46 @@ import { MeiliMovieEntity } from './entities/meili-movie.entity';
 import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
 import { MOVIE_INDEX } from './constants/movie-index';
 import { SearchDto } from 'src/common/dto/query/search.dto';
+import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
+import { MovieDtoV1 } from './dto/v1/movie.dto';
 
 @Injectable()
-export class MovieService extends BaseService<Movie> {
+export class MovieService {
   constructor(
     @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
     @InjectModel(MovieAward.name) private readonly movieAwardModel: Model<MovieAwardDocument>,
     private readonly meiliService: MeiliService,
-  ) {
-    super(movieModel);
+  ) {}
+
+  async findMany(query: IQuery): Promise<MovieDocsResponseDtoV1> {
+    const [total, docs] = await Promise.all([
+      this.movieModel.countDocuments(query.filter),
+      this.movieModel
+        .find(query.filter)
+        .sort(Object.keys(query.sort)?.length ? { ...query.sort, _id: -1 } : { 'votes.kp': -1, _id: -1 })
+        .limit(query.limit)
+        .skip(query.skip)
+        .select(query.select)
+        .allowDiskUse(true)
+        .exec(),
+    ]);
+
+    // @ts-ignore
+    const docsToJson = docs.map((doc) => doc?.toJSON());
+    return {
+      docs: docsToJson,
+      total,
+      limit: query.limit,
+      page: query.skip / query.limit + 1,
+      pages: Math.ceil(total / query.limit),
+    };
+  }
+
+  async findOne(id: number | string): Promise<MovieDtoV1> {
+    const found = await this.movieModel.findOne({ id });
+    // @ts-ignore
+    if (found) return found.toJSON();
+    return found;
   }
 
   async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDto> {
