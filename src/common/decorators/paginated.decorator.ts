@@ -97,6 +97,8 @@ const entitiesField: Entities = {
       'audience.count',
       'totalSeriesLength',
       'seriesLength',
+      'sequelsAndPrequels.id',
+      'similarMovies.id',
     ],
     booleanFields: ['ticketsOnSale', 'isSeries'],
   },
