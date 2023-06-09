@@ -21,7 +21,7 @@ services:
     networks:
       - traefik
     deploy:
-      replicas: 2
+      replicas: 4
 
   cloud-api:
     build:

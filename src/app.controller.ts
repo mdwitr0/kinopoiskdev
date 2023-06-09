@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Version } from '@nestjs/common';
 import { AppService } from './app.service';
 import {
   DiskHealthIndicator,
@@ -20,11 +20,13 @@ export class AppController {
     private readonly configService: ConfigService,
   ) {}
 
+  @Version('1')
   @Get()
   getHello(): { message: string } {
     return this.appService.getHello();
   }
 
+  @Version('1')
   @Get('health')
   @HealthCheck()
   check() {
