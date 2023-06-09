@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.2...v1.3.3) (2023-06-09)
+
+
+### Bug Fixes
+
+* **movie:** not found by sequelsAndPrequels.id and similarMovies.id ([b39e7c1](https://github.com/mdwitr0/kinopoiskdev/commit/b39e7c15c093505dda96006aba405622f2f668c0))
+
 ## [1.3.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.1...v1.3.2) (2023-06-07)
 
 
