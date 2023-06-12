@@ -13,7 +13,6 @@ import { redisStore } from 'cache-manager-redis-store';
       imports: [ConfigModule],
       // @ts-ignore
       useFactory: async (configService: ConfigService) => ({
-        isGlobal: true,
         store: redisStore,
         host: configService.get('REDIS_HOST'),
         port: configService.get('REDIS_PORT'),
