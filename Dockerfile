@@ -1,21 +1,24 @@
-FROM node:18-alpine as build
+FROM node:20 AS builder
 
+# Create app directory
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
 
-RUN yarn install --production
-RUN yarn global add @nestjs/cli
+# Install app dependencies
+RUN npm install
 
 COPY . .
 
-RUN yarn build
+RUN npm run build
 
-FROM node:18-alpine
+FROM node:20
 
-WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/dist ./dist
 
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/node_modules ./node_modules
-
-CMD ["node", "dist/main.js"]
+EXPOSE 3000
+CMD [ "npm", "run", "start:prod" ]
