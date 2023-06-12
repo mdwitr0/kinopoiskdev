@@ -37,6 +37,7 @@
     "@nestjs/serve-static": "^3.0.1",
     "@nestjs/swagger": "^6.1.4",
     "@nestjs/terminus": "^9.2.2",
+    "@nestjs/throttler": "^4.0.0",
     "axios": "^1.4.0",
     "cache-manager": "^5.1.7",
     "cache-manager-redis-store": "^3.0.1",

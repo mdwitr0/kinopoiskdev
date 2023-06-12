@@ -28,6 +28,8 @@ import { AppService } from './app.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { UserModule } from './user/user.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 const imports = [
   LoggerModule.forRoot(
@@ -53,6 +55,14 @@ const imports = [
   CacheModule.register({
     isGlobal: true,
     ttl: 1000 * 60 * 60,
+  }),
+  ThrottlerModule.forRootAsync({
+    imports: [ConfigModule],
+    inject: [ConfigService],
+    useFactory: (config: ConfigService) => ({
+      ttl: config.get('THROTTLE_TTL') || 1,
+      limit: config.get('THROTTLE_LIMIT') || 100,
+    }),
   }),
   MovieModule,
   SeasonModule,
@@ -86,7 +96,13 @@ const imports = [
 @Module({
   imports,
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
