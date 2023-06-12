@@ -1,12 +1,4 @@
-import {
-  CacheModule,
-  DynamicModule,
-  Logger,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { DynamicModule, Logger, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MovieModule } from './movie/movie.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -31,6 +23,8 @@ import { UserModule } from './user/user.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-store';
 
 const imports = [
   LoggerModule.forRoot(
@@ -53,9 +47,17 @@ const imports = [
       uri: configService.get('MONGO_URI'),
     }),
   }),
-  CacheModule.register({
-    isGlobal: true,
-    ttl: 1000 * 60 * 60,
+  CacheModule.registerAsync({
+    imports: [ConfigModule],
+    // @ts-ignore
+    useFactory: async (configService: ConfigService) => ({
+      isGlobal: true,
+      store: redisStore,
+      host: configService.get('REDIS_HOST'),
+      port: configService.get('REDIS_PORT'),
+      ttl: configService.get('CACHE_TTL'),
+    }),
+    inject: [ConfigService],
   }),
   ThrottlerModule.forRootAsync({
     imports: [ConfigModule],
