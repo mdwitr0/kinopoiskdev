@@ -30,6 +30,7 @@ import { HttpModule } from '@nestjs/axios';
 import { UserModule } from './user/user.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 
 const imports = [
   LoggerModule.forRoot(
@@ -61,7 +62,8 @@ const imports = [
     inject: [ConfigService],
     useFactory: (config: ConfigService) => ({
       ttl: config.get('THROTTLE_TTL') || 1,
-      limit: config.get('THROTTLE_LIMIT') || 100,
+      limit: config.get('THROTTLE_LIMIT') || 50,
+      storage: new ThrottlerStorageRedisService(config.get('REDIS_URL')),
     }),
   }),
   MovieModule,
