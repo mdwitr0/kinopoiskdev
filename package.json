@@ -41,7 +41,7 @@
     "@nestjs/throttler": "^4.0.0",
     "axios": "^1.4.0",
     "cache-manager": "^5.2.2",
-    "cache-manager-redis-store": "^3.0.1",
+    "cache-manager-redis-yet": "^4.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "eslint-plugin-unused-imports": "^2.0.0",

@@ -6,9 +6,11 @@ import { SearchSyncService } from './search-sync.service';
 import { MeiliModule } from '../meili/meili.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SearchSync, SearchSyncSchema } from './schemas/search-sync.schema';
+import { CacheConfig } from 'src/common/configs/cache.config';
 
 @Module({
   imports: [
+    CacheConfig,
     MongooseModule.forFeature([{ name: SearchSync.name, schema: SearchSyncSchema }]),
     ScheduleModule.forRoot(),
     MovieModule,

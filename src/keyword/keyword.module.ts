@@ -3,9 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Keyword, KeywordSchema } from './schemas/keyword.schema';
 import { KeywordController } from './keyword.controller';
 import { KeywordService } from './keyword.service';
+import { CacheConfig } from 'src/common/configs/cache.config';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Keyword.name, schema: KeywordSchema }])],
+  imports: [CacheConfig, MongooseModule.forFeature([{ name: Keyword.name, schema: KeywordSchema }])],
   controllers: [KeywordController],
   providers: [KeywordService],
 })
