@@ -8,7 +8,6 @@ services:
     restart: always
     depends_on:
       - meilisearch
-      - redis
     env_file:
       - .env
     labels:
@@ -31,7 +30,6 @@ services:
     restart: always
     depends_on:
       - meilisearch
-      - redis
     env_file:
       - .env
     labels:
@@ -87,14 +85,6 @@ services:
     deploy:
       replicas: 2
 
-  redis:
-    image: redis:latest
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_data:/data
-    networks:
-      - traefik
-
   meilisearch:
     image: getmeili/meilisearch
     user: root
@@ -108,7 +98,6 @@ services:
       - traefik
 
 volumes:
-  redis_data:
   meili_data:
 
 
