@@ -20,11 +20,10 @@ import { AppService } from './app.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { UserModule } from './user/user.module';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
-import { CacheModule } from '@nestjs/cache-manager';
-import { redisStore } from 'cache-manager-redis-store';
+import { CacheConfig } from './common/configs/cache.config';
+import { ThrottlerConfig } from './common/configs/throttler.config';
 
 const imports = [
   LoggerModule.forRoot(
@@ -47,26 +46,8 @@ const imports = [
       uri: configService.get('MONGO_URI'),
     }),
   }),
-  CacheModule.registerAsync({
-    imports: [ConfigModule],
-    // @ts-ignore
-    useFactory: async (configService: ConfigService) => ({
-      store: redisStore,
-      host: configService.get('REDIS_HOST'),
-      port: configService.get('REDIS_PORT'),
-      ttl: configService.get('CACHE_TTL'),
-    }),
-    inject: [ConfigService],
-  }),
-  ThrottlerModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: (config: ConfigService) => ({
-      ttl: config.get('THROTTLE_TTL') || 1,
-      limit: config.get('THROTTLE_LIMIT') || 50,
-      storage: new ThrottlerStorageRedisService(config.get('REDIS_URL')),
-    }),
-  }),
+  CacheConfig,
+  ThrottlerConfig,
   MovieModule,
   SeasonModule,
   ReviewModule,
