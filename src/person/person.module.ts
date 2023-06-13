@@ -5,9 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Person, PersonSchema } from './schemas/person.schema';
 import { PersonAward, PersonAwardSchema } from './schemas/person-award.schema';
 import { MeiliModule } from 'src/meili/meili.module';
+import { CacheConfig } from 'src/common/configs/cache.config';
 
 @Module({
   imports: [
+    CacheConfig,
     MongooseModule.forFeature([
       { name: Person.name, schema: PersonSchema },
       { name: PersonAward.name, schema: PersonAwardSchema },
