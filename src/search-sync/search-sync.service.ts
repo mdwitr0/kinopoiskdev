@@ -50,7 +50,7 @@ export class SearchSyncService implements OnModuleInit {
       const query = {
         skip: (pageIndex - 1) * pageSize,
         limit: pageSize,
-        sort: { 'rating.kp': 'desc' },
+        sort: { _id: -1 },
       };
 
       const result = await service.findMany(query);
