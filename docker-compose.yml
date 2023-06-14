@@ -18,6 +18,12 @@ services:
       - "traefik.http.routers.api.entrypoints=https"
       - "traefik.http.routers.api.tls.certresolver=certbot"
       - "traefik.http.services.api.loadbalancer.server.port=3000"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: api
     networks:
       - traefik
     deploy:
@@ -40,6 +46,12 @@ services:
       - "traefik.http.routers.cloud-api.entrypoints=https"
       - "traefik.http.routers.cloud-api.tls.certresolver=certbot"
       - "traefik.http.services.cloud-api.loadbalancer.server.port=3000"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: api
     networks:
       - traefik
     deploy:
@@ -60,6 +72,12 @@ services:
       - "traefik.http.routers.api-old.entrypoints=https"
       - "traefik.http.routers.api-old.tls.certresolver=certbot"
       - "traefik.http.services.api-old.loadbalancer.server.port=5000"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: api_old
     networks:
       - traefik
     deploy:
@@ -80,6 +98,12 @@ services:
       - "traefik.http.routers.cloud-api-old.entrypoints=https"
       - "traefik.http.routers.cloud-api-old.tls.certresolver=certbot"
       - "traefik.http.services.cloud-api-old.loadbalancer.server.port=5000"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: api_old
     networks:
       - traefik
     deploy:
