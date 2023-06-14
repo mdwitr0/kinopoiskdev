@@ -92,14 +92,14 @@ export class SearchSyncService implements OnModuleInit {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_WEEK)
   async syncMovies() {
     this.logger.log('Starting sync for movies');
     await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService, 1000);
     this.logger.log('Finished sync for movies');
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_WEEK)
   async syncPersons() {
     this.logger.log('Starting sync for persons');
     await this.syncEntity<Person>(PERSON_INDEX, this.personService, 1000);
