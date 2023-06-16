@@ -104,12 +104,12 @@ export class AppModule implements NestModule {
     consumer.apply(AuthMiddleware).forRoutes(...routes);
   }
 
-  static createMasterSpecificModule(isMaster: boolean): DynamicModule {
-    const masterImports = isMaster ? [SearchSyncModule] : [];
+  static createSyncSpecificModule(isSync: boolean): DynamicModule {
+    const syncImports = isSync ? [SearchSyncModule] : [];
 
     return {
       module: AppModule,
-      imports: [...imports, ...masterImports],
+      imports: [...imports, ...syncImports],
     };
   }
 }

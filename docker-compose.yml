@@ -57,6 +57,26 @@ services:
     deploy:
       replicas: 2
 
+  sync-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - meilisearch
+    env_file:
+      - .env
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: api
+    networks:
+      - traefik
+    deploy:
+      replicas: 1
+
   api_old:
     build:
       context: ../kinopoiskdev_old

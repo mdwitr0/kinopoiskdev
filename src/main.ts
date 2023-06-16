@@ -8,18 +8,14 @@ import { setupSwagger } from './swagger';
 import { setupFastify } from './fastify';
 import { statusAppMessage } from './common/utils/status-app-message.util';
 
-async function bootstrap(isMaster = true) {
+async function bootstrap(isSync = false) {
   const { PORT } = process.env;
 
   const adapter = setupFastify();
 
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule.createMasterSpecificModule(isMaster),
-    adapter,
-    {
-      bufferLogs: true,
-    },
-  );
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule.createSyncSpecificModule(isSync), adapter, {
+    bufferLogs: true,
+  });
   app.useLogger(app.get(Logger));
   app.flushLogs();
 
@@ -42,4 +38,9 @@ async function bootstrap(isMaster = true) {
   statusAppMessage(app);
 }
 
-bootstrap();
+const isSyncNode = process.env.NODE_ENV === 'sync';
+if (isSyncNode) {
+  bootstrap(true);
+} else {
+  bootstrap();
+}
