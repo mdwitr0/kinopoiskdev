@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.3...v1.3.4) (2023-06-18)
+
+
+### Bug Fixes
+
+* **query.pipe.ts:** sorting by multiple fields don't support ([3312311](https://github.com/mdwitr0/kinopoiskdev/commit/3312311bf986587362796e551b883e951161a0da))
+
 ## [1.3.3](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.2...v1.3.3) (2023-06-09)
 
 
