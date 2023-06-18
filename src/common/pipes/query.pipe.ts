@@ -121,6 +121,16 @@ export class QueryPipe implements PipeTransform {
       });
     }
 
+    if (value["sortField[]"]) {
+      const fields = Array.isArray(value["sortField[]"]) ? value["sortField[]"] : [value["sortField[]"]];
+      const types = Array.isArray(value["sortType[]"]) ? value["sortType[]"] : [value["sortType[]"]];
+
+      fields.forEach((field: string, index: number) => {
+        sort[field] = types[index] === '1' ? 1 : -1;
+      });
+    }
+
+
     // Форматируем данные, под валидный для mongo запрос
     for (const [key, keyValue] of Object.entries(filter)) {
       if (!SYSTEM_KEYS.includes(key)) {
