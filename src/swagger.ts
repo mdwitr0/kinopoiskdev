@@ -37,6 +37,13 @@ const DESCRIPTION = `
   <li><a href="/v1/documentation-json">Documentation JSON</a></li>
   <li><a href="/v1/documentation-yaml">Documentation YAML</a></li>
 </ul>
+<br/>
+
+Библиотеки для работы с API
+<ul>
+  <li><a href="https://github.com/OpenMovieDB/kinopoiskdev_client">Клиент для JavaScript и TypeScript</a></li>
+  <li><a href="https://github.com/odi1n/kinopoisk_dev">Клиент для Python</a></li>
+</ul>
 <p>
 `;
 
