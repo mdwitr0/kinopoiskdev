@@ -1,8 +1,7 @@
-import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import { AppClusterService } from './app-cluster.service';
 import { Logger } from 'nestjs-pino';
 import { setupSwagger } from './swagger';
 import { setupFastify } from './fastify';
