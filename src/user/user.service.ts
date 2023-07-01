@@ -11,15 +11,17 @@ import * as ApiKey from 'uuid-apikey';
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
+
   constructor(
     @InjectModel(User.name) private readonly userRepository: Model<UserDocument>,
     @InjectRedis() private readonly redis: Redis,
   ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  async resetRequestsUsed() {
-    await this.userRepository.updateMany({}, { requestsUsed: 0 });
-    this.logger.log('Finish: Reset requests used');
+  async resetRequestsUsedAndCache() {
+    await this.userRepository.updateMany({ requestsUsed: { $ne: 0 } }, { requestsUsed: 0 });
+    await this.redis.flushall();
+    this.logger.log('Finish: Reset requests used & cache');
   }
 
   @Cron(CronExpression.EVERY_5_SECONDS)
@@ -30,9 +32,10 @@ export class UserService {
       .select('token')
       .lean();
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const keys = users.map((user) => ApiKey.toAPIKey(user.token));
-    const redisValues = await this.redis.mget(keys);
+    const redisValues = await this.redis.mget(...keys);
 
     const operations = [];
 
@@ -50,17 +53,12 @@ export class UserService {
         const requestsUsed = user.tariffId.requestsLimit - redisValueNumber;
 
         operations.push({
-          updateOne: {
-            filter: { _id: user._id },
-            update: { requestsUsed },
-          },
+          updateOne: { filter: { _id: user._id }, update: { requestsUsed } },
         });
       }
     });
 
-    if (operations.length > 0) {
-      await this.userRepository.bulkWrite(operations);
-    }
+    if (operations.length > 0) await this.userRepository.bulkWrite(operations);
 
     this.logger.log('Finish: Synchronize user request limits');
   }
