@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.5...v1.3.6) (2023-07-01)
+
+
+### Bug Fixes
+
+* !null doesn't support array fields [#120](https://github.com/mdwitr0/kinopoiskdev/issues/120) ([91858d6](https://github.com/mdwitr0/kinopoiskdev/commit/91858d6a1dbb2aea05657c79e95fd95ddec6ef2d))
+
 ## [1.3.5](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.4...v1.3.5) (2023-07-01)
 
 
