@@ -1,16 +1,16 @@
-import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { EntityFields } from '../decorators/paginated.decorator';
 import { IQuery } from '../interfaces/query.interface';
 import { normalizeDate } from '../utils/query/parse-date.util';
 
-const SYSTEM_KEYS = ['sortField', 'sortType', 'selectFields', 'page', 'limit', 'field', 'search'];
+const SYSTEM_KEYS = ['sortField', 'sortType', 'selectFields', 'page', 'limit', 'field', 'search', 'token'];
 
 @Injectable()
 export class QueryPipe implements PipeTransform {
   constructor(private readonly FIELDS: EntityFields) {}
 
   transform(value: any, metadata: ArgumentMetadata): IQuery {
-    const filter: any = {};
+    let filter: any = {};
     const sort: any = {};
     const select: any = {};
     let page = 1;
@@ -36,16 +36,11 @@ export class QueryPipe implements PipeTransform {
     };
 
     const transformFieldValue = (field: string, value: string): any => {
-      const isNullValue = value === '!null';
       const isExcludedFields = this.FIELDS.excludedValuesFields.includes(field) && value.includes('!');
       const isNumberField = this.FIELDS.numberSearchKeys.includes(field);
       const isDateField = this.FIELDS.dateSearchKeys.includes(field);
       const isRegexField = this.FIELDS.regexSearchKeys.includes(field);
       const isBooleanField = this.FIELDS.booleanFields.includes(field);
-
-      if (isNullValue) {
-        return { $ne: null };
-      }
 
       if (isExcludedFields) {
         return {
@@ -82,6 +77,27 @@ export class QueryPipe implements PipeTransform {
       return value;
     };
 
+    const transformNotNullValue = (filter: { [key: string]: any }, field: string): any => {
+      // Check if field contains a dot, implying nested structure
+      if (field.includes('.')) {
+        delete filter[field];
+
+        const keys = field.split('.');
+        const itemField = keys.pop();
+        const arrayField = keys.join('.');
+
+        // Return a condition that checks for existence and not null in a nested field or in an array element
+        return {
+          $or: [
+            { [field]: { $exists: true, $ne: null } },
+            { [arrayField]: { $elemMatch: { [itemField]: { $exists: true, $ne: null } } } },
+          ],
+        };
+      }
+      // If field is not nested, simply check for non-null values
+      return { [field]: { $ne: null } };
+    };
+
     // Парсим параметры поиска в старом формате
     if (value.field && value.search) {
       if (Array.isArray(value.field) && Array.isArray(value.search)) {
@@ -105,6 +121,9 @@ export class QueryPipe implements PipeTransform {
           filter[key] = {
             $in: keyValue.map((val) => transformFieldValue(key, val)),
           };
+        } else if (filter[key] === '!null') {
+          const notNullFilter = transformNotNullValue(filter, key);
+          filter = { ...filter, ...notNullFilter };
         } else {
           filter[key] = transformFieldValue(key, keyValue as string);
         }
@@ -121,15 +140,14 @@ export class QueryPipe implements PipeTransform {
       });
     }
 
-    if (value["sortField[]"]) {
-      const fields = Array.isArray(value["sortField[]"]) ? value["sortField[]"] : [value["sortField[]"]];
-      const types = Array.isArray(value["sortType[]"]) ? value["sortType[]"] : [value["sortType[]"]];
+    if (value['sortField[]']) {
+      const fields = Array.isArray(value['sortField[]']) ? value['sortField[]'] : [value['sortField[]']];
+      const types = Array.isArray(value['sortType[]']) ? value['sortType[]'] : [value['sortType[]']];
 
       fields.forEach((field: string, index: number) => {
         sort[field] = types[index] === '1' ? 1 : -1;
       });
     }
-
 
     // Форматируем данные, под валидный для mongo запрос
     for (const [key, keyValue] of Object.entries(filter)) {
