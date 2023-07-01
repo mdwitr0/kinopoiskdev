@@ -24,6 +24,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CacheConfig } from './common/configs/cache.config';
 import { ThrottlerConfig } from './common/configs/throttler.config';
+import { RedisConfig } from './common/configs/redis.config';
 
 const imports = [
   LoggerModule.forRoot(
@@ -68,6 +69,7 @@ const imports = [
       },
     }),
   }),
+  RedisConfig,
   MeiliSearchModule.forRootAsync({
     imports: [ConfigModule],
     inject: [ConfigService],
