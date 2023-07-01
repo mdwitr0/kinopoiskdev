@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.5](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.4...v1.3.5) (2023-07-01)
+
+
+### Bug Fixes
+
+* **user.service.ts:** change method name from resetRequestsUsed to resetRequestsUsedAndCache ([f1e7e01](https://github.com/mdwitr0/kinopoiskdev/commit/f1e7e013d26c703b3f8275f415e7e5de45f7413c))
+* **user.service.ts:** update method name from synchronizeUserRequestLimits to synchronizeUserRequestLimitsAndCache ([f1e7e01](https://github.com/mdwitr0/kinopoiskdev/commit/f1e7e013d26c703b3f8275f415e7e5de45f7413c))
+* **user.service.ts:** update resetRequestsUsedAndCache method to also flush Redis cache ([f1e7e01](https://github.com/mdwitr0/kinopoiskdev/commit/f1e7e013d26c703b3f8275f415e7e5de45f7413c))
+* **user.service.ts:** update synchronizeUserRequestLimitsAndCache method to use bulkWrite instead of updateMany for better performance ([f1e7e01](https://github.com/mdwitr0/kinopoiskdev/commit/f1e7e013d26c703b3f8275f415e7e5de45f7413c))
+
 ## [1.3.4](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.3...v1.3.4) (2023-06-18)
 
 
