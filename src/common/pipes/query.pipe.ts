@@ -179,6 +179,7 @@ export class QueryPipe implements PipeTransform {
     // Парсим параметры для пагинации
     if (value.page) page = parseInt(value.page, 10);
     if (value.limit) limit = parseInt(value.limit, 10);
+    if (limit > 250) limit = 250;
 
     return { filter, sort, select, limit, skip: (page - 1) * limit };
   }
