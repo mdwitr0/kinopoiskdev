@@ -2,8 +2,8 @@ import { MovieService } from './movie.service';
 import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
 
 import { Controller } from 'src/common/decorators/controller.decorator';
-import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PossibleValueDto as PossibleValueDto } from './dto/response/possible-value.response.dto';
 import { GetPossibleValueDto } from './dto/get-possible-values.dto';
 import { Paginated } from '../common/decorators/paginated.decorator';
@@ -18,6 +18,7 @@ import { ApiBaseResponse } from 'src/common/decorators/api-base-response.decorat
 import { ForbiddenErrorResponseDto } from 'src/common/dto/errors/forbidden-error.response.dto';
 import { MovieDtoV1_3 } from './dto/v1.3/movie.dto';
 import { MovieDocsResponseDtoV1_3 } from './dto/v1.3/movie-docs.response.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
