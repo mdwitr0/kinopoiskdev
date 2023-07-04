@@ -39,57 +39,60 @@ export class SearchSyncService implements OnModuleInit {
     service: MovieService | PersonService,
     pageSize = 1000,
   ): Promise<void> {
-    const process = await this.searchSyncModel.findOne({ entityType });
-    if (process?.processing) return;
-    await this.searchSyncModel.updateOne({ entityType }, { processing: true }, { upsert: true });
+    return new Promise(async (resolve) => {
+      const process = await this.searchSyncModel.findOne({ entityType });
+      if (process?.processing) return;
+      await this.searchSyncModel.updateOne({ entityType }, { processing: true }, { upsert: true });
 
-    let pageIndex = 1;
-    let hasMoreData = true;
+      let pageIndex = 1;
+      let hasMoreData = true;
 
-    const processPage = async (pageIndex: number): Promise<number> => {
-      const query = {
-        skip: (pageIndex - 1) * pageSize,
-        limit: pageSize,
-        sort: { _id: -1 },
+      const processPage = async (pageIndex: number): Promise<number> => {
+        const query = {
+          skip: (pageIndex - 1) * pageSize,
+          limit: pageSize,
+          sort: { _id: -1 },
+        };
+
+        const result = await service.findMany(query);
+        let entities = [];
+        switch (entityType) {
+          case MOVIE_INDEX:
+            entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntity({}).fromMongoDocument(movie));
+            break;
+          case PERSON_INDEX:
+            entities = (result.docs as Person[]).map((person) => new MeiliPersonEntity({}).fromMongoDocument(person));
+            break;
+          default:
+            throw new Error(`Unknown entity type: ${entityType}`);
+        }
+
+        if (result.docs.length > 0) {
+          await this.syncData<Entity>(entityType, entities, pageIndex);
+          return result.docs.length;
+        } else {
+          return 0;
+        }
       };
 
-      const result = await service.findMany(query);
-      let entities = [];
-      switch (entityType) {
-        case MOVIE_INDEX:
-          entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntity({}).fromMongoDocument(movie));
-          break;
-        case PERSON_INDEX:
-          entities = (result.docs as Person[]).map((person) => new MeiliPersonEntity({}).fromMongoDocument(person));
-          break;
-        default:
-          throw new Error(`Unknown entity type: ${entityType}`);
-      }
+      try {
+        while (hasMoreData) {
+          const pageIndices = Array.from({ length: 5 }, (_, i) => i + pageIndex);
+          const results = await Promise.all(pageIndices.map((index) => processPage(index)));
 
-      if (result.docs.length > 0) {
-        await this.syncData<Entity>(entityType, entities, pageIndex);
-        return result.docs.length;
-      } else {
-        return 0;
-      }
-    };
+          pageIndex += 5;
 
-    try {
-      while (hasMoreData) {
-        const pageIndices = Array.from({ length: 5 }, (_, i) => i + pageIndex);
-        const results = await Promise.all(pageIndices.map((index) => processPage(index)));
-
-        pageIndex += 5;
-
-        if (results.some((count) => count < pageSize)) {
-          hasMoreData = false;
+          if (results.some((count) => count < pageSize)) {
+            hasMoreData = false;
+          }
         }
+      } catch (error) {
+        this.logger.error(`Failed to sync ${entityType}: ${error.message}`);
+      } finally {
+        await this.searchSyncModel.updateOne({ entityType }, { processing: false });
       }
-    } catch (error) {
-      this.logger.error(`Failed to sync ${entityType}: ${error.message}`);
-    } finally {
-      await this.searchSyncModel.updateOne({ entityType }, { processing: false });
-    }
+      resolve();
+    });
   }
 
   @Cron(CronExpression.EVERY_WEEK)
@@ -107,6 +110,6 @@ export class SearchSyncService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    await Promise.all([this.syncMovies(), this.syncPersons()]);
+    Promise.all([this.syncMovies(), this.syncPersons()]);
   }
 }
