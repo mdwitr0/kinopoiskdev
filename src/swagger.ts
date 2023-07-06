@@ -53,6 +53,8 @@ export const setupSwagger = (app: NestFastifyApplication) => {
     .setDescription(DESCRIPTION)
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
     .setVersion('1.3')
+    .addServer('https://api.kinopoisk.dev')
+    .addServer('http://127.0.0.1:3000')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
