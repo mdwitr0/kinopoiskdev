@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.0...v1.4.1) (2023-07-10)
+
+
+### Bug Fixes
+
+* **movie.service.ts:** handle error when adding movie to the database ([ca4c969](https://github.com/mdwitr0/kinopoiskdev/commit/ca4c96903e5d6016caf45483929d472b2acea707))
+
 ## [1.4.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.6...v1.4.0) (2023-07-10)
 
 
