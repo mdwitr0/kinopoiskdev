@@ -125,27 +125,31 @@ export class MovieService {
 
   async addMovie(id: number | string): Promise<void> {
     this.logger.log(`Add movie with id: ${id}`);
-    const baseUrl = this.configService.get('UPDATE_API_BASE_URL');
-    const resp = await fetch(`${baseUrl}/movie`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        updateData: [
-          'base',
-          'premiere',
-          'facts',
-          'fees',
-          'budget',
-          'videos',
-          'similarMovies',
-          'images',
-          'persons',
-          'allDataPersons',
-          'sequelsAndPrequels',
-          'reviews',
-        ],
-        ids: [id],
-      }),
-    });
+    try {
+      const baseUrl = this.configService.get('UPDATE_API_BASE_URL');
+      await fetch(`${baseUrl}/movie`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          updateData: [
+            'base',
+            'premiere',
+            'facts',
+            'fees',
+            'budget',
+            'videos',
+            'similarMovies',
+            'images',
+            'persons',
+            'allDataPersons',
+            'sequelsAndPrequels',
+            'reviews',
+          ],
+          ids: [id],
+        }),
+      });
+    } catch (e) {
+      this.logger.error("Can't add movie", e);
+    }
   }
 }
