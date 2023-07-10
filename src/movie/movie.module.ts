@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MovieAward, MovieAwardSchema } from './schemas/movie-award.schema';
 import { MeiliModule } from '../meili/meili.module';
 import { CacheConfig } from 'src/common/configs/cache.config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CacheConfig } from 'src/common/configs/cache.config';
       { name: MovieAward.name, schema: MovieAwardSchema },
     ]),
     MeiliModule,
+    ConfigModule,
   ],
   controllers: [MovieController],
   providers: [MovieService],
