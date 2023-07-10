@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
-import { BaseService } from 'src/common/base/base.service';
 import { getRandomInt } from 'src/common/utils/get-random-int.util';
 import { GetPossibleValueDto } from './dto/get-possible-values.dto';
 import { PossibleValueDto } from './dto/response/possible-value.response.dto';
@@ -17,13 +16,16 @@ import { MOVIE_INDEX } from './constants/movie-index';
 import { SearchDto } from 'src/common/dto/query/search.dto';
 import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
 import { MovieDtoV1 } from './dto/v1/movie.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MovieService {
+  private readonly logger = new Logger(MovieService.name);
   constructor(
     @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
     @InjectModel(MovieAward.name) private readonly movieAwardModel: Model<MovieAwardDocument>,
     private readonly meiliService: MeiliService,
+    private readonly configService: ConfigService,
   ) {}
 
   async findMany(query: IQuery): Promise<MovieDocsResponseDtoV1> {
@@ -52,8 +54,12 @@ export class MovieService {
 
   async findOne(id: number | string): Promise<MovieDtoV1> {
     const found = await this.movieModel.findOne({ id });
-    // @ts-ignore
-    if (found) return found.toJSON();
+    if (found) {
+      // @ts-ignore
+      return found.toJSON();
+    } else {
+      await this.addMovie(id);
+    }
     return found;
   }
 
@@ -115,5 +121,31 @@ export class MovieService {
       page: query.skip / query.limit + 1,
       pages: Math.ceil(total / query.limit),
     };
+  }
+
+  async addMovie(id: number | string): Promise<void> {
+    this.logger.log(`Add movie with id: ${id}`);
+    const baseUrl = this.configService.get('UPDATE_API_BASE_URL');
+    const resp = await fetch(`${baseUrl}/movie`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        updateData: [
+          'base',
+          'premiere',
+          'facts',
+          'fees',
+          'budget',
+          'videos',
+          'similarMovies',
+          'images',
+          'persons',
+          'allDataPersons',
+          'sequelsAndPrequels',
+          'reviews',
+        ],
+        ids: [id],
+      }),
+    });
   }
 }
