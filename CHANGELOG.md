@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.6...v1.4.0) (2023-07-10)
+
+
+### Features
+
+* **movie.module.ts:** add ConfigModule import ([fd544bc](https://github.com/mdwitr0/kinopoiskdev/commit/fd544bc6e68fd0ba8188bc23bcff64985e6667d3))
+* **movie.service.ts:** add addMovie method to MovieService ([fd544bc](https://github.com/mdwitr0/kinopoiskdev/commit/fd544bc6e68fd0ba8188bc23bcff64985e6667d3))
+* **movie.service.ts:** add ConfigService import ([fd544bc](https://github.com/mdwitr0/kinopoiskdev/commit/fd544bc6e68fd0ba8188bc23bcff64985e6667d3))
+* **movie.service.ts:** add logger to MovieService ([fd544bc](https://github.com/mdwitr0/kinopoiskdev/commit/fd544bc6e68fd0ba8188bc23bcff64985e6667d3))
+
 ## [1.3.6](https://github.com/mdwitr0/kinopoiskdev/compare/v1.3.5...v1.3.6) (2023-07-01)
 
 
