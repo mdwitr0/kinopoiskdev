@@ -1,4 +1,5 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import * as ApiKey from 'uuid-apikey';
 
 @Injectable()
 export class TokenAuthGuard implements CanActivate {
@@ -6,8 +7,11 @@ export class TokenAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.raw.user;
     const isLimitNotExceeded = request.raw.isLimitNotExceeded;
-
-    if (!user) {
+    const token = request?.headers['x-api-key'] || request['query']['token'];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const userToken = ApiKey.toAPIKey(user.token);
+    if (!user || userToken !== token) {
       throw new UnauthorizedException('Токен указан некорректно!');
     }
 
