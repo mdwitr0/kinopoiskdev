@@ -131,20 +131,7 @@ export class MovieService {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          updateData: [
-            'base',
-            'premiere',
-            'facts',
-            'fees',
-            'budget',
-            'videos',
-            'similarMovies',
-            'images',
-            'persons',
-            'allDataPersons',
-            'sequelsAndPrequels',
-            'reviews',
-          ],
+          updateData: ['base'],
           ids: [id],
         }),
       });
