@@ -13,13 +13,13 @@ export class AuthMiddleware implements NestMiddleware {
     const token = req?.headers['x-api-key'] || req['query']['token'];
 
     if (!token) {
-      log(process.env.README_API_KEY, req, res, { apiKey: null, label: null });
+      log(process.env.README_API_KEY, req, res, { apiKey: 'unauthorized', label: null });
 
       throw new UnauthorizedException('В запросе не указан токен!');
     }
     // @ts-ignore
     if (!ApiKey.isAPIKey(token)) {
-      log(process.env.README_API_KEY, req, res, { apiKey: null, label: null });
+      log(process.env.README_API_KEY, req, res, { apiKey: 'unauthorized', label: null });
 
       throw new UnauthorizedException('Переданный токен некорректен!');
     }
