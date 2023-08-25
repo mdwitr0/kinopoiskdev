@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.1...v1.4.2) (2023-08-25)
+
+
+### Bug Fixes
+
+* **auth.middleware.ts:** update log message when token is not provided or invalid ([6a0195a](https://github.com/mdwitr0/kinopoiskdev/commit/6a0195adba4d7f55c7cfc7ba0befaf7e2e6e6741))
+
 ## [1.4.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.0...v1.4.1) (2023-07-10)
 
 
