@@ -25,17 +25,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { CacheConfig } from './common/configs/cache.config';
 import { ThrottlerConfig } from './common/configs/throttler.config';
 import { RedisConfig } from './common/configs/redis.config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 const imports = [
-  LoggerModule.forRoot(
-    process.env.NODE_ENV === 'production'
-      ? {}
-      : {
-          pinoHttp: {
-            transport: { target: 'pino-pretty' },
-          },
-        },
-  ),
+  LoggerModule.forRoot({
+    pinoHttp: {
+      transport: { target: 'pino-pretty' },
+    },
+  }),
   ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..', 'public'),
   }),
@@ -93,21 +90,18 @@ const imports = [
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
-    const apiVersions = ['v1', 'v1.1', 'v1.2', 'v1.3'];
     const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio'];
 
-    const routes = entities.flatMap((name) =>
-      apiVersions.map((version) => ({
-        path: `/${version}/${name}`,
-        method: RequestMethod.GET,
-      })),
-    );
+    const routes = entities.map((name) => ({
+      path: `/(.*)/${name}`,
+      method: RequestMethod.GET,
+    }));
 
     consumer.apply(AuthMiddleware).forRoutes(...routes);
   }
 
   static createSyncSpecificModule(isSync: boolean): DynamicModule {
-    const syncImports = isSync ? [SearchSyncModule] : [];
+    const syncImports = isSync ? [SearchSyncModule, ScheduleModule.forRoot()] : [];
 
     return {
       module: AppModule,
