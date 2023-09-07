@@ -1,12 +1,32 @@
-import { BaseController } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
 import { Season } from './schemas/season.schema';
-import { SeasonDocsResponseDto } from './dto/season-docs.response.dto';
 import { SeasonService } from './season.service';
+import { Get, Query, UseInterceptors, Version } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
+import { Paginated } from '../common/decorators/paginated.decorator';
+import { IQuery } from '../common/interfaces/query.interface';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+import { SeasonDocsResponseDtoV1 } from './dto/v1/season-docs.response.dto';
+import { SeasonDocsResponseDtoV1_4 } from './dto/v1.4/season-docs.response.dto';
 
 @Controller('season', 'Сезоны и эпизоды')
-export class SeasonController extends BaseController(Season, SeasonDocsResponseDto, 'Поиск сезонов') {
-  constructor(private readonly seasonService: SeasonService) {
-    super(seasonService);
+export class SeasonController {
+  constructor(private readonly service: SeasonService) {}
+
+  @Version('1')
+  @Get()
+  @UseInterceptors(CacheInterceptor)
+  @Paginated(SeasonDocsResponseDtoV1, Season, { findForAllProperties: true })
+  async findManyByQueryV1(@Query() query: IQuery): Promise<SeasonDocsResponseDtoV1> {
+    return this.service.findMany(query);
+  }
+
+  @Version('1.4')
+  @Get()
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Поиск сезонов' })
+  @Paginated(SeasonDocsResponseDtoV1_4, Season, { findForAllProperties: true })
+  async findManyByQueryV1_4(@Query() query: IQuery): Promise<SeasonDocsResponseDtoV1_4> {
+    return this.service.findMany(query);
   }
 }
