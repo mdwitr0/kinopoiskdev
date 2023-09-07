@@ -1,28 +1,27 @@
-import { Prop } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsNumber } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
 import { ParseNumber } from 'src/common/decorators/transform/parse-number.decorator';
 import {
+  CurrencyValue,
   ExternalId,
-  Name,
   FactInMovie,
-  Rating,
-  Votes,
-  Logo,
-  ShortImage,
+  Fees,
   Images,
-  VideoTypes,
   ItemName,
+  LinkedMovie,
+  Logo,
+  Name,
   PersonInMovie,
+  Premiere,
+  Rating,
   ReviewInfo,
   SeasonInfo,
-  CurrencyValue,
-  Fees,
-  Premiere,
-  LinkedMovie,
-  Watchability,
+  ShortImage,
   VendorImage,
+  VideoTypes,
+  Votes,
+  Watchability,
   YearRange,
 } from 'src/movie/schemas/movie.schema';
 
