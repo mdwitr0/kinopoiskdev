@@ -34,7 +34,7 @@ async function bootstrap(isSync = false) {
 
   await app.listen(PORT || 3000, '0.0.0.0');
 
-  statusAppMessage(app);
+  statusAppMessage(app, isSync);
 }
 
 const isSyncNode = process.env.NODE_ENV === 'sync';
