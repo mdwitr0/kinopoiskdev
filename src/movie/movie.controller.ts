@@ -86,11 +86,6 @@ export class MovieController {
   @Version('1')
   @Get()
   @UseInterceptors(CacheInterceptor)
-  @ApiOperation({
-    summary: 'Универсальный поиск с фильтрами',
-    description: `Эта версия эндпоинта устарела. Новый в 1.3 версии.`,
-    deprecated: true,
-  })
   @Paginated(MovieDocsResponseDtoV1, MovieDtoV1, { findForAllProperties: true })
   async findManyByQuery(@Query() query: IQuery): Promise<any> {
     return this.movieService.findMany(query);
@@ -99,13 +94,6 @@ export class MovieController {
   @Version('1')
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
-  @ApiOperation({
-    summary: 'Поиск по id',
-    description: 'Эта версия эндпоинта устарела. Новый в 1.3 версии.',
-    deprecated: true,
-  })
-  @ApiBaseResponse({ type: MovieDtoV1 })
-  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
   async findOne(@Param('id') id: string): Promise<MovieDtoV1> {
     const found = await this.movieService.findOne(+id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');

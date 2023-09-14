@@ -4,7 +4,10 @@ import { InjectMeiliSearch } from 'nestjs-meilisearch';
 
 @Injectable()
 export class MeiliService {
-  constructor(@InjectMeiliSearch() private readonly client: MeiliSearch) {}
+  constructor(@InjectMeiliSearch() private readonly client: MeiliSearch) {
+    this.initIndex('movies');
+    this.initIndex('persons');
+  }
 
   async initIndex(indexName: string): Promise<Index> {
     try {
@@ -23,7 +26,8 @@ export class MeiliService {
 
   async findById<Entity>(id: string, indexName: string): Promise<Entity> {
     const index = await this.initIndex(indexName);
-    return index.getDocument<Entity>(id);
+    const result = await index.search<Entity>(id);
+    return result.hits.find((hit) => hit['id'] === id);
   }
 
   async search<Entity>(
@@ -45,6 +49,6 @@ export class MeiliService {
   async saveMany<Entity>(items: Entity[], indexName: string): Promise<void> {
     const index = await this.initIndex(indexName);
 
-    await index.addDocuments(items);
+    await index.updateDocuments(items);
   }
 }
