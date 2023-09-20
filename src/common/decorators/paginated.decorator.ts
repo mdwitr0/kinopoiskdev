@@ -8,6 +8,7 @@ import { ApiDotNotationQuery } from './api-dot-notation-query.decorator';
 export interface EntityFields {
   allowFieldsFindAll: string[];
   excludedValuesFields: string[];
+  includeValuesFields?: string[];
   idKeys: string[];
   regexSearchKeys: string[];
   dateSearchKeys: string[];
@@ -46,6 +47,7 @@ const entitiesField: Entities = {
       'countries',
     ],
     excludedValuesFields: ['genres.name', 'countries.name'],
+    includeValuesFields: ['genres.name', 'countries.name'],
     idKeys: ['id', 'externalId.imdb'],
     regexSearchKeys: [
       'name',
