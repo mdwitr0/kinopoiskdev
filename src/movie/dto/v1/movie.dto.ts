@@ -153,7 +153,6 @@ export class MovieDtoV1 {
   @ApiPropertyOptional({ type: () => ReviewInfo })
   reviewInfo: ReviewInfo;
 
-  // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
   @ApiPropertyOptional({ type: () => SeasonInfo, isArray: true })
   seasonsInfo: SeasonInfo[];
 

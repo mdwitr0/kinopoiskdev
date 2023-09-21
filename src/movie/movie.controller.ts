@@ -19,6 +19,7 @@ import { ForbiddenErrorResponseDto } from 'src/common/dto/errors/forbidden-error
 import { MovieDtoV1_3 } from './dto/v1.3/movie.dto';
 import { MovieDocsResponseDtoV1_3 } from './dto/v1.3/movie-docs.response.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
@@ -63,13 +64,20 @@ export class MovieController {
     return this.movieService.getRandomMovie();
   }
 
-  @Version('1.2')
+  @Version('1.4')
   @Get('search')
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
-    summary: 'Полнотекстовый поиск',
-    description: `Этот метод предназначен для полнотекстового поиска тайтлов по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
+    summary: 'Поиск по названиям',
+    description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
   })
+  async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
+    return this.movieService.searchMovie(query);
+  }
+
+  @Version('1.2')
+  @Get('search')
+  @UseInterceptors(CacheInterceptor)
   async searchMovie(@Query() query: SearchDto): Promise<SearchMovieResponseDto> {
     return this.movieService.searchMovie(query);
   }

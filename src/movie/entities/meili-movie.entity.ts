@@ -75,6 +75,9 @@ export class MeiliMovieEntity {
   @Expose()
   releaseYears: number[];
 
+  @Expose()
+  isSeries: boolean;
+
   constructor(movie: Partial<MeiliMovieEntity>) {
     Object.assign(this, movie);
   }
@@ -100,6 +103,7 @@ export class MeiliMovieEntity {
     this.releaseYears = movie.releaseYears
       ? movie.releaseYears.map((yearRange) => [yearRange.start, yearRange.end]).flat(1)
       : [];
+    this.isSeries = movie.isSeries;
 
     return this;
   }
