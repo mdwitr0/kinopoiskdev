@@ -11,12 +11,12 @@ import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.respo
 import { DateTime } from 'luxon';
 import { MeiliService } from '../meili/meili.service';
 import { MeiliMovieEntity } from './entities/meili-movie.entity';
-import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
 import { MOVIE_INDEX } from './constants/movie-index';
 import { SearchDto } from 'src/common/dto/query/search.dto';
 import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
 import { MovieDtoV1 } from './dto/v1/movie.dto';
 import { ConfigService } from '@nestjs/config';
+import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
 
 @Injectable()
 export class MovieService {
@@ -63,7 +63,7 @@ export class MovieService {
     return found;
   }
 
-  async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDto> {
+  async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
     const offset = (dto.page - 1) * dto.limit;
     const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
 
