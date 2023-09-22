@@ -26,6 +26,7 @@ import { CacheConfig } from './common/configs/cache.config';
 import { ThrottlerConfig } from './common/configs/throttler.config';
 import { RedisConfig } from './common/configs/redis.config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ListModule } from './list/list.module';
 
 const imports = [
   LoggerModule.forRoot({
@@ -55,6 +56,7 @@ const imports = [
   ImageModule,
   AuthModule,
   UserModule,
+  ListModule,
   TerminusModule,
   HttpModule.registerAsync({
     imports: [ConfigModule],

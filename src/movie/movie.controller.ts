@@ -3,7 +3,7 @@ import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
 
 import { Controller } from 'src/common/decorators/controller.decorator';
 import { Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PossibleValueDto as PossibleValueDto } from './dto/response/possible-value.response.dto';
 import { GetPossibleValueDto } from './dto/get-possible-values.dto';
 import { Paginated } from '../common/decorators/paginated.decorator';
@@ -20,12 +20,14 @@ import { MovieDtoV1_3 } from './dto/v1.3/movie.dto';
 import { MovieDocsResponseDtoV1_3 } from './dto/v1.3/movie-docs.response.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
+import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
+import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
-  @Version('1.3')
+  @Version('1.4')
   @Get()
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
@@ -35,6 +37,28 @@ export class MovieController {
   \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
   \nЧтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр \`selectFields\` `,
   })
+  @Paginated(MovieDocsResponseDtoV1_4, MovieDtoV1_4, { findForAllProperties: true })
+  async findManyByQueryV1_4(@Query() query: IQuery): Promise<MovieDocsResponseDtoV1> {
+    return this.movieService.findMany(query);
+  }
+
+  @Version('1.4')
+  @Get(':id')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
+  @ApiBaseResponse({ type: MovieDtoV1_4 })
+  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
+  async findOneV1_4(@Param('id') id: string): Promise<any> {
+    const found = await this.movieService.findOne(+id);
+    if (!found) throw new NotFoundException('По этому id ничего не найдено!');
+    // ts-ignore
+    return found;
+  }
+
+  @Version('1.3')
+  @Get()
+  @UseInterceptors(CacheInterceptor)
+  @ApiExcludeEndpoint()
   @Paginated(MovieDocsResponseDtoV1_3, MovieDtoV1_3, { findForAllProperties: true })
   async findManyByQueryV1_3(@Query() query: IQuery): Promise<MovieDocsResponseDtoV1> {
     return this.movieService.findMany(query);
@@ -42,10 +66,8 @@ export class MovieController {
 
   @Version('1.3')
   @Get(':id')
+  @ApiExcludeEndpoint()
   @UseInterceptors(CacheInterceptor)
-  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
-  @ApiBaseResponse({ type: MovieDtoV1_3 })
-  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
   async findOneV1_3(@Param('id') id: string): Promise<any> {
     const found = await this.movieService.findOne(+id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');
@@ -78,6 +100,7 @@ export class MovieController {
   @Version('1.2')
   @Get('search')
   @UseInterceptors(CacheInterceptor)
+  @ApiExcludeEndpoint()
   async searchMovie(@Query() query: SearchDto): Promise<SearchMovieResponseDto> {
     return this.movieService.searchMovie(query);
   }
@@ -95,6 +118,7 @@ export class MovieController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   @Paginated(MovieDocsResponseDtoV1, MovieDtoV1, { findForAllProperties: true })
+  @ApiExcludeEndpoint()
   async findManyByQuery(@Query() query: IQuery): Promise<any> {
     return this.movieService.findMany(query);
   }
@@ -102,6 +126,7 @@ export class MovieController {
   @Version('1')
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
+  @ApiExcludeEndpoint()
   async findOne(@Param('id') id: string): Promise<MovieDtoV1> {
     const found = await this.movieService.findOne(+id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');
@@ -111,11 +136,7 @@ export class MovieController {
 
   @Version('1')
   @Get('random')
-  @ApiOperation({
-    summary: 'Получить рандомный тайтл из базы',
-    description: `Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.`,
-  })
-  @ApiResponse({ type: MovieDtoV1 })
+  @ApiExcludeEndpoint()
   async getRandomMovie(): Promise<MovieDtoV1> {
     return this.movieService.getRandomMovie();
   }

@@ -525,6 +525,9 @@ export class Movie {
 
   @Prop()
   ticketsOnSale: boolean;
+
+  @Prop()
+  lists: string[];
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
