@@ -11,11 +11,12 @@ export function BaseController<TEntity, TEntityDto>(
   Entity: Constructor<TEntity>,
   EntityDto: Constructor<TEntityDto>,
   description?: string,
+  version?: string,
 ) {
   abstract class BaseController {
     protected constructor(readonly service: any) {}
 
-    @Version('1')
+    @Version(version ?? '1')
     @Get()
     @ApiOperation({ summary: description })
     @UseInterceptors(CacheInterceptor)
@@ -33,11 +34,12 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
   EntityDto: Constructor<TEntityDto>,
   summary?: string,
   description?: string,
+  version?: string,
 ) {
   abstract class BaseControllerWithFindById {
     protected constructor(readonly service: any) {}
 
-    @Version('1')
+    @Version(version ?? '1')
     @Get()
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary, description })
@@ -46,7 +48,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
       return this.service.findMany(query);
     }
 
-    @Version('1')
+    @Version(version ?? '1')
     @Get(':id')
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
