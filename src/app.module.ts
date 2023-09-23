@@ -92,7 +92,7 @@ const imports = [
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
-    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio'];
+    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio', 'list'];
 
     const routes = entities.map((name) => ({
       path: `/(.*)/${name}`,

@@ -46,8 +46,8 @@ const entitiesField: Entities = {
       'genres',
       'countries',
     ],
-    excludedValuesFields: ['genres.name', 'countries.name'],
-    includeValuesFields: ['genres.name', 'countries.name'],
+    excludedValuesFields: ['genres.name', 'countries.name', 'lists'],
+    includeValuesFields: ['genres.name', 'countries.name', 'lists'],
     idKeys: ['id', 'externalId.imdb'],
     regexSearchKeys: [
       'name',
@@ -230,11 +230,23 @@ const entitiesField: Entities = {
     numberSearchKeys: ['id', 'movies.id'],
     booleanFields: [],
   },
+  list: {
+    allowFieldsFindAll: [],
+    excludedValuesFields: [],
+    includeValuesFields: [],
+    idKeys: [],
+    regexSearchKeys: [],
+    dateSearchKeys: [],
+    numberSearchKeys: [],
+    blacklistFields: [],
+    booleanFields: [],
+  },
 };
 
 const versionsEntityField: Entities = {
   moviedtov1: entitiesField.movie,
   moviedtov1_3: entitiesField.movie,
+  moviedtov1_4: entitiesField.movie,
   person: entitiesField.person,
   review: entitiesField.review,
   season: entitiesField.season,
@@ -243,6 +255,7 @@ const versionsEntityField: Entities = {
   movieaward: entitiesField.movieaward,
   keyword: entitiesField.keyword,
   studio: entitiesField.studio,
+  list: entitiesField.list,
 };
 
 export const Paginated = (

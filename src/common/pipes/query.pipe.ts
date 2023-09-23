@@ -36,8 +36,8 @@ export class QueryPipe implements PipeTransform {
     };
 
     const transformFieldValue = (field: string, value: string): any => {
-      const isIncludeFields = this.FIELDS.includeValuesFields?.includes(field) && value.includes('+');
-      const isExcludedFields = this.FIELDS.excludedValuesFields.includes(field) && value.includes('!');
+      const isIncludeFields = this.FIELDS?.includeValuesFields?.includes(field) && value.includes('+');
+      const isExcludedFields = this.FIELDS?.excludedValuesFields?.includes(field) && value.includes('!');
       const isNumberField = this.FIELDS.numberSearchKeys.includes(field);
       const isDateField = this.FIELDS.dateSearchKeys.includes(field);
       const isRegexField = this.FIELDS.regexSearchKeys.includes(field);
