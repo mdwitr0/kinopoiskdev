@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.2...v1.4.3) (2023-10-04)
+
+
+### Bug Fixes
+
+* error movie sync (kp not found) ([dcbec1c](https://github.com/mdwitr0/kinopoiskdev/commit/dcbec1cc188de87152f70ad74e84ba0dffe7e132))
+
 ## [1.4.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.1...v1.4.2) (2023-08-25)
 
 
