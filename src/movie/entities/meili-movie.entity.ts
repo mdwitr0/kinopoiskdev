@@ -92,8 +92,8 @@ export class MeiliMovieEntity {
     this.logo = movie.logo?.url || null;
     this.poster = movie.poster?.url || null;
     this.backdrop = movie.backdrop?.url || null;
-    this.rating = movie.rating.kp || movie.rating.imdb || 0;
-    this.votes = Number(movie.votes.kp) || Number(movie.votes.imdb) || 0;
+    this.rating = movie.rating?.kp || movie.rating?.imdb || 0;
+    this.votes = Number(movie.votes?.kp) || Number(movie.votes?.imdb) || 0;
     this.movieLength = movie.movieLength || 0;
     this.genres = movie.genres ? movie.genres.map(({ name }) => name) : [];
     this.countries = movie.countries ? movie.countries.map(({ name }) => name) : [];
