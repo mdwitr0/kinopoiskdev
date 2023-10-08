@@ -6,7 +6,7 @@ import { Get, NotFoundException, Param, Query, UseInterceptors, Version } from '
 import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PossibleValueDto as PossibleValueDto } from './dto/response/possible-value.response.dto';
 import { GetPossibleValueDto } from './dto/get-possible-values.dto';
-import { Paginated } from '../common/decorators/paginated.decorator';
+import { Paginated, QueryParams } from '../common/decorators/paginated.decorator';
 
 import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward } from './schemas/movie-award.schema';
@@ -19,8 +19,8 @@ import { ForbiddenErrorResponseDto } from 'src/common/dto/errors/forbidden-error
 import { MovieDtoV1_3 } from './dto/v1.3/movie.dto';
 import { MovieDocsResponseDtoV1_3 } from './dto/v1.3/movie-docs.response.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
-import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
 import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
+import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
 import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
@@ -77,13 +77,20 @@ export class MovieController {
 
   @Version('1.3')
   @Get('random')
+  async getRandomMovieV1_3(): Promise<any> {
+    return this.movieService.getRandomMovie();
+  }
+
+  @Version('1.4')
+  @Get('random')
   @ApiOperation({
     summary: 'Получить рандомный тайтл из базы',
     description: `Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.`,
   })
-  @ApiResponse({ type: MovieDtoV1_3 })
-  async getRandomMovieV1_3(): Promise<any> {
-    return this.movieService.getRandomMovie();
+  @ApiResponse({ type: MovieDtoV1_4 })
+  @QueryParams(MovieDtoV1_4)
+  async getRandomMovieV1_4(@Query() query: IQuery): Promise<any> {
+    return this.movieService.getRandomMovieV1_4(query);
   }
 
   @Version('1.4')

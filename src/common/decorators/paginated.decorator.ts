@@ -271,3 +271,10 @@ export const Paginated = (
     ApiBaseResponse({ type: entityDto, isArray }),
   );
 };
+
+export const QueryParams = (entity: any) => {
+  return applyDecorators(
+    UsePipes(new QueryPipe(versionsEntityField[entity.name.toLowerCase()])),
+    ApiDotNotationQuery(entity),
+  );
+};

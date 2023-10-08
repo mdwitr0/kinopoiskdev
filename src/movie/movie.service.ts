@@ -95,6 +95,12 @@ export class MovieService {
     return this.movieModel.findOne(filter).skip(getRandomInt(1, count)).lean();
   }
 
+  async getRandomMovieV1_4(query: IQuery): Promise<Movie> {
+    const count = await this.movieModel.countDocuments(query.filter);
+
+    return this.movieModel.findOne(query.filter).select(query.select).skip(getRandomInt(1, count)).lean();
+  }
+
   async getPossibleValuesByFieldName({ field }: GetPossibleValueDto): Promise<PossibleValueDto[]> {
     const values = await this.movieModel.distinct(field).exec();
 
