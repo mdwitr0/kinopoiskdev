@@ -9,7 +9,6 @@ import {
   Fees,
   Images,
   ItemName,
-  LinkedMovie,
   Logo,
   Name,
   PersonInMovie,
@@ -24,6 +23,21 @@ import {
   Watchability,
   YearRange,
 } from 'src/movie/schemas/movie.schema';
+
+export class LinkedMovie {
+  @ApiNullableProperty()
+  id: number;
+
+  name: string;
+
+  enName: string;
+
+  alternativeName: string;
+
+  type?: string;
+
+  poster: ShortImage;
+}
 
 export class MovieDtoV1 {
   // INFO: Id values
