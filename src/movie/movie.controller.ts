@@ -77,6 +77,7 @@ export class MovieController {
 
   @Version('1.3')
   @Get('random')
+  @ApiExcludeEndpoint()
   async getRandomMovieV1_3(): Promise<any> {
     return this.movieService.getRandomMovie();
   }
@@ -85,7 +86,7 @@ export class MovieController {
   @Get('random')
   @ApiOperation({
     summary: 'Получить рандомный тайтл из базы',
-    description: `Этот метод не принимает ни каких параметров, так как выборка в нем уже достаточно релевантная. В него попадают тайтлы не старше 10 лет, рейтинг которых больше 6, есть название и постер.`,
+    description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
   })
   @ApiResponse({ type: MovieDtoV1_4 })
   @QueryParams(MovieDtoV1_4)
