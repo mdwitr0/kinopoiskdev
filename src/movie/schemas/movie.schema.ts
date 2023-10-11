@@ -324,6 +324,12 @@ export class LinkedMovie {
 
   @Prop()
   poster: ShortImage;
+
+  @Prop({ type: () => Rating })
+  rating: Rating;
+
+  @Prop({ index: true })
+  year: number;
 }
 
 export class Watchability {
