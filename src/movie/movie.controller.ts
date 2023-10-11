@@ -55,6 +55,29 @@ export class MovieController {
     return found;
   }
 
+  @Version('1.4')
+  @Get('random')
+  @ApiOperation({
+    summary: 'Получить рандомный тайтл из базы',
+    description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
+  })
+  @ApiResponse({ type: MovieDtoV1_4 })
+  @QueryParams(MovieDtoV1_4)
+  async getRandomMovieV1_4(@Query() query: IQuery): Promise<any> {
+    return this.movieService.getRandomMovieV1_4(query);
+  }
+
+  @Version('1.4')
+  @Get('search')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({
+    summary: 'Поиск по названиям',
+    description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
+  })
+  async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
+    return this.movieService.searchMovie(query);
+  }
+
   @Version('1.3')
   @Get()
   @UseInterceptors(CacheInterceptor)
@@ -80,29 +103,6 @@ export class MovieController {
   @ApiExcludeEndpoint()
   async getRandomMovieV1_3(): Promise<any> {
     return this.movieService.getRandomMovie();
-  }
-
-  @Version('1.4')
-  @Get('random')
-  @ApiOperation({
-    summary: 'Получить рандомный тайтл из базы',
-    description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
-  })
-  @ApiResponse({ type: MovieDtoV1_4 })
-  @QueryParams(MovieDtoV1_4)
-  async getRandomMovieV1_4(@Query() query: IQuery): Promise<any> {
-    return this.movieService.getRandomMovieV1_4(query);
-  }
-
-  @Version('1.4')
-  @Get('search')
-  @UseInterceptors(CacheInterceptor)
-  @ApiOperation({
-    summary: 'Поиск по названиям',
-    description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
-  })
-  async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
-    return this.movieService.searchMovie(query);
   }
 
   @Version('1.2')

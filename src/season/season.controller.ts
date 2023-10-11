@@ -2,7 +2,7 @@ import { Controller } from 'src/common/decorators/controller.decorator';
 import { Season } from './schemas/season.schema';
 import { SeasonService } from './season.service';
 import { Get, Query, UseInterceptors, Version } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiOperation } from '@nestjs/swagger';
 import { Paginated } from '../common/decorators/paginated.decorator';
 import { IQuery } from '../common/interfaces/query.interface';
 import { CacheInterceptor } from '@nestjs/cache-manager';
@@ -17,6 +17,7 @@ export class SeasonController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   @Paginated(SeasonDocsResponseDtoV1, Season, { findForAllProperties: true })
+  @ApiExcludeEndpoint()
   async findManyByQueryV1(@Query() query: IQuery): Promise<SeasonDocsResponseDtoV1> {
     return this.service.findMany(query);
   }
