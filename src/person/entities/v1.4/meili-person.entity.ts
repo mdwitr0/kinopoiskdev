@@ -1,5 +1,4 @@
-import { Expose } from 'class-transformer';
-import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
+import { ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { MeiliPersonEntity } from '../meili-person.entity';
 import { Prop } from '@nestjs/mongoose';
 import { BirthPlace, DeathPlace, Person, Profession } from '../../schemas/person.schema';
@@ -10,42 +9,6 @@ export class MeiliPersonEntityV1_4 extends OmitType(MeiliPersonEntity, [
   'profession',
   'fromMongoDocument',
 ] as const) {
-  @ApiProperty()
-  @Expose()
-  id: number;
-
-  @ApiProperty()
-  @Expose()
-  name: string;
-
-  @ApiProperty()
-  @Expose()
-  enName: string;
-
-  @ApiProperty()
-  @Expose()
-  photo: string;
-
-  @ApiProperty()
-  @Expose()
-  sex: string;
-
-  @ApiProperty()
-  @Expose()
-  growth: number;
-
-  @ApiProperty()
-  @Expose()
-  birthday: string;
-
-  @ApiProperty()
-  @Expose()
-  death: string;
-
-  @ApiProperty()
-  @Expose()
-  age: number;
-
   @ApiPropertyOptional({ type: () => BirthPlace, isArray: true })
   @Prop({ items: BirthPlace })
   birthPlace: BirthPlace[];

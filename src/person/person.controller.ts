@@ -1,5 +1,5 @@
 import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiOperation } from '@nestjs/swagger';
 import { BaseControllerWithFindById } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
 import { Paginated } from 'src/common/decorators/paginated.decorator';
@@ -11,6 +11,7 @@ import { PersonAward } from './schemas/person-award.schema';
 import { Person } from './schemas/person.schema';
 import { SearchDto } from 'src/common/dto/query/search.dto';
 import { SearchPersonResponseDto } from './dto/search-person.response.dto';
+import { SearchPersonResponseDtoV1_4 } from './dto/v1.4/search-person.response.dto';
 
 @Controller('person', 'Актеры, режиссеры, операторы, и т.д')
 export class PersonController extends BaseControllerWithFindById(
@@ -22,13 +23,21 @@ export class PersonController extends BaseControllerWithFindById(
     super(personService);
   }
 
-  @Version('1.2')
+  @Version('1.4')
   @Get('search')
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Полнотекстовый поиск',
     description: `Этот метод предназначен для полнотекстового поиска персон по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
   })
+  async searchPersonV1_4(@Query() query: SearchDto): Promise<SearchPersonResponseDtoV1_4> {
+    return this.service.searchPersonV1_4(query);
+  }
+
+  @Version('1.2')
+  @Get('search')
+  @UseInterceptors(CacheInterceptor)
+  @ApiExcludeEndpoint()
   async searchPerson(@Query() query: SearchDto): Promise<SearchPersonResponseDto> {
     return this.service.searchPerson(query);
   }
