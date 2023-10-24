@@ -58,7 +58,7 @@ export const setupSwagger = (app: NestFastifyApplication) => {
 
   SwaggerModule.setup(DOC_PATH, app, document, {
     customSiteTitle: SITE_TITLE,
-    customCssUrl: 'https://kinopoisk.dev/assets/swagger.css',
-    customfavIcon: 'https://kinopoisk.dev/assets/icon.png',
+    customCssUrl: '/swagger.css',
+    customfavIcon: '/icon.png',
   });
 };
