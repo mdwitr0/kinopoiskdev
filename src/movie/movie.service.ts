@@ -11,12 +11,14 @@ import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.respo
 import { DateTime } from 'luxon';
 import { MeiliService } from '../meili/meili.service';
 import { MeiliMovieEntity } from './entities/meili-movie.entity';
-import { MOVIE_INDEX } from './constants/movie-index';
+import { MOVIE_INDEX, MOVIE_V1_4_INDEX } from './constants/movie-index';
 import { SearchDto } from 'src/common/dto/query/search.dto';
 import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
 import { MovieDtoV1 } from './dto/v1/movie.dto';
 import { ConfigService } from '@nestjs/config';
 import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
+import { MeiliMovieEntityV1_4 } from './entities/v1.4/meili-movie.entity';
+import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
 
 @Injectable()
 export class MovieService {
@@ -63,11 +65,31 @@ export class MovieService {
     return found;
   }
 
-  async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
+  async searchMovie(dto: SearchDto): Promise<SearchMovieResponseDto> {
     const offset = (dto.page - 1) * dto.limit;
     const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
 
     const movieEntities = searchResponse.hits.map((movie) => new MeiliMovieEntity(movie));
+
+    return {
+      docs: movieEntities,
+      total: searchResponse.estimatedTotalHits,
+      limit: dto.limit,
+      page: dto.page,
+      pages: Math.ceil(searchResponse.estimatedTotalHits / dto.limit),
+    };
+  }
+
+  async searchMovieV1_4(dto: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
+    const offset = (dto.page - 1) * dto.limit;
+    const searchResponse = await this.meiliService.search<MeiliMovieEntityV1_4>(
+      dto.query,
+      MOVIE_V1_4_INDEX,
+      dto.limit,
+      offset,
+    );
+
+    const movieEntities = searchResponse.hits.map((movie) => new MeiliMovieEntityV1_4(movie));
 
     return {
       docs: movieEntities,

@@ -102,7 +102,7 @@ export class MovieController {
     description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
   })
   async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
-    return this.movieService.searchMovie(query);
+    return this.movieService.searchMovieV1_4(query);
   }
 
   @Version('1.2')

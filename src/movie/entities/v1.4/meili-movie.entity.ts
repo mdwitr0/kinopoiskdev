@@ -41,6 +41,36 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
   @ApiPropertyOptional({ type: () => YearRange, isArray: true })
   releaseYears: YearRange[];
 
+  @ApiProperty()
+  isSeries: boolean;
+
+  @ApiProperty()
+  ticketsOnSale: boolean;
+
+  @ApiProperty()
+  totalSeriesLength: number;
+
+  @ApiProperty()
+  seriesLength: number;
+
+  @ApiProperty()
+  ratingMpaa: string;
+
+  @ApiProperty()
+  ageRating: number;
+
+  @ApiProperty()
+  top10?: number | null;
+
+  @ApiProperty()
+  top250?: number | null;
+
+  @ApiProperty()
+  typeNumber: number;
+
+  @ApiProperty()
+  status: string;
+
   constructor(movie: Partial<MeiliMovieEntityV1_4>) {
     super();
     Object.assign(this, movie);
