@@ -10,7 +10,9 @@ import { SearchDto } from 'src/common/dto/query/search.dto';
 import { SearchPersonResponseDto } from './dto/search-person.response.dto';
 import { MeiliService } from 'src/meili/meili.service';
 import { MeiliPersonEntity } from './entities/meili-person.entity';
-import { PERSON_INDEX } from './constants/person-index';
+import { PERSON_INDEX, PERSON_V1_4_INDEX } from './constants/person-index';
+import { SearchPersonResponseDtoV1_4 } from './dto/v1.4/search-person.response.dto';
+import { MeiliPersonEntityV1_4 } from './entities/v1.4/meili-person.entity';
 
 @Injectable()
 export class PersonService extends BaseService<Person> {
@@ -20,6 +22,26 @@ export class PersonService extends BaseService<Person> {
     private readonly meiliService: MeiliService,
   ) {
     super(personModel);
+  }
+
+  async searchPersonV1_4(dto: SearchDto): Promise<SearchPersonResponseDtoV1_4> {
+    const offset = (dto.page - 1) * dto.limit;
+    const searchResponse = await this.meiliService.search<MeiliPersonEntityV1_4>(
+      dto.query,
+      PERSON_V1_4_INDEX,
+      dto.limit,
+      offset,
+    );
+
+    const personEntities = searchResponse.hits.map((person) => new MeiliPersonEntityV1_4(person));
+
+    return {
+      docs: personEntities,
+      total: searchResponse.estimatedTotalHits,
+      limit: dto.limit,
+      page: dto.page,
+      pages: Math.ceil(searchResponse.estimatedTotalHits / dto.limit),
+    };
   }
 
   async searchPerson(dto: SearchDto): Promise<SearchPersonResponseDto> {
