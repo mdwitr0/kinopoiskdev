@@ -378,6 +378,18 @@ export class Audience {
   country: string;
 }
 
+export class NetworkItem {
+  @Prop()
+  name: string;
+
+  @Prop({ type: () => Logo })
+  logo: Logo;
+}
+export class Networks {
+  @Prop({ type: () => [NetworkItem] })
+  items: NetworkItem[];
+}
+
 // INFO:Movie model
 export type MovieDocument = HydratedDocument<Movie>;
 @Schema({
@@ -534,6 +546,9 @@ export class Movie {
 
   @Prop()
   lists: string[];
+
+  @Prop({ type: () => Networks })
+  networks: Networks;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
