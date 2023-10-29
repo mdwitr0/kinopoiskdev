@@ -4,8 +4,8 @@ import { ExcludeQueryParam } from '../query-builder/query-param-strategy/exclude
 import { RangeQueryParam } from '../query-builder/query-param-strategy/range-query-param.strategy';
 import { IncludeQueryParam } from '../query-builder/query-param-strategy/include-query-param.strategy';
 
-@ValidatorConstraint({ name: 'isNumber', async: false })
-export class IsNumber implements ValidatorConstraintInterface {
+@ValidatorConstraint({ name: 'isNumberParam', async: false })
+export class IsNumberParam implements ValidatorConstraintInterface {
   private queryParamStrategies: IQueryParamStrategy[] = [];
   constructor() {
     this.queryParamStrategies = [ExcludeQueryParam, IncludeQueryParam, RangeQueryParam].map((strategy) => QueryParamStrategyFactory.create(strategy));

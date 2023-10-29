@@ -1,14 +1,15 @@
-import { IsNumber } from './is-number';
+import { IsValueInRange } from './is-value-in-range';
 import { ValidationArguments } from 'class-validator';
 
-describe('IsNumber', () => {
-  let isNumber: IsNumber;
+describe('IsValueInRange', () => {
+  let minMax: IsValueInRange;
   let validationArguments: ValidationArguments;
+  const range = [5, 10];
 
   beforeEach(() => {
-    isNumber = new IsNumber();
+    minMax = new IsValueInRange();
     validationArguments = {
-      constraints: [],
+      constraints: range,
       property: 'testProperty',
       target: {},
       value: '',
@@ -19,23 +20,27 @@ describe('IsNumber', () => {
 
   const tests = [
     { value: 7, expected: true },
-    { value: '15', expected: true },
+    { value: 3, expected: false },
+    { value: 12, expected: false },
+    { value: '15', expected: false },
+    { value: '25', expected: false },
+    { value: '5', expected: true },
     { value: '!5', expected: true },
     { value: '+5', expected: true },
-    { value: '10-20', expected: true },
-    { value: [6, 8], expected: true },
-    { value: '!dfgdfs54432', expected: false },
     { value: '!11-222', expected: false },
+    { value: '!dfgdfs54432', expected: false },
+    { value: '10-20', expected: false },
+    { value: [6, 8], expected: true },
+    { value: [3, 8], expected: false },
     { value: '!', expected: false },
     { value: '+', expected: false },
     { value: '-', expected: false },
-    { value: '-25', expected: false },
     { value: '', expected: false },
   ];
 
   tests.forEach(({ value, expected }) => {
     it(`should ${expected ? 'accept' : 'reject'} ${value}`, () => {
-      expect(isNumber.validate(value, validationArguments)).toBe(expected);
+      expect(minMax.validate(value, validationArguments)).toBe(expected);
     });
   });
 });
