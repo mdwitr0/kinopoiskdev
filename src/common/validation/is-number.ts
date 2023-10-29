@@ -12,6 +12,7 @@ export class IsNumber implements ValidatorConstraintInterface {
   }
   validate(value: any, args: ValidationArguments) {
     if (Array.isArray(value)) return value.every((item) => this.validate(item, args));
+    if (typeof value === 'number') return this.isValidNumber(value);
 
     for (const queryParamStrategy of this.queryParamStrategies) {
       if (queryParamStrategy.is(value)) {
@@ -30,6 +31,8 @@ export class IsNumber implements ValidatorConstraintInterface {
   }
 
   private isValidNumber(value: any): boolean {
+    if (value === undefined || value === null || value === '') return false;
+
     return !isNaN(Number(value));
   }
 }
