@@ -2,12 +2,12 @@ import { ValidationArguments } from 'class-validator';
 import { IsLengthExact } from './is-length-exact';
 
 describe('IsLengthExact', () => {
-  let minMax: IsLengthExact;
+  let isLengthExact: IsLengthExact;
   let validationArguments: ValidationArguments;
   const len = 5;
 
   beforeEach(() => {
-    minMax = new IsLengthExact();
+    isLengthExact = new IsLengthExact();
     validationArguments = {
       constraints: [len],
       property: 'testProperty',
@@ -28,7 +28,7 @@ describe('IsLengthExact', () => {
 
   tests.forEach(({ value, expected }) => {
     it(`should ${expected ? 'accept' : 'reject'} ${value}`, () => {
-      expect(minMax.validate(value, validationArguments)).toBe(expected);
+      expect(isLengthExact.validate(value, validationArguments)).toBe(expected);
     });
   });
 });
