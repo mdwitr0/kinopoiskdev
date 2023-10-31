@@ -30,6 +30,8 @@ describe('IsBooleanParam', () => {
     { value: 0, expected: false },
     { value: '12342', expected: false },
     { value: 'sdfg', expected: false },
+    { value: null, expected: false },
+    { value: undefined, expected: false },
   ];
 
   tests.forEach(({ value, expected }) => {
