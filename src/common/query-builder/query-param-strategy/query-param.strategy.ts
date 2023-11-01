@@ -21,4 +21,10 @@ export class QueryParamStrategyFactory {
     if (rangeQueryParamStrategy.is(value)) return rangeQueryParamStrategy;
     return defaultQueryParamStrategy;
   }
+
+  static createWithStrategies(value: string, strategies: IQueryParamStrategy[]): IQueryParamStrategy {
+    const defaultQueryParamStrategy = new DefaultQueryParamStrategy();
+    const strategy = strategies.find((strategy) => strategy.is(value));
+    return strategy || defaultQueryParamStrategy;
+  }
 }

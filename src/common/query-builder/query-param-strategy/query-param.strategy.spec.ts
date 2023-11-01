@@ -2,6 +2,7 @@ import { IQueryParamStrategy, QueryParamStrategyFactory } from './query-param.st
 import { RangeQueryParamStrategy } from './range-query-param.strategy';
 import { IncludeQueryParamStrategy } from './include-query-param.strategy';
 import { ExcludeQueryParamStrategy } from './exclude-query-param.strategy';
+import { DefaultQueryParamStrategy } from './default-query-param.strategy';
 
 describe('QueryParamStrategyFactory', () => {
   it('should create an instance of ExcludeQueryParamStrategy when ExcludeQueryParam is passed', () => {
@@ -21,7 +22,22 @@ describe('QueryParamStrategyFactory', () => {
 
   it('should create an instance of DefaultQueryParamStrategy when an unknown value is passed', () => {
     const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create('value');
+    expect(strategy).toBeInstanceOf(DefaultQueryParamStrategy);
+  });
+
+  it('should create with ExcludeQueryParamStrategy strategy when ExcludeQueryParam is passed', () => {
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.createWithStrategies('!value', [new ExcludeQueryParamStrategy()]);
     expect(strategy).toBeInstanceOf(ExcludeQueryParamStrategy);
+  });
+
+  it('should create with IncludeQueryParamStrategy strategy when IncludeQueryParam is passed', () => {
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.createWithStrategies('+value', [new IncludeQueryParamStrategy()]);
+    expect(strategy).toBeInstanceOf(IncludeQueryParamStrategy);
+  });
+
+  it('should create with empty strategy when an unknown value is passed', () => {
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.createWithStrategies('value', []);
+    expect(strategy).toBeInstanceOf(DefaultQueryParamStrategy);
   });
 });
 
