@@ -1,27 +1,27 @@
 import { IQueryParamStrategy, QueryParamStrategyFactory } from './query-param.strategy';
-import { RangeQueryParam, RangeQueryParamStrategy } from './range-query-param.strategy';
-import { IncludeQueryParam, IncludeQueryParamStrategy } from './include-query-param.strategy';
-import { ExcludeQueryParam, ExcludeQueryParamStrategy } from './exclude-query-param.strategy';
+import { RangeQueryParamStrategy } from './range-query-param.strategy';
+import { IncludeQueryParamStrategy } from './include-query-param.strategy';
+import { ExcludeQueryParamStrategy } from './exclude-query-param.strategy';
 
 describe('QueryParamStrategyFactory', () => {
   it('should create an instance of ExcludeQueryParamStrategy when ExcludeQueryParam is passed', () => {
-    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create(ExcludeQueryParam);
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create('!value');
     expect(strategy).toBeInstanceOf(ExcludeQueryParamStrategy);
   });
 
   it('should create an instance of IncludeQueryParamStrategy when IncludeQueryParam is passed', () => {
-    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create(IncludeQueryParam);
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create('+value');
     expect(strategy).toBeInstanceOf(IncludeQueryParamStrategy);
   });
 
   it('should create an instance of RangeQueryParamStrategy when RangeQueryParam is passed', () => {
-    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create(RangeQueryParam);
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create('1-10');
     expect(strategy).toBeInstanceOf(RangeQueryParamStrategy);
   });
 
-  it('should throw an Error when an invalid strategy is passed', () => {
-    const invalidStrategy = 'InvalidStrategy';
-    expect(() => QueryParamStrategyFactory.create(invalidStrategy)).toThrow(Error);
+  it('should create an instance of DefaultQueryParamStrategy when an unknown value is passed', () => {
+    const strategy: IQueryParamStrategy = QueryParamStrategyFactory.create('value');
+    expect(strategy).toBeInstanceOf(ExcludeQueryParamStrategy);
   });
 });
 
