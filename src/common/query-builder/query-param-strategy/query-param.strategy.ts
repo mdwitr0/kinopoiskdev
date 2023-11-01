@@ -6,6 +6,7 @@ import { DefaultQueryParamStrategy } from './default-query-param.strategy';
 export interface IQueryParamStrategy {
   is(value: string | string[]): boolean;
   extractValue(value: string | string[]): string | string[];
+  buildWhere(key: string, value: string | string[]): { [key: string]: any };
 }
 
 export class QueryParamStrategyFactory {

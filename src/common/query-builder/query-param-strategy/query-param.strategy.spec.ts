@@ -47,6 +47,16 @@ describe('ExcludeQueryParamStrategy', () => {
     const value = ['!value1', '!value2'];
     expect(excludeQueryParamStrategy.extractValue(value)).toEqual(['value1', 'value2']);
   });
+
+  it('should return buildWhere with $ne when the value is a string', () => {
+    const value = '!value';
+    expect(excludeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $ne: 'value' } });
+  });
+
+  it('should return buildWhere with $nin when the value is an array', () => {
+    const value = ['!value1', '!value2'];
+    expect(excludeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $nin: ['value1', 'value2'] } });
+  });
 });
 
 describe('IncludeQueryParamStrategy', () => {
@@ -71,6 +81,16 @@ describe('IncludeQueryParamStrategy', () => {
     const value = ['+value1', '+value2'];
     expect(includeQueryParamStrategy.extractValue(value)).toEqual(['value1', 'value2']);
   });
+
+  it('should return buildWhere with $all when the value is a string', () => {
+    const value = '+value';
+    expect(includeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: 'value' });
+  });
+
+  it('should return buildWhere with $all when the value is an array', () => {
+    const value = ['+value1', '+value2'];
+    expect(includeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $all: ['value1', 'value2'] } });
+  });
 });
 
 describe('RangeQueryParamStrategy', () => {
@@ -94,5 +114,15 @@ describe('RangeQueryParamStrategy', () => {
   it('should return the value without RangeQueryParam when the value is an array', () => {
     const value = ['1-10', '11-20'];
     expect(rangeQueryParamStrategy.extractValue(value)).toEqual(['1', '10', '11', '20']);
+  });
+
+  it('should return buildWhere with $gte and $lte when the value is a string', () => {
+    const value = '1-10';
+    expect(rangeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $gte: '1', $lte: '10' } });
+  });
+
+  it('should return buildWhere with $gte and $lte when the value is an array', () => {
+    const value = ['1-10', '11-20'];
+    expect(rangeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $gte: '1', $lte: '10' } });
   });
 });
