@@ -168,4 +168,29 @@ describe('FilterBuilder', () => {
       expect(where).toEqual(test.expected);
     }
   });
+
+  it('should build filter by complex', () => {
+    const filter = new FilterBuilder();
+    filter.setNumber('id', ['666', '555-559']);
+    filter.setString('genres.name', ['драма', 'комедия', '!ужасы', '+фантастика']);
+    filter.setBoolean('isSeries', ['true']);
+    filter.setDate('releaseDate', ['01.01.2020', '02.01.2020', '03.01.2020-04.01.2020']);
+    const where = filter.build();
+
+    expect(where).toEqual({
+      $and: [
+        { $or: [{ id: { $in: [666] } }, { id: { $gte: 555, $lte: 559 } }] },
+        {
+          $or: [{ 'genres.name': { $in: ['драма', 'комедия'] } }, { 'genres.name': { $nin: ['ужасы'], $all: ['фантастика'] } }],
+        },
+        { $or: [{ isSeries: true }] },
+        {
+          $or: [
+            { releaseDate: { $in: [new Date('2020-01-01'), new Date('2020-01-02')] } },
+            { releaseDate: { $gte: new Date('2020-01-03'), $lte: new Date('2020-01-04') } },
+          ],
+        },
+      ],
+    });
+  });
 });
