@@ -11,15 +11,15 @@ export class FilterBuilder {
   private filter: Filter = { $or: [] };
 
   public setNumber(key: string, values: string[]) {
-    this.toWhere(key, values, (item) => Number(item));
+    this.toWhere<number>(key, values, (item) => Number(item));
   }
 
   public setString(key: string, values: string[]) {
-    this.toWhere(key, values, (item) => String(item));
+    this.toWhere<string>(key, values, (item) => String(item));
   }
 
   public setDate(key: string, values: string[]) {
-    this.toWhere(key, values, (item) => normalizeDate(item));
+    this.toWhere<Date>(key, values, (item) => normalizeDate(item));
   }
 
   public setBoolean(key: string, values: string[]) {
@@ -40,7 +40,7 @@ export class FilterBuilder {
     return this.filters.length > 1 ? { $and: this.filters } : this.filters[0] || {};
   }
 
-  private toWhere(key: string, values: string[], transform: (where: any) => any) {
+  private toWhere<T>(key: string, values: string[], transform: (item: string) => T) {
     const specialWhere = {};
     const simpleWhere = {};
 
