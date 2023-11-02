@@ -8,6 +8,8 @@ export class IsValueInRange implements ValidatorConstraintInterface {
     if (typeof value === 'number') return this.isValidNumber(value, args);
 
     const strategy = QueryParamStrategyFactory.create(value);
+    const extractedValue = strategy.extractValue(value);
+    if (Array.isArray(extractedValue)) return extractedValue.every((item) => this.validate(item, args));
 
     return this.isValidNumber(strategy.extractValue(value), args);
   }
@@ -18,6 +20,6 @@ export class IsValueInRange implements ValidatorConstraintInterface {
   private isValidNumber(value: any, args: ValidationArguments): boolean {
     if (value === undefined || value === null || value === '') return false;
 
-    return value >= args.constraints[0] && value <= args.constraints[1];
+    return Number(value) >= args.constraints[0] && Number(value) <= args.constraints[1];
   }
 }

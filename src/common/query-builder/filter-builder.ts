@@ -22,12 +22,10 @@ export class FilterBuilder {
     this.toWhere<Date>(key, values, (item) => normalizeDate(item));
   }
 
-  public setBoolean(key: string, values: string[]) {
+  public setBoolean(key: string, value: string) {
     const simpleWhere = {};
 
-    for (const value of values) {
-      simpleWhere[key] = value === 'true';
-    }
+    simpleWhere[key] = value === 'true';
 
     const wheres = [simpleWhere].filter((item) => Object.keys(item).length > 0);
     this.filter['$or'] = [...this.filter['$or'], ...wheres];

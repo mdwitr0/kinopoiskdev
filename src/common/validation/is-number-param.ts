@@ -8,7 +8,8 @@ export class IsNumberParam implements ValidatorConstraintInterface {
     if (typeof value === 'number') return this.isValidNumber(value);
 
     const strategy = QueryParamStrategyFactory.create(value);
-
+    const extractedValue = strategy.extractValue(value);
+    if (Array.isArray(extractedValue)) return extractedValue.every((item) => this.validate(item, args));
     return this.isValidNumber(strategy.extractValue(value));
   }
   defaultMessage(args: ValidationArguments) {
@@ -17,7 +18,6 @@ export class IsNumberParam implements ValidatorConstraintInterface {
 
   private isValidNumber(value: any): boolean {
     if (value === undefined || value === null || value === '') return false;
-
     return !isNaN(Number(value));
   }
 }

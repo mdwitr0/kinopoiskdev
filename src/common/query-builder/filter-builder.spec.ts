@@ -97,14 +97,14 @@ describe('FilterBuilder', () => {
     const tests = [
       {
         key: 'isSeries',
-        input: ['true'],
+        input: 'true',
         expected: {
           $or: [{ isSeries: true }],
         },
       },
       {
         key: 'isSeries',
-        input: ['false'],
+        input: 'false',
         expected: {
           $or: [{ isSeries: false }],
         },
@@ -173,7 +173,7 @@ describe('FilterBuilder', () => {
     const filter = new FilterBuilder();
     filter.setNumber('id', ['666', '555-559']);
     filter.setString('genres.name', ['драма', 'комедия', '!ужасы', '+фантастика']);
-    filter.setBoolean('isSeries', ['true']);
+    filter.setBoolean('isSeries', 'true');
     filter.setDate('releaseDate', ['01.01.2020', '02.01.2020', '03.01.2020-04.01.2020']);
     const where = filter.build();
 
