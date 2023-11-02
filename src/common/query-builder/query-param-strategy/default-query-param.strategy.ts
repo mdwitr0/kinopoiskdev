@@ -9,10 +9,10 @@ export class DefaultQueryParamStrategy implements IQueryParamStrategy {
     return value;
   }
 
-  buildWhere(key: string, v: string | string[]) {
+  buildWhere(v: string | string[]) {
     const value = this.extractValue(v);
 
-    if (Array.isArray(value)) return { [key]: { $in: value } };
-    return { [key]: value };
+    if (Array.isArray(value)) return { $in: value };
+    return value;
   }
 }

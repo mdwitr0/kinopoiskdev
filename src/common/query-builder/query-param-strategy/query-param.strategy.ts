@@ -6,11 +6,11 @@ import { DefaultQueryParamStrategy } from './default-query-param.strategy';
 export interface IQueryParamStrategy {
   is(value: string | string[]): boolean;
   extractValue(value: string | string[]): string | string[];
-  buildWhere(key: string, value: string | string[]): { [key: string]: any };
+  buildWhere(value: string | string[]): string | { [key: string]: any };
 }
 
 export class QueryParamStrategyFactory {
-  static create(value: string): IQueryParamStrategy {
+  static create(value: string | string[]): IQueryParamStrategy {
     const excludeQueryParamStrategy = new ExcludeQueryParamStrategy();
     const includeQueryParamStrategy = new IncludeQueryParamStrategy();
     const rangeQueryParamStrategy = new RangeQueryParamStrategy();

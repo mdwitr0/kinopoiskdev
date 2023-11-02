@@ -14,10 +14,10 @@ export class ExcludeQueryParamStrategy implements IQueryParamStrategy {
     return value.slice(1);
   }
 
-  buildWhere(key: string, v: string | string[]) {
+  buildWhere(v: string | string[]) {
     const value = this.extractValue(v);
 
-    if (Array.isArray(value)) return { [key]: { $nin: value } };
-    return { [key]: { $ne: value } };
+    if (Array.isArray(value)) return { $nin: value };
+    return { $ne: value };
   }
 }

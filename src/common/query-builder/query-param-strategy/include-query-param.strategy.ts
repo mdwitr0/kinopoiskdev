@@ -14,10 +14,10 @@ export class IncludeQueryParamStrategy implements IQueryParamStrategy {
     return value.slice(1);
   }
 
-  buildWhere(key: string, v: string | string[]) {
+  buildWhere(v: string | string[]) {
     const value = this.extractValue(v);
 
-    if (Array.isArray(value)) return { [key]: { $all: value } };
-    return { [key]: value };
+    if (Array.isArray(value)) return { $all: value };
+    return value;
   }
 }

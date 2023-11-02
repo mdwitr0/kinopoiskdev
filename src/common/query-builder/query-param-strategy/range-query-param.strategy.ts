@@ -14,10 +14,17 @@ export class RangeQueryParamStrategy implements IQueryParamStrategy {
     return value.split(RangeQueryParam);
   }
 
-  buildWhere(key: string, v: string | string[]) {
+  buildWhere(v: string | string[]) {
     const value = this.extractValue(v);
 
-    if (Array.isArray(value)) return { [key]: { $gte: value[0], $lte: value[1] } };
-    return { [key]: value };
+    if (Array.isArray(value)) {
+      const range = {};
+      const [min, max] = value;
+      if (min !== undefined && min !== '') range['$gte'] = min;
+      if (max !== undefined && max !== '') range['$lte'] = max;
+
+      return range;
+    }
+    return value;
   }
 }
