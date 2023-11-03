@@ -21,7 +21,7 @@ import { MovieDocsResponseDtoV1_3 } from './dto/v1.3/movie-docs.response.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
 import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
-import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
+import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
@@ -37,9 +37,8 @@ export class MovieController {
   \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
   \nЧтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр \`selectFields\` `,
   })
-  @Paginated(MovieDocsResponseDtoV1_4, MovieDtoV1_4, { findForAllProperties: true })
-  async findManyByQueryV1_4(@Query() query: IQuery): Promise<MovieDocsResponseDtoV1> {
-    return this.movieService.findMany(query);
+  async findManyByQueryV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDocsResponseDtoV1> {
+    return this.movieService.findManyV1_4(query);
   }
 
   @Version('1.4')

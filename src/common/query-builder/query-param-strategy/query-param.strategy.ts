@@ -22,7 +22,7 @@ export class QueryParamStrategyFactory {
     return defaultQueryParamStrategy;
   }
 
-  static createWithStrategies(value: string, strategies: IQueryParamStrategy[]): IQueryParamStrategy {
+  static createWithStrategies(value: string | string[], strategies: IQueryParamStrategy[]): IQueryParamStrategy {
     const defaultQueryParamStrategy = new DefaultQueryParamStrategy();
     const strategy = strategies.find((strategy) => strategy.is(value));
     return strategy || defaultQueryParamStrategy;

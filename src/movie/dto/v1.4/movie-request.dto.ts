@@ -11,13 +11,18 @@ import { ToArray } from '../../../common/decorators/transform/to-array.decorator
 import { IsStartWith } from '../../../common/validation/is-start-with';
 import { IsLengthExact } from '../../../common/validation/is-length-exact';
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
-import { Expose } from 'class-transformer';
 import { IsBooleanParam } from '../../../common/validation/is-boolean-param';
 import { IsDateParam } from '../../../common/validation/is-date-param';
 import { NumberParam } from '../../../common/decorators/types/number-param';
 import { FilterBuilder } from '../../../common/query-builder/filter-builder';
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { BooleanParam } from '../../../common/decorators/types/boolean-param';
+import { SelectBuilder } from '../../../common/query-builder/select-builder';
+import { SortBuilder } from '../../../common/query-builder/sort-builder';
+import { PaginationBuilder } from '../../../common/query-builder/pagination-builder';
+import { SortOrder } from 'mongoose';
+import { Expose } from 'class-transformer';
+import { EnumParam } from '../../../common/decorators/types/enum-param';
 
 enum MovieFieldV1_4 {
   'id' = 'id',
@@ -65,9 +70,9 @@ enum MovieFieldV1_4 {
   'backdrop.url' = 'backdrop.url',
   'logo.url' = 'logo.url',
   'ticketsOnSale' = 'ticketsOnSale',
-  'videos.trailer.url' = 'videos.trailer.url',
-  'videos.trailer.site' = 'videos.trailer.site',
-  'videos.trailer.name' = 'videos.trailer.name',
+  'videos.trailers.url' = 'videos.trailers.url',
+  'videos.trailers.site' = 'videos.trailers.site',
+  'videos.trailers.name' = 'videos.trailers.name',
   'networks.items.name' = 'networks.items.name',
   'networks.items.logo.url' = 'networks.items.logo.url',
   'persons.id' = 'persons.id',
@@ -183,7 +188,6 @@ export class MovieRequestDtoV1_4 {
 
   @ApiPropertyOptional({ description: 'Количество элементов на странице', minimum: 1, maximum: 250, default: 10 })
   @IsOptional()
-  @ToArray()
   @Validate(IsValueInRange, [1, 250])
   @ParseNumber()
   @SetDefaultValue(10)
@@ -231,7 +235,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk (пример: `"666", "555", "!666"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [250, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -241,7 +244,6 @@ export class MovieRequestDtoV1_4 {
   @IsOptional()
   @ToArray()
   @Validate(IsStartWith, ['tt'])
-  @Expose()
   @StringParam()
   'externalId.imdb'?: string[];
 
@@ -249,7 +251,6 @@ export class MovieRequestDtoV1_4 {
   @IsOptional()
   @Validate(IsValueInRange, [1, 200000])
   @Validate(IsNumberParam)
-  @Expose()
   @ToArray()
   @NumberParam()
   'externalId.tmdb'?: string[];
@@ -261,19 +262,16 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @ToArray()
   @Validate(IsLengthExact, [32])
-  @Expose()
   @StringParam()
   'externalId.kpHD'?: string[];
 
   @ApiNullableProperty({ enum: MovieTypeV1_4, isArray: true, description: 'Поиск по типу фильма (пример: `"movie", "tv-series", "!anime"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsEnumParam, [MovieTypeV1_4])
-  @StringParam()
+  @EnumParam()
   type: string[];
   @ApiNullableProperty({
     type: 'string',
@@ -283,7 +281,6 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [1, 5])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -292,7 +289,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по индикатору сериала (пример: `true, false`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsBooleanParam)
   @BooleanParam()
   isSeries: string;
@@ -304,15 +300,13 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsEnumParam, [MovieStatusV1_4])
-  @StringParam()
+  @EnumParam()
   status: string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по году (пример: `1874, 2050, !2020, 2020-2024`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [1874, 2050])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -320,7 +314,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по года начала релиза (пример: `1874, 2050, !2020, 2020-2024`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [1874, 2050])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -328,7 +321,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по года окончания релиза (пример: `1874, 2050, !2020, 2020-2024`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [1874, 2050])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -337,7 +329,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по рейтингу Кинопоиск (пример: `7, 10, 7.2-10`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [0, 10])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -345,7 +336,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по рейтингу IMDB (пример: `7, 10, 7.2-10`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [0, 10])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -353,7 +343,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по рейтингу TMDB (пример: `7, 10, 7.2-10`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [0, 10])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -362,14 +351,12 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по рейтингу MPAA (пример: `"G", "NC-17", "!R"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsEnumParam, [RatingMpaaV1_4])
-  @StringParam()
+  @EnumParam()
   ratingMpaa: string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по возрастному рейтингу (пример: `12, !18, 12-18`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [0, 18])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -378,42 +365,36 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству голосов на KP (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'votes.kp': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству голосов на IMDB (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'votes.imdb': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству голосов на TMDB (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'votes.tmdb': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству голосов кинокритиков (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'votes.filmCritics': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству голосов кинокритиков из России (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'votes.russianFilmCritics': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству голосов ожидания на Кинопоиске (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'votes.await': string[];
@@ -421,7 +402,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по бюджету фильма (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'budget.value': string[];
@@ -429,7 +409,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по количеству аудитории (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   'audience.count': string[];
@@ -437,21 +416,18 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по продолжительности фильма (пример: `100-120`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   movieLength: string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по всей продолжительности одной серии (пример: `20-60`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   seriesLength: string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по всей продолжительности сериала (пример: `100-120`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   @NumberParam()
   totalSeriesLength: string[];
@@ -459,20 +435,17 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по жанрам (пример: `"драма", "комедия", "!мелодрама", "+ужасы"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @StringParam()
   'genres.name': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по странам (пример: `"США", "Россия", "!Франция" , "+Великобритания"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @StringParam()
   'countries.name': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по наличию билетов в продаже (пример: `true, false`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsBooleanParam)
   @BooleanParam()
   'ticketsOnSale': string[];
@@ -480,14 +453,12 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сетям производства фильма (пример: `"HBO", "Netflix", "!Amazon"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @StringParam()
   'networks.items.name': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по ID персон (пример: `666, 555, !666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [1, 9000000])
   @Validate(IsNumberParam)
   @NumberParam()
@@ -495,7 +466,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по профессиям персон (пример: `"актер", "режиссер", "!сценарист"`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   'persons.profession': string[];
   @ApiNullableProperty({
     type: 'string',
@@ -504,38 +474,32 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   'persons.enProfession': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в мире (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   'fees.world': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в США (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   'fees.usa': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в России (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsNumberParam)
   'fees.russia': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по дате премьеры в мире (пример: `01.01.2020, 01.01.2020-31.12.2020`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsDateParam)
   'premiere.world': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по дате премьеры в США (пример: `01.01.2020, 01.01.2020-31.12.2020`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsDateParam)
   'premiere.usa': string[];
   @ApiNullableProperty({
@@ -545,7 +509,6 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsDateParam)
   'premiere.russia': string[];
   @ApiNullableProperty({
@@ -555,7 +518,6 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsDateParam)
   'premiere.digital': string[];
   @ApiNullableProperty({
@@ -565,7 +527,6 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsDateParam)
   'premiere.cinema': string[];
   @ApiNullableProperty({
@@ -575,13 +536,11 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   'premiere.country': string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk из списка похожих фильмов (пример: `666, 555, !666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [250, 7000000])
   @Validate(IsNumberParam)
   'similarMovies.id': string[];
@@ -589,7 +548,6 @@ export class MovieRequestDtoV1_4 {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk из списка сиквелов и преквелов (пример: `666, 555, !666`)' })
   @IsOptional()
   @ToArray()
-  @Expose()
   @Validate(IsValueInRange, [250, 7000000])
   @Validate(IsNumberParam)
   'sequelsAndPrequels.id': string[];
@@ -601,7 +559,6 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @StringParam()
   'watchability.items.name': string[];
 
@@ -612,11 +569,10 @@ export class MovieRequestDtoV1_4 {
   })
   @IsOptional()
   @ToArray()
-  @Expose()
   @StringParam()
   lists: string[];
 
-  public toWhere() {
+  public model2Where() {
     const filter = new FilterBuilder();
     for (const key of Object.keys(this)) {
       const type = Reflect.getMetadata('type', this, key);
@@ -634,11 +590,36 @@ export class MovieRequestDtoV1_4 {
         case 'date':
           filter.setDate(key, this[key]);
           break;
+        case 'enum':
+          filter.setEnum(key, this[key]);
+          break;
         default:
           break;
       }
     }
 
+    if (this.notNullFields?.length) {
+      filter.setNotNull(this.notNullFields);
+    }
+
     return filter.build();
+  }
+
+  public model2Select() {
+    const select = new SelectBuilder();
+
+    return select.build(this.selectFields);
+  }
+
+  public model2Sort(): { [key: string]: SortOrder } {
+    const sort = new SortBuilder().build(this.sortField, this.sortType);
+
+    return Object.keys(sort)?.length ? { ...sort, _id: -1 } : { 'votes.kp': -1, _id: -1 };
+  }
+
+  public model2Pagination() {
+    const pagination = new PaginationBuilder();
+
+    return pagination.build(this.page, this.limit);
   }
 }

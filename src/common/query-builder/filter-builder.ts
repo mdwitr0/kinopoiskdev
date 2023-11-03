@@ -1,5 +1,7 @@
-import { QueryParamStrategyFactory } from './query-param-strategy/query-param.strategy';
+import { IQueryParamStrategy, QueryParamStrategyFactory } from './query-param-strategy/query-param.strategy';
 import { normalizeDate } from '../utils/query/parse-date.util';
+import { ExcludeQueryParamStrategy } from './query-param-strategy/exclude-query-param.strategy';
+import { IncludeQueryParamStrategy } from './query-param-strategy/include-query-param.strategy';
 
 type Filter = { [key: string]: any };
 
@@ -16,6 +18,15 @@ export class FilterBuilder {
 
   public setString(key: string, values: string[]) {
     this.toWhere<string>(key, values, (item) => String(item));
+  }
+
+  public setEnum(key: string, values: string[]) {
+    this.toWhere<string>(
+      key,
+      values.filter((s) => s),
+      (item) => String(item),
+      [new ExcludeQueryParamStrategy(), new IncludeQueryParamStrategy()],
+    );
   }
 
   public setDate(key: string, values: string[]) {
@@ -46,14 +57,16 @@ export class FilterBuilder {
     return this.filters.length > 1 ? { $and: this.filters } : this.filters[0] || {};
   }
 
-  private toWhere<T>(key: string, values: string[], transform: (item: string) => T) {
+  private toWhere<T>(key: string, values: string[], transform: (item: string) => T, strategies?: IQueryParamStrategy[]) {
     if (!values?.length) return this;
     const specialWhere = {};
     const simpleWhere = {};
 
-    const groupValues = this.groupValuesByStrategies(values);
+    const groupValues = this.groupValuesByStrategies(values, strategies);
     for (const value of groupValues) {
-      const where = QueryParamStrategyFactory.create(value).buildWhere(value);
+      const where = strategies
+        ? QueryParamStrategyFactory.createWithStrategies(value, strategies).buildWhere(value)
+        : QueryParamStrategyFactory.create(value).buildWhere(value);
 
       Object.keys(where).forEach((key) => {
         if (!where[key]) delete where[key];
@@ -98,11 +111,11 @@ export class FilterBuilder {
     return { [key]: { $ne: null } };
   }
 
-  private groupValuesByStrategies(values: string[]): string[][] {
+  private groupValuesByStrategies(values: string[], strategies?: IQueryParamStrategy[]): string[][] {
     const map = new Map<string, string[]>();
 
     for (const value of values) {
-      const strategy = QueryParamStrategyFactory.create(value);
+      const strategy = strategies ? QueryParamStrategyFactory.createWithStrategies(value, strategies) : QueryParamStrategyFactory.create(value);
       const key = strategy.constructor.name;
       const values = map.get(key) || [];
       values.push(value);

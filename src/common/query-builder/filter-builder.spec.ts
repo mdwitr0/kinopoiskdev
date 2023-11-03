@@ -213,4 +213,15 @@ describe('FilterBuilder', () => {
       ],
     });
   });
+
+  it('should build filter and not null', () => {
+    const filter = new FilterBuilder();
+    filter.setNumber('id', ['666', '555-559']);
+    filter.setNotNull(['id', 'name']);
+    const where = filter.build();
+
+    expect(where).toEqual({
+      $and: [{ $or: [{ id: { $in: [666] } }, { id: { $gte: 555, $lte: 559 } }] }, { id: { $ne: null } }, { name: { $ne: null } }],
+    });
+  });
 });
