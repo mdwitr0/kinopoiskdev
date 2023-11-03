@@ -29,6 +29,8 @@ describe('IsEnumParam', () => {
     { value: '+test2', expected: true },
     { value: 'test1!', expected: false },
     { value: 'test2-test1', expected: false },
+    { value: ['test1', 'test2'], expected: true },
+    { value: ['test1', 'test3'], expected: false },
   ];
 
   tests.forEach(({ value, expected }) => {
