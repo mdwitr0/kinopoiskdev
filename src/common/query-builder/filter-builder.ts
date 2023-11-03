@@ -39,6 +39,7 @@ export class FilterBuilder {
   }
 
   private toWhere<T>(key: string, values: string[], transform: (item: string) => T) {
+    if (!values?.length) return this;
     const specialWhere = {};
     const simpleWhere = {};
 
