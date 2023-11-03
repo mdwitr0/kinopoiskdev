@@ -1,7 +1,7 @@
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-export const DOC_PATH = 'v1/documentation';
+export const DOC_PATH = '/documentation';
 
 const TITLE = 'Документация для неофициального API кинопоиска (kinopoisk.dev).';
 const SITE_TITLE = 'Документация: для неофициального kinopoisk api';
@@ -55,7 +55,7 @@ API работает по принципу REST, все запросы отпр�
 <ul>
   <li><code>!</code> - исключить.</li>
   <li><code>+</code> - включить.</li>
-  <li><code>-</code> - диапазон значений.</li>
+  <li><code>-</code> - диапазон значений, используется в качестве разделителя.</li>
 </ul>
 </p>
 
