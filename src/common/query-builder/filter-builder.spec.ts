@@ -193,4 +193,24 @@ describe('FilterBuilder', () => {
       ],
     });
   });
+
+  it('should build filter by not null', () => {
+    const filter = new FilterBuilder();
+    filter.setNotNull(['id', 'name', 'genres.name', 'watchability.items.name']);
+    const where = filter.build();
+
+    expect(where).toEqual({
+      $and: [
+        { id: { $ne: null } },
+        { name: { $ne: null } },
+        { $or: [{ ['genres.name']: { $exists: true, $ne: null } }, { ['genres']: { $elemMatch: { ['name']: { $exists: true, $ne: null } } } }] },
+        {
+          $or: [
+            { ['watchability.items.name']: { $exists: true, $ne: null } },
+            { ['watchability.items']: { $elemMatch: { ['name']: { $exists: true, $ne: null } } } },
+          ],
+        },
+      ],
+    });
+  });
 });

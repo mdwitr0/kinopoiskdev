@@ -34,6 +34,14 @@ export class FilterBuilder {
     return this;
   }
 
+  public setNotNull(keys: string[]) {
+    for (const key of keys) {
+      this.filters.push(this.toNotNull(key));
+    }
+
+    return this;
+  }
+
   public build() {
     return this.filters.length > 1 ? { $and: this.filters } : this.filters[0] || {};
   }
@@ -74,6 +82,20 @@ export class FilterBuilder {
 
     this.filters.push({ $or: wheres });
     return this;
+  }
+
+  private toNotNull(key: string) {
+    if (key.includes('.')) {
+      const keys = key.split('.');
+      const itemField = keys.pop();
+      const arrayField = keys.join('.');
+
+      return {
+        $or: [{ [key]: { $exists: true, $ne: null } }, { [arrayField]: { $elemMatch: { [itemField]: { $exists: true, $ne: null } } } }],
+      };
+    }
+
+    return { [key]: { $ne: null } };
   }
 
   private groupValuesByStrategies(values: string[]): string[][] {
