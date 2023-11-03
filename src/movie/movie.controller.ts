@@ -6,7 +6,7 @@ import { Get, NotFoundException, Param, Query, UseInterceptors, Version } from '
 import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PossibleValueDto as PossibleValueDto } from './dto/response/possible-value.response.dto';
 import { GetPossibleValueDto } from './dto/get-possible-values.dto';
-import { Paginated, QueryParams } from '../common/decorators/paginated.decorator';
+import { Paginated } from '../common/decorators/paginated.decorator';
 
 import { IQuery } from '../common/interfaces/query.interface';
 import { MovieAward } from './schemas/movie-award.schema';
@@ -22,6 +22,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
 import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
 import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
+import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
@@ -37,7 +38,7 @@ export class MovieController {
   \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
   \nЧтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр \`selectFields\` `,
   })
-  async findManyByQueryV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDocsResponseDtoV1> {
+  async findManyByQueryV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDocsResponseDtoV1_4> {
     return this.movieService.findManyV1_4(query);
   }
 
@@ -47,11 +48,20 @@ export class MovieController {
   @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
   @ApiBaseResponse({ type: MovieDtoV1_4 })
   @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
-  async findOneV1_4(@Param('id') id: string): Promise<any> {
-    const found = await this.movieService.findOne(+id);
+  async findOneV1_4(@Param('id') id: string): Promise<MovieDtoV1_4> {
+    const found = await this.movieService.findOneV1_4(+id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');
-    // ts-ignore
     return found;
+  }
+
+  @Version('1.4')
+  @Get('random')
+  @ApiOperation({
+    summary: 'Получить рандомный тайтл из базы',
+    description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
+  })
+  async getRandomMovieV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDtoV1_4> {
+    return this.movieService.getRandomMovieV1_4(query);
   }
 
   @Version('1.3')
@@ -79,18 +89,6 @@ export class MovieController {
   @ApiExcludeEndpoint()
   async getRandomMovieV1_3(): Promise<any> {
     return this.movieService.getRandomMovie();
-  }
-
-  @Version('1.4')
-  @Get('random')
-  @ApiOperation({
-    summary: 'Получить рандомный тайтл из базы',
-    description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
-  })
-  @ApiResponse({ type: MovieDtoV1_4 })
-  @QueryParams(MovieDtoV1_4)
-  async getRandomMovieV1_4(@Query() query: IQuery): Promise<any> {
-    return this.movieService.getRandomMovieV1_4(query);
   }
 
   @Version('1.4')
