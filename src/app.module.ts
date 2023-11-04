@@ -8,7 +8,6 @@ import { PersonModule } from './person/person.module';
 import { ImageModule } from './image/image.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
-import { LoggerModule } from 'nestjs-pino';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { StudioModule } from './studio/studio.module';
@@ -16,7 +15,6 @@ import { KeywordModule } from './keyword/keyword.module';
 import { MeiliSearchModule } from 'nestjs-meilisearch';
 import { SearchSyncModule } from './search-sync/search-sync.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { UserModule } from './user/user.module';
@@ -27,6 +25,7 @@ import { ThrottlerConfig } from './common/configs/throttler.config';
 import { RedisConfig } from './common/configs/redis.config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ListModule } from './list/list.module';
+import { LoggerModule } from 'nestjs-pino';
 
 const imports = [
   LoggerModule.forRoot({
@@ -82,7 +81,6 @@ const imports = [
   imports,
   controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
@@ -92,14 +90,29 @@ const imports = [
 export class AppModule implements NestModule {
   private readonly logger = new Logger(AppModule.name);
   configure(consumer: MiddlewareConsumer) {
-    const entities = ['movie', 'season', 'person', 'review', 'image', 'keyword', 'studio', 'list'];
+    const routes = [
+      {
+        path: `/documentation(.*)`,
+        method: RequestMethod.GET,
+      },
+      {
+        path: `/health(.*)`,
+        method: RequestMethod.GET,
+      },
+      {
+        path: `/`,
+        method: RequestMethod.GET,
+      },
+      {
+        path: `/(icon.png|favicon.ico|swagger.css)`,
+        method: RequestMethod.GET,
+      },
+    ];
 
-    const routes = entities.map((name) => ({
-      path: `/(.*)/${name}`,
-      method: RequestMethod.GET,
-    }));
-
-    consumer.apply(AuthMiddleware).forRoutes(...routes);
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(...routes)
+      .forRoutes('/(.*)');
   }
 
   static createSyncSpecificModule(isSync: boolean): DynamicModule {

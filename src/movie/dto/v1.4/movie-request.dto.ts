@@ -23,6 +23,7 @@ import { PaginationBuilder } from '../../../common/query-builder/pagination-buil
 import { SortOrder } from 'mongoose';
 import { Expose } from 'class-transformer';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
+import { IRequestModel } from '../../../common/interfaces/request-model.interface';
 
 enum MovieFieldV1_4 {
   'id' = 'id',
@@ -176,7 +177,7 @@ enum RatingMpaaV1_4 {
   'R' = 'R',
 }
 
-export class MovieRequestDtoV1_4 {
+export class MovieRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({ description: 'Номер страницы', minimum: 1, default: 1 })
   @IsOptional()
   @IsNumber()

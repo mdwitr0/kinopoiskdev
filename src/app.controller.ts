@@ -1,32 +1,16 @@
-import { Controller, Get, Version } from '@nestjs/common';
-import { AppService } from './app.service';
-import {
-  DiskHealthIndicator,
-  HealthCheck,
-  HealthCheckService,
-  HttpHealthIndicator,
-  MemoryHealthIndicator,
-} from '@nestjs/terminus';
+import { Controller, Get } from '@nestjs/common';
+import { DiskHealthIndicator, HealthCheck, HealthCheckService, HttpHealthIndicator, MemoryHealthIndicator } from '@nestjs/terminus';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService,
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
     private memory: MemoryHealthIndicator,
     private readonly disk: DiskHealthIndicator,
   ) {}
 
-  @Version('1')
-  @Get()
-  @ApiExcludeEndpoint()
-  getHello(): { message: string } {
-    return this.appService.getHello();
-  }
-
-  @Version('1')
   @Get('health')
   @HealthCheck()
   @ApiExcludeEndpoint()

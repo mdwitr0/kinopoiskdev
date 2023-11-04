@@ -22,6 +22,7 @@ import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto
 import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
 import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
+import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
 
 @Injectable()
 export class MovieService {
@@ -72,6 +73,27 @@ export class MovieService {
     const count = await this.movieModel.countDocuments(filter);
 
     return this.movieModel.findOne(filter).select(select).skip(getRandomInt(1, count)).lean();
+  }
+
+  async findManyAwardsV1_4(request: MovieAwardRequestDtoV1_4): Promise<MovieAwardDocsResponseDto> {
+    const filter = request.model2Where();
+    const select = request.model2Select();
+    const sort = request.model2Sort();
+    const { skip, limit } = request.model2Pagination();
+
+    const [total, docs] = await Promise.all([
+      this.movieAwardModel.countDocuments(filter),
+      this.movieAwardModel.find(filter).sort(sort).limit(limit).skip(skip).select(select).allowDiskUse(true).exec(),
+    ]);
+
+    const docsToJson = docs.map((doc) => doc?.toJSON());
+    return {
+      docs: docsToJson,
+      total,
+      limit: request.limit,
+      page: skip / limit + 1,
+      pages: Math.ceil(total / limit),
+    };
   }
 
   async findMany(query: IQuery): Promise<MovieDocsResponseDtoV1> {

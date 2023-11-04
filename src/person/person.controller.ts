@@ -1,5 +1,5 @@
-import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
-import { ApiExcludeEndpoint, ApiOperation } from '@nestjs/swagger';
+import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
+import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
 import { BaseControllerWithFindById } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
 import { Paginated } from 'src/common/decorators/paginated.decorator';
@@ -12,15 +12,39 @@ import { Person } from './schemas/person.schema';
 import { SearchDto } from 'src/common/dto/query/search.dto';
 import { SearchPersonResponseDto } from './dto/search-person.response.dto';
 import { SearchPersonResponseDtoV1_4 } from './dto/v1.4/search-person.response.dto';
+import { PersonRequestDtoV1_4 } from './dto/v1.4/person-request.dto';
+import { PersonDocsResponseDtoV1_4 } from './dto/v1.4/person-docs.response';
+import { ApiBaseResponse } from '../common/decorators/api-base-response.decorator';
+import { ForbiddenErrorResponseDto } from '../common/dto/errors/forbidden-error.response.dto';
+import { PersonAwardRequestDtoV1_4 } from './dto/v1.4/person-award-request.dto';
 
 @Controller('person', 'Актеры, режиссеры, операторы, и т.д')
-export class PersonController extends BaseControllerWithFindById(
-  Person,
-  PersonDocsResponseDto,
-  'Универсальный поиск персон с фильтрами',
-) {
+export class PersonController extends BaseControllerWithFindById(Person, PersonDocsResponseDto, 'Универсальный поиск персон с фильтрами') {
   constructor(private readonly personService: PersonService) {
     super(personService);
+  }
+
+  @Version('1.4')
+  @Get(':id')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
+  @ApiBaseResponse({ type: Person })
+  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
+  async findOneV1_4(@Param('id') id: string): Promise<Person> {
+    const found = await this.personService.findOne(+id);
+    if (!found) throw new NotFoundException('По этому id ничего не найдено!');
+    return found;
+  }
+
+  @Version('1.4')
+  @Get()
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({
+    summary: 'Универсальный поиск с фильтрами',
+    description: `Этот метод предназначен для поиска персон по фильтрам. Он принимает множество параметров, которые можно комбинировать между собой. Если вам нужен только поиск по имени, используйте метод \`Полнотекстовый поиск\` (search). В этом методе также доступен выбор полей. А в ответ приходит полная модель персоны.`,
+  })
+  async findManyV1_4(@Query() request: PersonRequestDtoV1_4): Promise<PersonDocsResponseDtoV1_4> {
+    return this.personService.findManyV1_4(request);
   }
 
   @Version('1.4')
@@ -31,7 +55,15 @@ export class PersonController extends BaseControllerWithFindById(
     description: `Этот метод предназначен для полнотекстового поиска персон по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
   })
   async searchPersonV1_4(@Query() query: SearchDto): Promise<SearchPersonResponseDtoV1_4> {
-    return this.service.searchPersonV1_4(query);
+    return this.personService.searchPersonV1_4(query);
+  }
+
+  @Version('1.4')
+  @Get('awards')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Награды актеров' })
+  async findManyAwardsV1_4(@Query() request: PersonAwardRequestDtoV1_4): Promise<PersonAwardDocsResponseDto> {
+    return this.personService.findManyAwardsV1_4(request);
   }
 
   @Version('1.2')
@@ -46,6 +78,7 @@ export class PersonController extends BaseControllerWithFindById(
   @Get('awards')
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({ summary: 'Награды актеров' })
+  @ApiExcludeEndpoint()
   @Paginated(PersonAwardDocsResponseDto, PersonAward, { findForAllProperties: true })
   async findManyAwardsByQuery(@Query() query: IQuery): Promise<PersonAwardDocsResponseDto> {
     console.log(query);

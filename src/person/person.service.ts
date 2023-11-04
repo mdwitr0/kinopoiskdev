@@ -13,6 +13,9 @@ import { MeiliPersonEntity } from './entities/meili-person.entity';
 import { PERSON_INDEX, PERSON_V1_4_INDEX } from './constants/person-index';
 import { SearchPersonResponseDtoV1_4 } from './dto/v1.4/search-person.response.dto';
 import { MeiliPersonEntityV1_4 } from './entities/v1.4/meili-person.entity';
+import { PersonRequestDtoV1_4 } from './dto/v1.4/person-request.dto';
+import { PersonDocsResponseDtoV1_4 } from './dto/v1.4/person-docs.response';
+import { PersonAwardRequestDtoV1_4 } from './dto/v1.4/person-award-request.dto';
 
 @Injectable()
 export class PersonService extends BaseService<Person> {
@@ -24,14 +27,30 @@ export class PersonService extends BaseService<Person> {
     super(personModel);
   }
 
+  async findManyV1_4(request: PersonRequestDtoV1_4): Promise<PersonDocsResponseDtoV1_4> {
+    const filter = request.model2Where();
+    const select = request.model2Select();
+    const sort = request.model2Sort();
+    const { skip, limit } = request.model2Pagination();
+
+    const [total, docs] = await Promise.all([
+      this.personModel.countDocuments(filter),
+      this.personModel.find(filter).sort(sort).limit(limit).skip(skip).select(select).allowDiskUse(true).exec(),
+    ]);
+
+    const docsToJson = docs.map((doc) => doc?.toJSON());
+    return {
+      docs: docsToJson,
+      total,
+      limit: request.limit,
+      page: skip / limit + 1,
+      pages: Math.ceil(total / limit),
+    };
+  }
+
   async searchPersonV1_4(dto: SearchDto): Promise<SearchPersonResponseDtoV1_4> {
     const offset = (dto.page - 1) * dto.limit;
-    const searchResponse = await this.meiliService.search<MeiliPersonEntityV1_4>(
-      dto.query,
-      PERSON_V1_4_INDEX,
-      dto.limit,
-      offset,
-    );
+    const searchResponse = await this.meiliService.search<MeiliPersonEntityV1_4>(dto.query, PERSON_V1_4_INDEX, dto.limit, offset);
 
     const personEntities = searchResponse.hits.map((person) => new MeiliPersonEntityV1_4(person));
 
@@ -44,14 +63,30 @@ export class PersonService extends BaseService<Person> {
     };
   }
 
+  async findManyAwardsV1_4(request: PersonAwardRequestDtoV1_4): Promise<PersonAwardDocsResponseDto> {
+    const filter = request.model2Where();
+    const select = request.model2Select();
+    const sort = request.model2Sort();
+    const { skip, limit } = request.model2Pagination();
+
+    const [total, docs] = await Promise.all([
+      this.personAwardModel.countDocuments(filter),
+      this.personAwardModel.find(filter).sort(sort).limit(limit).skip(skip).select(select).allowDiskUse(true).exec(),
+    ]);
+
+    const docsToJson = docs.map((doc) => doc?.toJSON());
+    return {
+      docs: docsToJson,
+      total,
+      limit: request.limit,
+      page: skip / limit + 1,
+      pages: Math.ceil(total / limit),
+    };
+  }
+
   async searchPerson(dto: SearchDto): Promise<SearchPersonResponseDto> {
     const offset = (dto.page - 1) * dto.limit;
-    const searchResponse = await this.meiliService.search<MeiliPersonEntity>(
-      dto.query,
-      PERSON_INDEX,
-      dto.limit,
-      offset,
-    );
+    const searchResponse = await this.meiliService.search<MeiliPersonEntity>(dto.query, PERSON_INDEX, dto.limit, offset);
 
     const personEntities = searchResponse.hits.map((person) => new MeiliPersonEntity(person));
 

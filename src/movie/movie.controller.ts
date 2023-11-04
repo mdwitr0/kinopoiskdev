@@ -23,10 +23,23 @@ import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
 import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
 import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
 import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
+import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
+
+  @Version('1.4')
+  @Get(':id')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
+  @ApiBaseResponse({ type: MovieDtoV1_4 })
+  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
+  async findOneV1_4(@Param('id') id: string): Promise<MovieDtoV1_4> {
+    const found = await this.movieService.findOneV1_4(+id);
+    if (!found) throw new NotFoundException('По этому id ничего не найдено!');
+    return found;
+  }
 
   @Version('1.4')
   @Get()
@@ -43,15 +56,14 @@ export class MovieController {
   }
 
   @Version('1.4')
-  @Get(':id')
+  @Get('search')
   @UseInterceptors(CacheInterceptor)
-  @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
-  @ApiBaseResponse({ type: MovieDtoV1_4 })
-  @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
-  async findOneV1_4(@Param('id') id: string): Promise<MovieDtoV1_4> {
-    const found = await this.movieService.findOneV1_4(+id);
-    if (!found) throw new NotFoundException('По этому id ничего не найдено!');
-    return found;
+  @ApiOperation({
+    summary: 'Поиск по названиям',
+    description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
+  })
+  async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
+    return this.movieService.searchMovieV1_4(query);
   }
 
   @Version('1.4')
@@ -62,6 +74,14 @@ export class MovieController {
   })
   async getRandomMovieV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDtoV1_4> {
     return this.movieService.getRandomMovieV1_4(query);
+  }
+
+  @Version('1.4')
+  @Get('awards')
+  @UseInterceptors(CacheInterceptor)
+  @ApiOperation({ summary: 'Награды тайтлов' })
+  async findManyAwardsV1_4(@Query() request: MovieAwardRequestDtoV1_4): Promise<MovieAwardDocsResponseDto> {
+    return this.movieService.findManyAwardsV1_4(request);
   }
 
   @Version('1.3')
@@ -91,17 +111,6 @@ export class MovieController {
     return this.movieService.getRandomMovie();
   }
 
-  @Version('1.4')
-  @Get('search')
-  @UseInterceptors(CacheInterceptor)
-  @ApiOperation({
-    summary: 'Поиск по названиям',
-    description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
-  })
-  async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
-    return this.movieService.searchMovieV1_4(query);
-  }
-
   @Version('1.2')
   @Get('search')
   @UseInterceptors(CacheInterceptor)
@@ -113,6 +122,7 @@ export class MovieController {
   @Version('1.1')
   @Get('awards')
   @UseInterceptors(CacheInterceptor)
+  @ApiExcludeEndpoint()
   @ApiOperation({ summary: 'Награды тайтлов' })
   @Paginated(MovieAwardDocsResponseDto, MovieAward, { findForAllProperties: true })
   async findManyAwardsByQuery(@Query() query: IQuery): Promise<MovieAwardDocsResponseDto> {

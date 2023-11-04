@@ -1,4 +1,4 @@
-import { ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
 import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 import { Paginated } from '../decorators/paginated.decorator';
@@ -21,6 +21,7 @@ export function BaseController<TEntity, TEntityDto>(
     @ApiOperation({ summary: description })
     @UseInterceptors(CacheInterceptor)
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
+    @ApiExcludeEndpoint()
     async findManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
@@ -44,6 +45,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary, description })
     @Paginated(EntityDto, Entity, { findForAllProperties: true })
+    @ApiExcludeEndpoint()
     async findManyByQuery(@Query() query: IQuery): Promise<TEntityDto> {
       return this.service.findMany(query);
     }
@@ -54,6 +56,7 @@ export function BaseControllerWithFindById<TEntity, TEntityDto>(
     @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
     @ApiBaseResponse({ type: Entity })
     @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
+    @ApiExcludeEndpoint()
     async findOne(@Param('id') id: string): Promise<TEntity> {
       const found = await this.service.findOne(+id);
       if (!found) throw new NotFoundException('По этому id ничего не найдено!');

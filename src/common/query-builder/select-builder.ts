@@ -1,4 +1,4 @@
-type Select = { [key: string]: 1 };
+export type Select = { [key: string]: 1 };
 
 export class SelectBuilder {
   private select: Select = {};
