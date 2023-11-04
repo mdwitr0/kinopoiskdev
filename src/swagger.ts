@@ -1,5 +1,6 @@
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as process from 'process';
 
 export const DOC_PATH = '/documentation';
 
@@ -77,12 +78,25 @@ export const setupSwagger = (app: NestFastifyApplication) => {
     .setTitle(TITLE)
     .setDescription(DESCRIPTION)
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
-    .setVersion('1.4')
-    .addServer('https://api.kinopoisk.dev')
-    .addServer('http://127.0.0.1:3000')
-    .build();
+    .setVersion('1.4');
 
-  const document = SwaggerModule.createDocument(app, config);
+  switch (process.env.NODE_ENV) {
+    case 'production':
+    case 'prod':
+    case 'sync':
+      config.addServer('https://api.kinopoisk.dev');
+      break;
+    case 'development':
+    case 'dev':
+      config.addServer('https://dev-api.kinopoisk.dev');
+      break;
+    default:
+      config.addServer('http://localhost:3000');
+  }
+
+  const docConfig = config.build();
+
+  const document = SwaggerModule.createDocument(app, docConfig);
 
   SwaggerModule.setup(DOC_PATH, app, document, {
     customSiteTitle: SITE_TITLE,
