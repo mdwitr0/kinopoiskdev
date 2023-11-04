@@ -5,7 +5,7 @@ import { SortBuilder } from '../../../common/query-builder/sort-builder';
 import { PaginationBuilder } from '../../../common/query-builder/pagination-builder';
 import { IRequestModel } from '../../../common/interfaces/request-model.interface';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString, Min, Validate } from 'class-validator';
+import { IsNumber, IsOptional, Min, Validate } from 'class-validator';
 import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
 import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
 import { Expose } from 'class-transformer';
@@ -14,36 +14,63 @@ import { ToArray } from '../../../common/decorators/transform/to-array.decorator
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
 import { AreArrayLengthsEqual } from '../../../common/validation/are-array-lengths-equal';
 import { IsValues } from '../../../common/validation/is-values';
-import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
+import { NumberParam } from '../../../common/decorators/types/number-param';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
 import { StringParam } from '../../../common/decorators/types/string-param';
-import { NumberParam } from '../../../common/decorators/types/number-param';
-import { IsNumberParam } from '../../../common/validation/is-number-param';
 
-export enum ListFieldV1_4 {
-  'category' = 'category',
-  'slug' = 'slug',
-  'moviesCount' = 'moviesCount',
+export enum ImageFieldV1_4 {
+  'movieId' = 'movieId',
+  'type' = 'type',
+  'language' = 'language',
+  'url' = 'url',
+  'previewUrl' = 'previewUrl',
+  'height' = 'height',
+  'width' = 'width',
+}
+
+export enum ImageSelectFieldV1_4 {
+  'movieId' = 'movieId',
+  'type' = 'type',
+  'language' = 'language',
+  'url' = 'url',
+  'previewUrl' = 'previewUrl',
+  'height' = 'height',
+  'width' = 'width',
+}
+
+enum ImageTypeV1_4 {
+  'backdrops' = 'backdrops',
   'cover' = 'cover',
+  'frame' = 'frame',
+  'promo' = 'promo',
+  'screenshot' = 'screenshot',
+  'shooting' = 'shooting',
+  'still' = 'still',
+  'wallpaper' = 'wallpaper',
 }
 
-export enum ListSelectFieldV1_4 {
-  'category' = 'category',
-  'slug' = 'slug',
-  'moviesCount' = 'moviesCount',
-  'cover.url' = 'cover.url',
-  'cover.previewUrl' = 'cover.previewUrl',
+enum ImageLanguageV1_4 {
+  'ab' = 'ab',
+  'af' = 'af',
+  'am' = 'am',
+  'ar' = 'ar',
+  'as' = 'as',
+  'av' = 'av',
+  'ba' = 'ba',
+  'be' = 'be',
+  'bg' = 'bg',
+  'bn' = 'bn',
+  'ca' = 'ca',
+  'ce' = 'ce',
+  'cn' = 'cn',
+  'cs' = 'cs',
+  'cu' = 'cu',
+  'cv' = 'cv',
+  'da' = 'da',
+  'de' = 'de',
 }
 
-enum ListCatregoryV1_4 {
-  'Онлайн-кинотеатр' = 'Онлайн-кинотеатр',
-  'Премии' = 'Премии',
-  'Сборы' = 'Сборы',
-  'Сериалы' = 'Сериалы',
-  'Фильмы' = 'Фильмы',
-}
-
-export class ListRequestDtoV1_4 implements IRequestModel {
+export class ImageRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({ description: 'Номер страницы', minimum: 1, default: 1 })
   @IsOptional()
   @IsNumber()
@@ -64,34 +91,34 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({
     description: 'Список полей требуемых в ответе из модели',
     isArray: true,
-    enum: ListSelectFieldV1_4,
+    enum: ImageSelectFieldV1_4,
   })
   @IsOptional()
   @ToArray()
-  @Validate(IsEnumParam, [ListSelectFieldV1_4])
+  @Validate(IsEnumParam, [ImageSelectFieldV1_4])
   @Expose()
   selectFields?: string[];
 
   @ApiPropertyOptional({
     isArray: true,
     description: 'Список полей которые не должны быть null или пусты',
-    enum: ListFieldV1_4,
+    enum: ImageFieldV1_4,
   })
   @IsOptional()
   @ToArray()
-  @Validate(IsEnumParam, [ListFieldV1_4])
+  @Validate(IsEnumParam, [ImageFieldV1_4])
   @Expose()
   notNullFields?: string[];
 
-  @ApiPropertyOptional({ description: 'Сортировка по полям из модели', isArray: true, enum: ListFieldV1_4 })
+  @ApiPropertyOptional({ description: 'Сортировка по полям из модели', isArray: true, enum: ImageFieldV1_4 })
   @IsOptional()
-  @Validate(IsEnumParam, [ListFieldV1_4])
+  @Validate(IsEnumParam, [ImageFieldV1_4])
   @Validate(AreArrayLengthsEqual, ['sortType'])
   @ToArray()
   @Expose()
   sortField?: string[];
 
-  @ApiPropertyOptional({ description: 'Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`)' })
+  @ApiPropertyOptional({ description: 'Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`)', isArray: true })
   @IsOptional()
   @Validate(IsValues, ['1', '-1'])
   @Validate(AreArrayLengthsEqual, ['sortField'])
@@ -99,27 +126,39 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @Expose()
   sortType?: string[];
 
-  @ApiNullableProperty({ isArray: true, description: 'Поиск slug (пример: `"!top-250", "top-250"`)' })
+  @ApiPropertyOptional({ description: 'Поиск картинок по id фильма (пример: `"666", "!666"`)', isArray: true })
   @IsOptional()
   @ToArray()
-  @Validate(IsString)
-  @StringParam()
-  slug?: string[];
-
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по категории (пример: `"Фильмы", "!Фильмы"`)', enum: ListCatregoryV1_4 })
-  @IsOptional()
-  @ToArray()
-  @Validate(IsEnumParam, [ListCatregoryV1_4])
-  @EnumParam()
-  category?: string[];
-
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по количеству фильмов (пример: `"1-200", "10"`)' })
-  @IsOptional()
-  @ToArray()
-  @Validate(IsValueInRange, [1, 1000])
-  @Validate(IsNumberParam)
+  @Validate(IsValueInRange, [1, 7000000])
   @NumberParam()
-  moviesCount?: string[];
+  movieId?: string[];
+
+  @ApiPropertyOptional({ description: 'Поиск картинок по типу (пример: `"cover", "!cover"`)', isArray: true, enum: ImageTypeV1_4 })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsEnumParam, [ImageTypeV1_4])
+  @EnumParam()
+  type?: string[];
+
+  @ApiPropertyOptional({ description: 'Поиск картинок по языку (пример: `"en", "!de"`)', isArray: true, enum: ImageLanguageV1_4 })
+  @IsOptional()
+  @ToArray()
+  @StringParam()
+  language?: string[];
+
+  @ApiPropertyOptional({ description: 'Поиск картинок по высоте (пример: `"1920", "360-1920"`)', isArray: true })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsValueInRange, [1, 10000])
+  @NumberParam()
+  height?: string[];
+
+  @ApiPropertyOptional({ description: 'Поиск картинок по ширине (пример: `"1080", "320-1080"`)', isArray: true })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsValueInRange, [1, 10000])
+  @NumberParam()
+  width?: string[];
 
   public model2Where() {
     const filter = new FilterBuilder();
