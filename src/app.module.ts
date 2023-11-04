@@ -103,6 +103,10 @@ export class AppModule implements NestModule {
         path: `/`,
         method: RequestMethod.GET,
       },
+      {
+        path: `/(icon.png|favicon.ico|swagger.css)`,
+        method: RequestMethod.GET,
+      },
     ];
 
     consumer
