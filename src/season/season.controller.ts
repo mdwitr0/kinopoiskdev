@@ -8,6 +8,7 @@ import { IQuery } from '../common/interfaces/query.interface';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { SeasonDocsResponseDtoV1 } from './dto/v1/season-docs.response.dto';
 import { SeasonDocsResponseDtoV1_4 } from './dto/v1.4/season-docs.response.dto';
+import { SeasonRequestDtoV1_4 } from './dto/v1.4/season-request.dto';
 
 @Controller('season', 'Сезоны и эпизоды')
 export class SeasonController {
@@ -25,8 +26,7 @@ export class SeasonController {
   @Get()
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({ summary: 'Поиск сезонов' })
-  @Paginated(SeasonDocsResponseDtoV1_4, Season, { findForAllProperties: true })
-  async findManyByQueryV1_4(@Query() query: IQuery): Promise<SeasonDocsResponseDtoV1_4> {
-    return this.service.findMany(query);
+  async findManyV1_4(@Query() request: SeasonRequestDtoV1_4): Promise<SeasonDocsResponseDtoV1_4> {
+    return this.service.findManyV1_4(request);
   }
 }
