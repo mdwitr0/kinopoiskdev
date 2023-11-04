@@ -17,6 +17,7 @@ import { PersonDocsResponseDtoV1_4 } from './dto/v1.4/person-docs.response';
 import { ApiBaseResponse } from '../common/decorators/api-base-response.decorator';
 import { ForbiddenErrorResponseDto } from '../common/dto/errors/forbidden-error.response.dto';
 import { PersonAwardRequestDtoV1_4 } from './dto/v1.4/person-award-request.dto';
+import { PersonFindOneParamsDtoV1_4 } from './dto/v1.4/person-find-one-params.dto';
 
 @Controller('person', 'Актеры, режиссеры, операторы, и т.д')
 export class PersonController extends BaseControllerWithFindById(Person, PersonDocsResponseDto, 'Универсальный поиск персон с фильтрами') {
@@ -30,7 +31,7 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
   @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
   @ApiBaseResponse({ type: Person })
   @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
-  async findOneV1_4(@Param('id') id: string): Promise<Person> {
+  async findOneV1_4(@Param() { id }: PersonFindOneParamsDtoV1_4): Promise<Person> {
     const found = await this.personService.findOne(+id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');
     return found;

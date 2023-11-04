@@ -93,7 +93,7 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID персоны (пример: `"666", "555", "!666"`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [250, 7000000])
+  @Validate(IsValueInRange, [1, 9000000])
   @Validate(IsNumberParam)
   @NumberParam()
   personId?: string[];

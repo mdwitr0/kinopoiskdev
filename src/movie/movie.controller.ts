@@ -24,6 +24,7 @@ import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto
 import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
 import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
+import { MovieFindOneParamsDtoV1_4 } from './dto/v1.4/movie-find-one-params.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
@@ -35,8 +36,8 @@ export class MovieController {
   @ApiOperation({ summary: 'Поиск по id', description: 'Возвращает всю доступную информацию о сущности.' })
   @ApiBaseResponse({ type: MovieDtoV1_4 })
   @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
-  async findOneV1_4(@Param('id') id: string): Promise<MovieDtoV1_4> {
-    const found = await this.movieService.findOneV1_4(+id);
+  async findOneV1_4(@Param() { id }: MovieFindOneParamsDtoV1_4): Promise<MovieDtoV1_4> {
+    const found = await this.movieService.findOneV1_4(id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');
     return found;
   }
