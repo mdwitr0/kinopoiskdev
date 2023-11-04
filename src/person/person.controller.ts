@@ -28,7 +28,7 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
     description: `Этот метод предназначен для поиска персон по фильтрам. Он принимает множество параметров, которые можно комбинировать между собой. Если вам нужен только поиск по имени, используйте метод \`Полнотекстовый поиск\` (search). В этом методе также доступен выбор полей. А в ответ приходит полная модель персоны.`,
   })
   async findManyV1_4(@Query() request: PersonRequestDtoV1_4): Promise<PersonDocsResponseDto> {
-    return this.service.findManyV1_4(request);
+    return this.personService.findManyV1_4(request);
   }
 
   @Version('1.4')

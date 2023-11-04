@@ -193,15 +193,13 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   'movies.id'?: string[];
 
-  // sex
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру (пример: `Женский, Мужской`)' })
+  @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру (пример: `Женский, Мужской`)', enum: PersonSexV1_4 })
   @IsOptional()
   @ToArray()
   @Validate(IsEnumParam, [PersonSexV1_4])
   @EnumParam()
   sex?: string[];
 
-  // growth
   @ApiNullableProperty({ isArray: true, description: 'Поиск по росту (пример: `170-180, 180`)' })
   @IsOptional()
   @ToArray()
@@ -209,14 +207,13 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   growth?: string[];
 
-  // birthday
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате рождения (пример: `01.01.2000-01.01.2001, 01.01.2000`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
   birthday?: string[];
-  // death
+
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате смерти (пример: `01.01.2000-01.01.2001, 01.01.2000`)' })
   @IsOptional()
   @ToArray()
@@ -224,7 +221,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @DateParam()
   death?: string[];
 
-  // age
   @ApiNullableProperty({ isArray: true, description: 'Поиск по возрасту (пример: `18-25, 25`)' })
   @IsOptional()
   @ToArray()
@@ -232,19 +228,18 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   age?: string[];
 
-  // birthPlace.value
   @ApiNullableProperty({ isArray: true, description: 'Поиск по месту рождения (пример: `Москва, Санкт-Петербург`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
   'birthPlace.value'?: string[];
-  // deathPlace.value
+
   @ApiNullableProperty({ isArray: true, description: 'Поиск по месту смерти (пример: `Москва, Санкт-Петербург`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
   'deathPlace.value'?: string[];
-  // spouses.id
+
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID супруги(супруга) (пример: `111, 222`)' })
   @IsOptional()
   @ToArray()
@@ -252,21 +247,21 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsNumberParam)
   @NumberParam()
   'spouses.id'?: string[];
-  // spouses.divorced
+
   @ApiNullableProperty({ isArray: true, description: 'Поиск по статусу развода (пример: `true, false`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
   'spouses.divorced'?: string[];
-  // spouses.sex
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру супруги(супруга) (пример: `Женский, Мужской`)' })
+
+  @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру супруги(супруга) (пример: `Женский, Мужской`)', enum: PersonSexV1_4 })
   @IsOptional()
   @ToArray()
   @Validate(IsEnumParam, [PersonSexV1_4])
   @EnumParam()
   'spouses.sex'?: string[];
-  // countAwards
+
   @ApiNullableProperty({ isArray: true, description: 'Поиск по количеству наград (пример: `1-10, 10`)' })
   @IsOptional()
   @ToArray()
@@ -275,14 +270,13 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   countAwards?: string[];
 
-  // profession.value
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по профессии (пример: `Актер, Режиссер`)' })
+  @ApiNullableProperty({ isArray: true, description: 'Поиск по профессии (пример: `Актер, Режиссер`)', enum: PersonProfessionV1_4 })
   @IsOptional()
   @ToArray()
   @Validate(IsEnumParam, [PersonProfessionV1_4])
   @EnumParam()
   'profession.value'?: string[];
-  // movies.rating
+
   @ApiNullableProperty({ isArray: true, description: 'Поиск по рейтингу фильма (пример: `1-10, 10`)' })
   @IsOptional()
   @ToArray()
@@ -291,8 +285,11 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   'movies.rating'?: string[];
 
-  // movies.enProfession
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по профессии в фильмах на английском (пример: `actor, director`)' })
+  @ApiNullableProperty({
+    isArray: true,
+    description: 'Поиск по профессии в фильмах на английском (пример: `actor, director`)',
+    enum: PersonEnProfessionV1_4,
+  })
   @IsOptional()
   @ToArray()
   @Validate(IsEnumParam, [PersonEnProfessionV1_4])
