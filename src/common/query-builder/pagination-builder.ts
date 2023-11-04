@@ -1,4 +1,4 @@
-type Pagination = { [key: string]: any };
+export type Pagination = { [key: string]: any };
 
 export class PaginationBuilder {
   private skip = 0;

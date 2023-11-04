@@ -3,7 +3,7 @@ import { normalizeDate } from '../utils/query/parse-date.util';
 import { ExcludeQueryParamStrategy } from './query-param-strategy/exclude-query-param.strategy';
 import { IncludeQueryParamStrategy } from './query-param-strategy/include-query-param.strategy';
 
-type Filter = { [key: string]: any };
+export type Filter = { [key: string]: any };
 
 export class FilterBuilder {
   private specialKeys = ['$nin', '$ne', '$gte', '$lte', '$all'];

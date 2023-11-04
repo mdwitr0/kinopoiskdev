@@ -1,4 +1,4 @@
-type Sort = { [key: string]: 1 | -1 };
+export type Sort = { [key: string]: 1 | -1 };
 
 export class SortBuilder {
   private sort: Sort = {};
