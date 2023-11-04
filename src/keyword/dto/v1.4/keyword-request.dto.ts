@@ -5,7 +5,7 @@ import { SortBuilder } from '../../../common/query-builder/sort-builder';
 import { PaginationBuilder } from '../../../common/query-builder/pagination-builder';
 import { IRequestModel } from '../../../common/interfaces/request-model.interface';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString, Min, Validate } from 'class-validator';
+import { IsNumber, IsOptional, Min, Validate } from 'class-validator';
 import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
 import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
 import { Expose } from 'class-transformer';
@@ -14,36 +14,22 @@ import { ToArray } from '../../../common/decorators/transform/to-array.decorator
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
 import { AreArrayLengthsEqual } from '../../../common/validation/are-array-lengths-equal';
 import { IsValues } from '../../../common/validation/is-values';
-import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
-import { EnumParam } from '../../../common/decorators/types/enum-param';
-import { StringParam } from '../../../common/decorators/types/string-param';
 import { NumberParam } from '../../../common/decorators/types/number-param';
-import { IsNumberParam } from '../../../common/validation/is-number-param';
+import { StringParam } from '../../../common/decorators/types/string-param';
 
-export enum ListFieldV1_4 {
-  'category' = 'category',
-  'slug' = 'slug',
-  'moviesCount' = 'moviesCount',
-  'cover.url' = 'cover.url',
-  'cover.previewUrl' = 'cover.previewUrl',
+export enum KeywordFieldV1_4 {
+  'id' = 'id',
+  'movie.id' = 'movie.id',
+  'title' = 'title',
 }
 
-export enum ListSelectFieldV1_4 {
-  'category' = 'category',
-  'slug' = 'slug',
-  'moviesCount' = 'moviesCount',
-  'cover' = 'cover',
+export enum KeywordSelectFieldV1_4 {
+  'id' = 'id',
+  'movie' = 'movie',
+  'title' = 'title',
 }
 
-enum ListCatregoryV1_4 {
-  'Онлайн-кинотеатр' = 'Онлайн-кинотеатр',
-  'Премии' = 'Премии',
-  'Сборы' = 'Сборы',
-  'Сериалы' = 'Сериалы',
-  'Фильмы' = 'Фильмы',
-}
-
-export class ListRequestDtoV1_4 implements IRequestModel {
+export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({ description: 'Номер страницы', minimum: 1, default: 1 })
   @IsOptional()
   @IsNumber()
@@ -64,34 +50,34 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({
     description: 'Список полей требуемых в ответе из модели',
     isArray: true,
-    enum: ListSelectFieldV1_4,
+    enum: KeywordSelectFieldV1_4,
   })
   @IsOptional()
   @ToArray()
-  @Validate(IsEnumParam, [ListSelectFieldV1_4])
+  @Validate(IsEnumParam, [KeywordSelectFieldV1_4])
   @Expose()
   selectFields?: string[];
 
   @ApiPropertyOptional({
     isArray: true,
     description: 'Список полей которые не должны быть null или пусты',
-    enum: ListFieldV1_4,
+    enum: KeywordFieldV1_4,
   })
   @IsOptional()
   @ToArray()
-  @Validate(IsEnumParam, [ListFieldV1_4])
+  @Validate(IsEnumParam, [KeywordFieldV1_4])
   @Expose()
   notNullFields?: string[];
 
-  @ApiPropertyOptional({ description: 'Сортировка по полям из модели', isArray: true, enum: ListFieldV1_4 })
+  @ApiPropertyOptional({ description: 'Сортировка по полям из модели', isArray: true, enum: KeywordFieldV1_4 })
   @IsOptional()
-  @Validate(IsEnumParam, [ListFieldV1_4])
+  @Validate(IsEnumParam, [KeywordFieldV1_4])
   @Validate(AreArrayLengthsEqual, ['sortType'])
   @ToArray()
   @Expose()
   sortField?: string[];
 
-  @ApiPropertyOptional({ description: 'Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`)' })
+  @ApiPropertyOptional({ description: 'Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`)', isArray: true })
   @IsOptional()
   @Validate(IsValues, ['1', '-1'])
   @Validate(AreArrayLengthsEqual, ['sortField'])
@@ -99,27 +85,25 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @Expose()
   sortType?: string[];
 
-  @ApiNullableProperty({ isArray: true, description: 'Поиск slug (пример: `"!top-250", "top-250"`)' })
+  @ApiPropertyOptional({ description: 'Поиск ключевого слова по id (пример: `"666", "!666"`)', isArray: true })
   @IsOptional()
   @ToArray()
-  @Validate(IsString)
-  @StringParam()
-  slug?: string[];
-
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по категории (пример: `"Фильмы", "!Фильмы"`)', enum: ListCatregoryV1_4 })
-  @IsOptional()
-  @ToArray()
-  @Validate(IsEnumParam, [ListCatregoryV1_4])
-  @EnumParam()
-  category?: string[];
-
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по количеству фильмов (пример: `"1-200", "10"`)' })
-  @IsOptional()
-  @ToArray()
-  @Validate(IsValueInRange, [1, 1000])
-  @Validate(IsNumberParam)
+  @Validate(IsValueInRange, [1, 100000000000])
   @NumberParam()
-  moviesCount?: string[];
+  id?: string[];
+
+  @ApiPropertyOptional({ description: 'Поиск ключевых слов по id фильма (пример: `"666", "!666"`)', isArray: true })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsValueInRange, [1, 7000000])
+  @NumberParam()
+  'movie.id'?: string[];
+
+  @ApiPropertyOptional({ description: 'Поиск ключевых слов по наименованию (пример: `"1980-е", "!1980-е"`)', isArray: true })
+  @IsOptional()
+  @ToArray()
+  @StringParam()
+  title?: string[];
 
   public model2Where() {
     const filter = new FilterBuilder();

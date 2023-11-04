@@ -66,12 +66,12 @@ describe('ExcludeQueryParamStrategy', () => {
 
   it('should return buildWhere with $ne when the value is a string', () => {
     const value = '!value';
-    expect(excludeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $ne: 'value' } });
+    expect(excludeQueryParamStrategy.buildWhere(value)).toEqual({ $ne: 'value' });
   });
 
   it('should return buildWhere with $nin when the value is an array', () => {
     const value = ['!value1', '!value2'];
-    expect(excludeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $nin: ['value1', 'value2'] } });
+    expect(excludeQueryParamStrategy.buildWhere(value)).toEqual({ $nin: ['value1', 'value2'] });
   });
 });
 
@@ -100,12 +100,12 @@ describe('IncludeQueryParamStrategy', () => {
 
   it('should return buildWhere with $all when the value is a string', () => {
     const value = '+value';
-    expect(includeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: 'value' });
+    expect(includeQueryParamStrategy.buildWhere(value)).toEqual('value');
   });
 
   it('should return buildWhere with $all when the value is an array', () => {
     const value = ['+value1', '+value2'];
-    expect(includeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $all: ['value1', 'value2'] } });
+    expect(includeQueryParamStrategy.buildWhere(value)).toEqual({ $all: ['value1', 'value2'] });
   });
 });
 
@@ -134,11 +134,11 @@ describe('RangeQueryParamStrategy', () => {
 
   it('should return buildWhere with $gte and $lte when the value is a string', () => {
     const value = '1-10';
-    expect(rangeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $gte: '1', $lte: '10' } });
+    expect(rangeQueryParamStrategy.buildWhere(value)).toEqual({ $gte: '1', $lte: '10' });
   });
 
   it('should return buildWhere with $gte and $lte when the value is an array', () => {
     const value = ['1-10', '11-20'];
-    expect(rangeQueryParamStrategy.buildWhere('key', value)).toEqual({ key: { $gte: '1', $lte: '10' } });
+    expect(rangeQueryParamStrategy.buildWhere(value)).toEqual({ $gte: '1', $lte: '10' });
   });
 });

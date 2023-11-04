@@ -34,25 +34,6 @@ export enum PersonFieldV1_4 {
   'birthday' = 'birthday',
   'death' = 'death',
   'age' = 'age',
-  'birthPlace' = 'birthPlace',
-  'deathPlace' = 'deathPlace',
-  'spouses' = 'spouses',
-  'countAwards' = 'countAwards',
-  'profession' = 'profession',
-  'facts' = 'facts',
-  'movies' = 'movies',
-}
-
-export enum PersonSelectFieldV1_4 {
-  'id' = 'id',
-  'name' = 'name',
-  'enName' = 'enName',
-  'photo' = 'photo',
-  'sex' = 'sex',
-  'growth' = 'growth',
-  'birthday' = 'birthday',
-  'death' = 'death',
-  'age' = 'age',
   'birthPlace.value' = 'birthPlace.value',
   'deathPlace.value' = 'deathPlace.value',
   'spouses.id' = 'spouses.id',
@@ -72,6 +53,25 @@ export enum PersonSelectFieldV1_4 {
   'movies.general' = 'movies.general',
   'movies.description' = 'movies.description',
   'movies.enProfession' = 'movies.enProfession',
+}
+
+export enum PersonSelectFieldV1_4 {
+  'id' = 'id',
+  'name' = 'name',
+  'enName' = 'enName',
+  'photo' = 'photo',
+  'sex' = 'sex',
+  'growth' = 'growth',
+  'birthday' = 'birthday',
+  'death' = 'death',
+  'age' = 'age',
+  'birthPlace' = 'birthPlace',
+  'deathPlace' = 'deathPlace',
+  'spouses' = 'spouses',
+  'countAwards' = 'countAwards',
+  'profession' = 'profession',
+  'facts' = 'facts',
+  'movies' = 'movies',
 }
 
 enum PersonSexV1_4 {
