@@ -13,6 +13,7 @@ import { SearchDto } from 'src/common/dto/query/search.dto';
 import { SearchPersonResponseDto } from './dto/search-person.response.dto';
 import { SearchPersonResponseDtoV1_4 } from './dto/v1.4/search-person.response.dto';
 import { PersonRequestDtoV1_4 } from './dto/v1.4/person-request.dto';
+import { PersonDocsResponseDtoV1_4 } from './dto/v1.4/person-docs.response';
 
 @Controller('person', 'Актеры, режиссеры, операторы, и т.д')
 export class PersonController extends BaseControllerWithFindById(Person, PersonDocsResponseDto, 'Универсальный поиск персон с фильтрами') {
@@ -27,7 +28,7 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
     summary: 'Универсальный поиск с фильтрами',
     description: `Этот метод предназначен для поиска персон по фильтрам. Он принимает множество параметров, которые можно комбинировать между собой. Если вам нужен только поиск по имени, используйте метод \`Полнотекстовый поиск\` (search). В этом методе также доступен выбор полей. А в ответ приходит полная модель персоны.`,
   })
-  async findManyV1_4(@Query() request: PersonRequestDtoV1_4): Promise<PersonDocsResponseDto> {
+  async findManyV1_4(@Query() request: PersonRequestDtoV1_4): Promise<PersonDocsResponseDtoV1_4> {
     return this.personService.findManyV1_4(request);
   }
 
