@@ -8,6 +8,8 @@ export class IsDateParam implements ValidatorConstraintInterface {
     if (Array.isArray(value)) return value.every((item) => this.validate(item, args));
 
     const strategy = QueryParamStrategyFactory.create(value);
+    const v = strategy.extractValue(value);
+    if (Array.isArray(v)) return v.every((item) => this.isValidDate(item));
 
     return this.isValidDate(strategy.extractValue(value));
   }

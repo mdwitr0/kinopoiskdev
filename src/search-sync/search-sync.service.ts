@@ -36,12 +36,9 @@ export class SearchSyncService implements OnModuleInit {
     }
   }
 
-  private async syncEntity<Entity>(
-    entityType: EntityTypes,
-    service: MovieService | PersonService,
-    pageSize = 1000,
-  ): Promise<void> {
+  private async syncEntity<Entity>(entityType: EntityTypes, service: MovieService | PersonService, pageSize = 1000): Promise<void> {
     return new Promise(async (resolve) => {
+      this.logger.log(`Starting sync for ${entityType}`);
       const process = await this.searchSyncModel.findOne({ entityType });
       if (process?.processing) return;
       await this.searchSyncModel.updateOne({ entityType }, { processing: true }, { upsert: true });
@@ -57,6 +54,7 @@ export class SearchSyncService implements OnModuleInit {
         };
 
         const result = await service.findMany(query);
+        this.logger.log(`Processing. Page ${pageIndex} - ${result.docs.length} items`);
         let entities = [];
         switch (entityType) {
           case MOVIE_INDEX:
@@ -69,9 +67,7 @@ export class SearchSyncService implements OnModuleInit {
             entities = (result.docs as Person[]).map((person) => new MeiliPersonEntity({}).fromMongoDocument(person));
             break;
           case PERSON_V1_4_INDEX:
-            entities = (result.docs as Person[]).map((person) =>
-              new MeiliPersonEntityV1_4({}).fromMongoDocument(person),
-            );
+            entities = (result.docs as Person[]).map((person) => new MeiliPersonEntityV1_4({}).fromMongoDocument(person));
             break;
           default:
             throw new Error(`Unknown entity type: ${entityType}`);
