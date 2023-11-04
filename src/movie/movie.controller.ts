@@ -25,6 +25,7 @@ import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
 import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
 import { MovieFindOneParamsDtoV1_4 } from './dto/v1.4/movie-find-one-params.dto';
+import { MovieRandomRequestDtoV1_4 } from './dto/v1.4/movie-random-request.dto';
 
 @Controller('movie', 'Фильмы, сериалы, и т.д.')
 export class MovieController {
@@ -73,7 +74,7 @@ export class MovieController {
     summary: 'Получить рандомный тайтл из базы',
     description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
   })
-  async getRandomMovieV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDtoV1_4> {
+  async getRandomMovieV1_4(@Query() query: MovieRandomRequestDtoV1_4): Promise<MovieDtoV1_4> {
     return this.movieService.getRandomMovieV1_4(query);
   }
 

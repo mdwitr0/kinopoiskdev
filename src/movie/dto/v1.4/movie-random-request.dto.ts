@@ -1,12 +1,8 @@
-import { IsNumber, IsOptional, Min, Validate } from 'class-validator';
+import { IsOptional, Validate } from 'class-validator';
 import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
 import { IsNumberParam } from '../../../common/validation/is-number-param';
 import { IsValueInRange } from '../../../common/validation/is-value-in-range';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
-import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
-import { AreArrayLengthsEqual } from '../../../common/validation/are-array-lengths-equal';
-import { IsValues } from '../../../common/validation/is-values';
 import { ToArray } from '../../../common/decorators/transform/to-array.decorator';
 import { IsStartWith } from '../../../common/validation/is-start-with';
 import { IsLengthExact } from '../../../common/validation/is-length-exact';
@@ -17,195 +13,11 @@ import { NumberParam } from '../../../common/decorators/types/number-param';
 import { FilterBuilder } from '../../../common/query-builder/filter-builder';
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { BooleanParam } from '../../../common/decorators/types/boolean-param';
-import { SelectBuilder } from '../../../common/query-builder/select-builder';
-import { SortBuilder } from '../../../common/query-builder/sort-builder';
-import { PaginationBuilder } from '../../../common/query-builder/pagination-builder';
-import { SortOrder } from 'mongoose';
 import { Expose } from 'class-transformer';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
-import { IRequestModel } from '../../../common/interfaces/request-model.interface';
+import { MovieFieldV1_4, MovieStatusV1_4, MovieTypeV1_4, RatingMpaaV1_4 } from './movie-request.dto';
 
-export enum MovieFieldV1_4 {
-  'id' = 'id',
-  'externalId.imdb' = 'externalId.imdb',
-  'externalId.tmdb' = 'externalId.tmdb',
-  'externalId.kpHD' = 'externalId.kpHD',
-  name = 'name',
-  enName = 'enName',
-  alternativeName = 'alternativeName',
-  'names.name' = 'names.name',
-  description = 'description',
-  shortDescription = 'shortDescription',
-  slogan = 'slogan',
-  type = 'type',
-  typeNumber = 'typeNumber',
-  isSeries = 'isSeries',
-  status = 'status',
-  year = 'year',
-  'releaseYears.start' = 'releaseYears.start',
-  'releaseYears.end' = 'releaseYears.end',
-  'rating.kp' = 'rating.kp',
-  'rating.imdb' = 'rating.imdb',
-  'rating.tmdb' = 'rating.tmdb',
-  'rating.filmCritics' = 'rating.filmCritics',
-  'rating.russianFilmCritics' = 'rating.russianFilmCritics',
-  'rating.await' = 'rating.await',
-  ratingMpaa = 'ratingMpaa',
-  ageRating = 'ageRating',
-  'votes.kp' = 'votes.kp',
-  'votes.imdb' = 'votes.imdb',
-  'votes.tmdb' = 'votes.tmdb',
-  'votes.filmCritics' = 'votes.filmCritics',
-  'votes.russianFilmCritics' = 'votes.russianFilmCritics',
-  'votes.await' = 'votes.await',
-  'budget.value' = 'budget.value',
-  'budget.currency' = 'budget.currency',
-  'audience.count' = 'audience.count',
-  'audience.country' = 'audience.country',
-  movieLength = 'movieLength',
-  totalMovieLength = 'totalMovieLength',
-  totalSeriesLength = 'totalSeriesLength',
-  'genres.name' = 'genres.name',
-  'countries.name' = 'countries.name',
-  'poster.url' = 'poster.url',
-  'backdrop.url' = 'backdrop.url',
-  'logo.url' = 'logo.url',
-  'ticketsOnSale' = 'ticketsOnSale',
-  'videos.trailers.url' = 'videos.trailers.url',
-  'videos.trailers.site' = 'videos.trailers.site',
-  'videos.trailers.name' = 'videos.trailers.name',
-  'networks.items.name' = 'networks.items.name',
-  'networks.items.logo.url' = 'networks.items.logo.url',
-  'persons.id' = 'persons.id',
-  'persons.name' = 'persons.name',
-  'persons.enName' = 'persons.enName',
-  'persons.photo' = 'persons.photo',
-  'persons.description' = 'persons.description',
-  'persons.profession' = 'persons.profession',
-  'persons.enProfession' = 'persons.enProfession',
-  'facts.type' = 'facts.type',
-  'facts.value' = 'facts.value',
-  'facts.spoiler' = 'facts.spoiler',
-  'fees.world' = 'fees.world',
-  'fees.usa' = 'fees.usa',
-  'fees.russia' = 'fees.russia',
-  'premiere.world' = 'premiere.world',
-  'premiere.usa' = 'premiere.usa',
-  'premiere.russia' = 'premiere.russia',
-  'premiere.digital' = 'premiere.digital',
-  'premiere.dvd' = 'premiere.dvd',
-  'premiere.bluRay' = 'premiere.bluRay',
-  'premiere.cinema' = 'premiere.cinema',
-  'premiere.country' = 'premiere.country',
-  'similarMovies.id' = 'similarMovies.id',
-  'similarMovies.name' = 'similarMovies.name',
-  'similarMovies.enName' = 'similarMovies.enName',
-  'similarMovies.alternativeName' = 'similarMovies.alternativeName',
-  'similarMovies.poster.url' = 'similarMovies.poster.url',
-  'sequelsAndPrequels.id' = 'sequelsAndPrequels.id',
-  'sequelsAndPrequels.name' = 'sequelsAndPrequels.name',
-  'sequelsAndPrequels.enName' = 'sequelsAndPrequels.enName',
-  'sequelsAndPrequels.alternativeName' = 'sequelsAndPrequels.alternativeName',
-  'sequelsAndPrequels.poster.url' = 'sequelsAndPrequels.poster.url',
-  'watchability.items.name' = 'watchability.items.name',
-  'watchability.items.url' = 'watchability.items.url',
-  'watchability.items.logo.url' = 'watchability.items.logo.url',
-  lists = 'lists',
-}
-export enum MovieSelectFieldV1_4 {
-  'id' = 'id',
-  'externalId' = 'externalId',
-  name = 'name',
-  enName = 'enName',
-  alternativeName = 'alternativeName',
-  'names' = 'names',
-  description = 'description',
-  shortDescription = 'shortDescription',
-  slogan = 'slogan',
-  type = 'type',
-  typeNumber = 'typeNumber',
-  isSeries = 'isSeries',
-  status = 'status',
-  year = 'year',
-  'releaseYears' = 'releaseYears',
-  'rating' = 'rating',
-  ratingMpaa = 'ratingMpaa',
-  ageRating = 'ageRating',
-  'votes' = 'votes',
-  'budget' = 'budget',
-  'audience' = 'audience',
-  movieLength = 'movieLength',
-  totalMovieLength = 'totalMovieLength',
-  totalSeriesLength = 'totalSeriesLength',
-  'genres' = 'genres',
-  'countries' = 'countries',
-  'poster' = 'poster',
-  'backdrop' = 'backdrop',
-  'logo' = 'logo',
-  'ticketsOnSale' = 'ticketsOnSale',
-  'videos' = 'videos',
-  'networks' = 'networks',
-  'persons' = 'persons',
-  'facts' = 'facts',
-  'fees' = 'fees',
-  'premiere.world' = 'premiere.world',
-  'similarMovies' = 'similarMovies',
-  'sequelsAndPrequels' = 'sequelsAndPrequels',
-  'watchability' = 'watchability',
-  lists = 'lists',
-}
-export enum MovieTypeV1_4 {
-  'movie' = 'movie',
-  'tv-series' = 'tv-series',
-  'cartoon' = 'cartoon',
-  'animated-series' = 'animated-series',
-  'anime' = 'anime',
-}
-export enum MovieStatusV1_4 {
-  'announced' = 'announced',
-  'completed' = 'completed',
-  'filming' = 'filming',
-  'post-production' = 'post-production',
-  'pre-production' = 'pre-production',
-}
-
-export enum RatingMpaaV1_4 {
-  'G' = 'G',
-  'NC-17' = 'NC-17',
-  'PG' = 'PG',
-  'PG-13' = 'PG-13',
-  'R' = 'R',
-}
-
-export class MovieRequestDtoV1_4 implements IRequestModel {
-  @ApiPropertyOptional({ description: 'Номер страницы', minimum: 1, default: 1 })
-  @IsOptional()
-  @IsNumber()
-  @Min(1)
-  @ParseNumber()
-  @SetDefaultValue(1)
-  @Expose()
-  page: number;
-
-  @ApiPropertyOptional({ description: 'Количество элементов на странице', minimum: 1, maximum: 250, default: 10 })
-  @IsOptional()
-  @Validate(IsValueInRange, [1, 250])
-  @ParseNumber()
-  @SetDefaultValue(10)
-  @Expose()
-  limit: number;
-
-  @ApiPropertyOptional({
-    description: 'Список полей требуемых в ответе из модели',
-    isArray: true,
-    enum: MovieSelectFieldV1_4,
-  })
-  @IsOptional()
-  @ToArray()
-  @Validate(IsEnumParam, [MovieSelectFieldV1_4])
-  @Expose()
-  selectFields?: string[];
-
+export class MovieRandomRequestDtoV1_4 {
   @ApiPropertyOptional({
     isArray: true,
     description: 'Список полей которые не должны быть null или пусты',
@@ -216,22 +28,6 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @Validate(IsEnumParam, [MovieFieldV1_4])
   @Expose()
   notNullFields?: string[];
-
-  @ApiPropertyOptional({ description: 'Сортировка по полям из модели', isArray: true, enum: MovieFieldV1_4 })
-  @IsOptional()
-  @Validate(IsEnumParam, [MovieFieldV1_4])
-  @Validate(AreArrayLengthsEqual, ['sortType'])
-  @ToArray()
-  @Expose()
-  sortField?: string[];
-
-  @ApiPropertyOptional({ description: 'Тип сортировки применительно к полям из sortField (пример: `"1", "-1"`)' })
-  @IsOptional()
-  @Validate(IsValues, ['1', '-1'])
-  @Validate(AreArrayLengthsEqual, ['sortField'])
-  @ToArray()
-  @Expose()
-  sortType?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk (пример: `"666", "555", "!666"`)' })
   @IsOptional()
@@ -604,23 +400,5 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
     }
 
     return filter.build();
-  }
-
-  public model2Select() {
-    const select = new SelectBuilder();
-
-    return select.build(this.selectFields);
-  }
-
-  public model2Sort(): { [key: string]: SortOrder } {
-    const sort = new SortBuilder().build(this.sortField, this.sortType);
-
-    return Object.keys(sort)?.length ? { ...sort, _id: -1 } : { 'votes.kp': -1, _id: -1 };
-  }
-
-  public model2Pagination() {
-    const pagination = new PaginationBuilder();
-
-    return pagination.build(this.page, this.limit);
   }
 }

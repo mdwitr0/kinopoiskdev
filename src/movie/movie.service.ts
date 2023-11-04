@@ -23,6 +23,7 @@ import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
 import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
 import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
 import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
+import { MovieRandomRequestDtoV1_4 } from './dto/v1.4/movie-random-request.dto';
 
 @Injectable()
 export class MovieService {
@@ -66,13 +67,12 @@ export class MovieService {
     return found;
   }
 
-  async getRandomMovieV1_4(request: MovieRequestDtoV1_4): Promise<MovieDtoV1_4> {
+  async getRandomMovieV1_4(request: MovieRandomRequestDtoV1_4): Promise<MovieDtoV1_4> {
     const filter = request.model2Where();
-    const select = request.model2Select();
 
     const count = await this.movieModel.countDocuments(filter);
 
-    return this.movieModel.findOne(filter).select(select).skip(getRandomInt(1, count)).lean();
+    return this.movieModel.findOne(filter).skip(getRandomInt(1, count)).lean();
   }
 
   async findManyAwardsV1_4(request: MovieAwardRequestDtoV1_4): Promise<MovieAwardDocsResponseDto> {
