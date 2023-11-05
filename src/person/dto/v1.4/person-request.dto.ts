@@ -74,6 +74,8 @@ export enum PersonSelectFieldV1_4 {
   'movies' = 'movies',
 }
 
+const defaultSelectFields = ['id', 'name', 'enName', 'photo', 'age', 'sex'];
+
 enum PersonSexV1_4 {
   'Женский' = 'Женский',
   'Мужской' = 'Мужской',
@@ -143,6 +145,7 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
     description: 'Список полей требуемых в ответе из модели',
     isArray: true,
     enum: PersonSelectFieldV1_4,
+    default: defaultSelectFields,
   })
   @IsOptional()
   @ToArray()
@@ -332,13 +335,13 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   public model2Select() {
     const select = new SelectBuilder();
 
-    return select.build(this.selectFields);
+    return select.build(this.selectFields, defaultSelectFields);
   }
 
   public model2Sort(): { [key: string]: SortOrder } {
     const sort = new SortBuilder().build(this.sortField, this.sortType);
 
-    return Object.keys(sort)?.length ? { ...sort, _id: -1 } : { 'votes.kp': -1, _id: -1 };
+    return Object.keys(sort)?.length ? { ...sort, _id: -1 } : { id: -1, _id: -1 };
   }
 
   public model2Pagination() {

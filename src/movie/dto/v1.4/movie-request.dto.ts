@@ -63,7 +63,7 @@ export enum MovieFieldV1_4 {
   'audience.count' = 'audience.count',
   'audience.country' = 'audience.country',
   movieLength = 'movieLength',
-  totalMovieLength = 'totalMovieLength',
+  seriesLength = 'seriesLength',
   totalSeriesLength = 'totalSeriesLength',
   'genres.name' = 'genres.name',
   'countries.name' = 'countries.name',
@@ -135,7 +135,7 @@ export enum MovieSelectFieldV1_4 {
   'budget' = 'budget',
   'audience' = 'audience',
   movieLength = 'movieLength',
-  totalMovieLength = 'totalMovieLength',
+  seriesLength = 'seriesLength',
   totalSeriesLength = 'totalSeriesLength',
   'genres' = 'genres',
   'countries' = 'countries',
@@ -154,6 +154,31 @@ export enum MovieSelectFieldV1_4 {
   'watchability' = 'watchability',
   lists = 'lists',
 }
+
+const defaultSelectFields = [
+  'id',
+  'externalId',
+  'name',
+  'logo',
+  'poster',
+  'alternativeName',
+  'enName',
+  'names',
+  'description',
+  'shortDescription',
+  'horizontalPoster',
+  'type',
+  'movieLength',
+  'seriesLength',
+  'totalSeriesLength',
+  'year',
+  'votes',
+  'rating',
+  'releaseYears',
+  'genres',
+  'countries',
+];
+
 export enum MovieTypeV1_4 {
   'movie' = 'movie',
   'tv-series' = 'tv-series',
@@ -199,6 +224,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
     description: 'Список полей требуемых в ответе из модели',
     isArray: true,
     enum: MovieSelectFieldV1_4,
+    default: defaultSelectFields,
   })
   @IsOptional()
   @ToArray()
@@ -250,7 +276,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
 
   @ApiNullableProperty({ type: 'number', isArray: true, description: 'Поиск по TMDB ID (пример: `666, 555, !666`)' })
   @IsOptional()
-  @Validate(IsValueInRange, [1, 200000])
+  @Validate(IsValueInRange, [1, 2000000])
   @Validate(IsNumberParam)
   @ToArray()
   @NumberParam()
@@ -607,9 +633,32 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   }
 
   public model2Select() {
+    const defaultSelectFields = [
+      'id',
+      'externalId',
+      'name',
+      'logo',
+      'poster',
+      'alternativeName',
+      'enName',
+      'names',
+      'description',
+      'shortDescription',
+      'horizontalPoster',
+      'type',
+      'movieLength',
+      'seriesLength',
+      'totalSeriesLength',
+      'year',
+      'votes',
+      'rating',
+      'releaseYears',
+      'genres',
+      'countries',
+    ];
     const select = new SelectBuilder();
 
-    return select.build(this.selectFields);
+    return select.build(this.selectFields, defaultSelectFields);
   }
 
   public model2Sort(): { [key: string]: SortOrder } {

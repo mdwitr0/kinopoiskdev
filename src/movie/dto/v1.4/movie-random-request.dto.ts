@@ -46,7 +46,7 @@ export class MovieRandomRequestDtoV1_4 {
 
   @ApiNullableProperty({ type: 'number', isArray: true, description: 'Поиск по TMDB ID (пример: `666, 555, !666`)' })
   @IsOptional()
-  @Validate(IsValueInRange, [1, 200000])
+  @Validate(IsValueInRange, [1, 2000000])
   @Validate(IsNumberParam)
   @ToArray()
   @NumberParam()

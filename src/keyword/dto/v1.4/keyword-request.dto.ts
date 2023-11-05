@@ -147,7 +147,7 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   public model2Sort(): { [key: string]: SortOrder } {
     const sort = new SortBuilder().build(this.sortField, this.sortType);
 
-    return Object.keys(sort)?.length ? { ...sort, _id: -1 } : { 'votes.kp': -1, _id: -1 };
+    return Object.keys(sort)?.length ? { ...sort, _id: -1 } : { _id: -1 };
   }
 
   public model2Pagination() {
