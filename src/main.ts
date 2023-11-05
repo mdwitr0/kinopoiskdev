@@ -20,8 +20,6 @@ async function bootstrap(isSync = false) {
 
   app.enableVersioning();
 
-  app.enableCors({ origin: '*' });
-
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
