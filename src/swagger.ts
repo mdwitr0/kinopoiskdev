@@ -80,18 +80,11 @@ export const setupSwagger = (app: NestFastifyApplication) => {
     .addApiKey({ type: 'apiKey', name: 'X-API-KEY', in: 'header' }, 'X-API-KEY')
     .setVersion('1.4');
 
-  switch (process.env.NODE_ENV) {
-    case 'production':
-    case 'prod':
-    case 'sync':
-      config.addServer('https://api.kinopoisk.dev');
-      break;
-    case 'development':
-    case 'dev':
-      config.addServer('https://dev-api.kinopoisk.dev');
-      break;
-    default:
-      config.addServer('http://localhost:3000');
+  if (['production', 'prod', 'sync'].includes(process.env.NODE_ENV)) {
+    config.addServer('https://api.kinopoisk.dev');
+  } else {
+    config.addServer('https://dev-api.kinopoisk.dev');
+    config.addServer('http://127.0.0.1:3000');
   }
 
   const docConfig = config.build();
