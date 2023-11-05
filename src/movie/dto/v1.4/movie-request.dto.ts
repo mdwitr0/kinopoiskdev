@@ -24,6 +24,7 @@ import { SortOrder } from 'mongoose';
 import { Expose } from 'class-transformer';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
 import { IRequestModel } from '../../../common/interfaces/request-model.interface';
+import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum MovieFieldV1_4 {
   'id' = 'id',
@@ -150,7 +151,7 @@ export enum MovieSelectFieldV1_4 {
   'persons' = 'persons',
   'facts' = 'facts',
   'fees' = 'fees',
-  'premiere.world' = 'premiere.world',
+  'premiere' = 'premiere',
   'similarMovies' = 'similarMovies',
   'sequelsAndPrequels' = 'sequelsAndPrequels',
   'watchability' = 'watchability',
@@ -512,33 +513,39 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   })
   @IsOptional()
   @ToArray()
+  @StringParam()
   'persons.enProfession': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в мире (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsNumberParam)
+  @NumberParam()
   'fees.world': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в США (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsNumberParam)
+  @NumberParam()
   'fees.usa': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в России (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsNumberParam)
+  @NumberParam()
   'fees.russia': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по дате премьеры в мире (пример: `01.01.2020, 01.01.2020-31.12.2020`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
+  @DateParam()
   'premiere.world': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по дате премьеры в США (пример: `01.01.2020, 01.01.2020-31.12.2020`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
+  @DateParam()
   'premiere.usa': string[];
   @ApiNullableProperty({
     type: 'string',
@@ -548,6 +555,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
+  @DateParam()
   'premiere.russia': string[];
   @ApiNullableProperty({
     type: 'string',
@@ -557,6 +565,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
+  @DateParam()
   'premiere.digital': string[];
   @ApiNullableProperty({
     type: 'string',
@@ -566,6 +575,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
+  @DateParam()
   'premiere.cinema': string[];
   @ApiNullableProperty({
     type: 'string',
@@ -574,6 +584,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   })
   @IsOptional()
   @ToArray()
+  @StringParam()
   'premiere.country': string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk из списка похожих фильмов (пример: `666, 555, !666`)' })
@@ -581,6 +592,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [250, 7000000])
   @Validate(IsNumberParam)
+  @NumberParam()
   'similarMovies.id': string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk из списка сиквелов и преквелов (пример: `666, 555, !666`)' })
@@ -588,6 +600,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [250, 7000000])
   @Validate(IsNumberParam)
+  @NumberParam()
   'sequelsAndPrequels.id': string[];
 
   @ApiNullableProperty({
@@ -644,29 +657,6 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   }
 
   public model2Select() {
-    const defaultSelectFields = [
-      'id',
-      'externalId',
-      'name',
-      'logo',
-      'poster',
-      'alternativeName',
-      'enName',
-      'names',
-      'description',
-      'shortDescription',
-      'horizontalPoster',
-      'type',
-      'movieLength',
-      'seriesLength',
-      'totalSeriesLength',
-      'year',
-      'votes',
-      'rating',
-      'releaseYears',
-      'genres',
-      'countries',
-    ];
     const select = new SelectBuilder();
 
     return select.build(this.selectFields, defaultSelectFields);

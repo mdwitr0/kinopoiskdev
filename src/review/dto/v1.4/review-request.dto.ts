@@ -20,6 +20,7 @@ import { NumberParam } from '../../../common/decorators/types/number-param';
 import { IsDateParam } from '../../../common/validation/is-date-param';
 import { DateParam } from '../../../common/decorators/types/date-param';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
+import { StringParam } from '../../../common/decorators/types/string-param';
 
 export enum ReviewFieldV1_4 {
   'id' = 'id',
@@ -133,6 +134,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @IsOptional()
   @ToArray()
   @Validate(IsString)
+  @StringParam()
   author?: string[];
 
   @ApiNullableProperty({
