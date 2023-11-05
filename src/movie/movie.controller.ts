@@ -48,10 +48,7 @@ export class MovieController {
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Универсальный поиск с фильтрами',
-    description: `В этом методе вы можете составить запрос на получение фильма любой сложности.
-  \nДля этого используете значения представленные ниже. Вы можете комбинировать поля, так же указывать множественные и специальные значения полей! 
-  \nОбратите внимание, что этот метод возвращает множество результатов, поэтому по-умолчанию будет возвращены только определенные поля.
-  \nЧтобы получить нужные вам поля, даже если его нет в ответе по-умолчанию используйте параметр \`selectFields\` `,
+    description: `Этот метод вернет список фильмов удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре \`selectFields\`. Если его не указать, то вернутся только дефолтные поля.`,
   })
   async findManyByQueryV1_4(@Query() query: MovieRequestDtoV1_4): Promise<MovieDocsResponseDtoV1_4> {
     return this.movieService.findManyV1_4(query);
@@ -61,8 +58,8 @@ export class MovieController {
   @Get('search')
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
-    summary: 'Поиск по названиям',
-    description: `Этот метод предназначен для поиска тайтлов по текстовому запросу. Он ищет по названиям фильмов на всех языках мира, так же в запрос можено указать год, и тогда поиск будет производиться по названиям и году выпуска.`,
+    summary: 'Поиск фильмов по названию',
+    description: `Этот метод вернет список фильмов которые подходят под ваш запрос.`,
   })
   async searchMovieV1_4(@Query() query: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
     return this.movieService.searchMovieV1_4(query);
@@ -72,7 +69,7 @@ export class MovieController {
   @Get('random')
   @ApiOperation({
     summary: 'Получить рандомный тайтл из базы',
-    description: `Этот метод возвращает рандомный тайтл из базы. Вы можете указать параметры поиска, и тогда рандомный тайтл будет выбран из тех, что подходят под эти параметры.`,
+    description: `Этот метод вернет рандомный тайтл из базы. Вы можете составить фильтр, чтобы получить рандомный тайтл по вашим критериям.`,
   })
   async getRandomMovieV1_4(@Query() query: MovieRandomRequestDtoV1_4): Promise<MovieDtoV1_4> {
     return this.movieService.getRandomMovieV1_4(query);
@@ -161,7 +158,7 @@ export class MovieController {
   @Version('1')
   @Get('possible-values-by-field')
   @ApiOperation({
-    summary: 'Получить все возможные значения полей',
+    summary: 'Получить список стран, жанров, и т.д.',
     description: `Этот метод принимает только определенные поля, и возвращает по ним все доступные значения.`,
   })
   @ApiResponse({ type: PossibleValueDto, isArray: true })

@@ -42,7 +42,7 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Универсальный поиск с фильтрами',
-    description: `Этот метод предназначен для поиска персон по фильтрам. Он принимает множество параметров, которые можно комбинировать между собой. Если вам нужен только поиск по имени, используйте метод \`Полнотекстовый поиск\` (search). В этом методе также доступен выбор полей. А в ответ приходит полная модель персоны.`,
+    description: `Этот метод вернет список персон удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре \`selectFields\`. Если его не указать, то вернутся только дефолтные поля.`,
   })
   async findManyV1_4(@Query() request: PersonRequestDtoV1_4): Promise<PersonDocsResponseDtoV1_4> {
     return this.personService.findManyV1_4(request);
@@ -52,8 +52,8 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
   @Get('search')
   @UseInterceptors(CacheInterceptor)
   @ApiOperation({
-    summary: 'Полнотекстовый поиск',
-    description: `Этот метод предназначен для полнотекстового поиска персон по текстовому запросу. Он принимает только один параметр \`query\`. Если вам нужны фильтры, гибкость и множество результатов, используйте метод \`Универсальный поиск с фильтрами\` (findMany). В этом методе также не доступен выбор полей. А в ответ приходит упрощенная модель, которая подходит только для отображения результатов поиска.`,
+    summary: 'Поиск актеров, режиссеров, и т.д по имени',
+    description: `Этот метод вернет список персон которые подходят под ваш запрос.`,
   })
   async searchPersonV1_4(@Query() query: SearchDto): Promise<SearchPersonResponseDtoV1_4> {
     return this.personService.searchPersonV1_4(query);
