@@ -1,5 +1,60 @@
 # Changelog
 
+## [1.5.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.2...v1.5.0) (2023-11-05)
+
+
+### Features
+
+* add awards request model & new query builder to find many awards ([1b2c52b](https://github.com/mdwitr0/kinopoiskdev/commit/1b2c52bcd91801a801cdd870c387ce812853e310))
+* add filters to random method ([5293569](https://github.com/mdwitr0/kinopoiskdev/commit/529356992710c60914185635c2ebb1e3da80c69f))
+* add find one collection by slug ([4b02b84](https://github.com/mdwitr0/kinopoiskdev/commit/4b02b84fecac3e6c3c0911cef5094bc516ae9f01))
+* add image request model & new query builder to find many image ([1abef98](https://github.com/mdwitr0/kinopoiskdev/commit/1abef984a271006449c6bd27a339c25df70db523))
+* add isSeries to movie search ([4b1e4f6](https://github.com/mdwitr0/kinopoiskdev/commit/4b1e4f63183075305b978346f42aaf27dd8618da))
+* add keyword request model & new query builder to find many keyword ([c511e67](https://github.com/mdwitr0/kinopoiskdev/commit/c511e67fc23f218804071314f29f3c2785c8364f))
+* add lists to movie ([9ddba3e](https://github.com/mdwitr0/kinopoiskdev/commit/9ddba3e090677718a6e34a5f72b3967db7eded40))
+* add movie request model & new query builder to find many movie ([b7fad95](https://github.com/mdwitr0/kinopoiskdev/commit/b7fad95c157c90be186be623b685d27dad8b3fcb))
+* add movies collection list ([24e914d](https://github.com/mdwitr0/kinopoiskdev/commit/24e914d05cc6d6f0c9bc60b4d7fb32e855cae594))
+* add networks to movie ([240792d](https://github.com/mdwitr0/kinopoiskdev/commit/240792d76fa25986ada658fdcedebfaf812ede83))
+* add other fields to movie search ([e211142](https://github.com/mdwitr0/kinopoiskdev/commit/e211142715dc022872ad13d4dae9670876803743))
+* add person request model & new query builder to find many persons ([06174f0](https://github.com/mdwitr0/kinopoiskdev/commit/06174f079776e78d670d3dbce32baf840871853e))
+* add rating and year to linked movies ([5866123](https://github.com/mdwitr0/kinopoiskdev/commit/5866123b04469becba4c1ca1929265722ee34d1a))
+* add review request model & new query builder to find many review ([8fc8fde](https://github.com/mdwitr0/kinopoiskdev/commit/8fc8fde884dc51dac7eb78e573bcaa6e64809c0e))
+* add season request model & new query builder to find many season ([08538da](https://github.com/mdwitr0/kinopoiskdev/commit/08538da4de4139debe2299ce0c9425852acc557f))
+* add studio request model & new query builder to find many studio ([333db73](https://github.com/mdwitr0/kinopoiskdev/commit/333db73e8293a3721a3ad5f62411b8f4eb7c996b))
+* add v1.4 movies search ([bf8cf25](https://github.com/mdwitr0/kinopoiskdev/commit/bf8cf255c3c103e702d99fb5d30b585f25fba59a))
+* add v1.4 persons search ([a3505e2](https://github.com/mdwitr0/kinopoiskdev/commit/a3505e29248f6998443bb1b2d994909dd38f2746))
+* add v1.4 to search sync ([96db508](https://github.com/mdwitr0/kinopoiskdev/commit/96db508d50442b23a3f16797f598e1f69f96ba85))
+* add validation id to find one methods ([108939e](https://github.com/mdwitr0/kinopoiskdev/commit/108939e48a406362c338967db23c4566c24b2341))
+* **app.module.ts:** add ScheduleModule to syncImports array in createSyncSpecificModule method ([c4ca8f2](https://github.com/mdwitr0/kinopoiskdev/commit/c4ca8f22ca52553d1576b729a1df7f985feb6449))
+* **paginated.decorator.ts:** add support for including specific fields in the response ([4a24cb3](https://github.com/mdwitr0/kinopoiskdev/commit/4a24cb36008d84948672756a604495d7b704f67b))
+* **season.controller.ts:** add cache interceptor to findManyByQuery endpoint ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.controller.ts:** add versioning support for findManyByQuery endpoint ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add airDate field to the Episode class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add airDate field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add duration field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add enDescription field to the Episode class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add enDescription field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add enName field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add name field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add number field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add poster field to the Season class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season.schema.ts:** add still field to the Episode class ([4568ded](https://github.com/mdwitr0/kinopoiskdev/commit/4568ded712de98580107c71e6cbc78694d1f57f8))
+* **season:** add support for versioned season DTOs ([372fc78](https://github.com/mdwitr0/kinopoiskdev/commit/372fc7807b750c95fa78993df5e22692808a51e0))
+* **status-app-message.util.ts:** add isSync parameter to statusAppMessage function ([bbdfe33](https://github.com/mdwitr0/kinopoiskdev/commit/bbdfe337972a23a98e0fec69ae4925605cb7e8b7))
+
+
+### Bug Fixes
+
+* boolean params isn't transform to filter ([9d761b8](https://github.com/mdwitr0/kinopoiskdev/commit/9d761b800db41ac74d16165d00c074f86a007d93))
+* date params isn't transform to filter ([f9f019e](https://github.com/mdwitr0/kinopoiskdev/commit/f9f019ed18e390eb5909c97b9fd9b3de942fa616))
+* don't updated movie and persons in meilisearch ([79a7d82](https://github.com/mdwitr0/kinopoiskdev/commit/79a7d82347288800424057b2d6662deb98b01592))
+* error movie sync (kp not found) ([dcbec1c](https://github.com/mdwitr0/kinopoiskdev/commit/dcbec1cc188de87152f70ad74e84ba0dffe7e132))
+* meilisearch does not support nested searchable fields ([bd6c849](https://github.com/mdwitr0/kinopoiskdev/commit/bd6c8499e32d16d15510f0887b9c5ebc1edb63f2))
+* **movie.schema.ts:** change type of imdb property from string to number ([5f4a814](https://github.com/mdwitr0/kinopoiskdev/commit/5f4a81487873b53b61eb1b32318efc1b7fe1cf8a))
+* not correct request model on random method ([b260b34](https://github.com/mdwitr0/kinopoiskdev/commit/b260b34c644951ef5388b0bf34ad0dada4d20f88))
+* **query.pipe.ts:** handle include fields in query parameters correctly ([4a24cb3](https://github.com/mdwitr0/kinopoiskdev/commit/4a24cb36008d84948672756a604495d7b704f67b))
+* select fields conflict ([82be407](https://github.com/mdwitr0/kinopoiskdev/commit/82be4076859e5d911964093327d484ce6cc7fad6))
+
 ## [1.4.2](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.1...v1.4.2) (2023-08-25)
 
 

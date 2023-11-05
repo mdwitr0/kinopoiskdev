@@ -8,6 +8,7 @@ import { ApiDotNotationQuery } from './api-dot-notation-query.decorator';
 export interface EntityFields {
   allowFieldsFindAll: string[];
   excludedValuesFields: string[];
+  includeValuesFields?: string[];
   idKeys: string[];
   regexSearchKeys: string[];
   dateSearchKeys: string[];
@@ -45,7 +46,8 @@ const entitiesField: Entities = {
       'genres',
       'countries',
     ],
-    excludedValuesFields: ['genres.name', 'countries.name'],
+    excludedValuesFields: ['genres.name', 'countries.name', 'lists'],
+    includeValuesFields: ['genres.name', 'countries.name', 'lists'],
     idKeys: ['id', 'externalId.imdb'],
     regexSearchKeys: [
       'name',
@@ -161,11 +163,21 @@ const entitiesField: Entities = {
       'episodes.enName',
       'episodes.date',
       'episodes.description',
+      'poster',
+      'name',
+      'enName',
+      'description',
+      'enDescription',
+      'duration',
+      'airDate',
+      'episodes.still',
+      'episodes.airDate',
+      'episodes.enDescription',
     ],
     idKeys: ['id'],
     regexSearchKeys: [],
-    dateSearchKeys: ['episodes.date'],
-    numberSearchKeys: ['movieId', 'number', 'episodesCount', 'episodes.number'],
+    dateSearchKeys: ['episodes.date', 'episodes.airDate', 'airDate'],
+    numberSearchKeys: ['movieId', 'number', 'episodesCount', 'episodes.number', 'duration'],
     booleanFields: [],
   },
   image: {
@@ -218,11 +230,23 @@ const entitiesField: Entities = {
     numberSearchKeys: ['id', 'movies.id'],
     booleanFields: [],
   },
+  list: {
+    allowFieldsFindAll: [],
+    excludedValuesFields: [],
+    includeValuesFields: [],
+    idKeys: [],
+    regexSearchKeys: [],
+    dateSearchKeys: [],
+    numberSearchKeys: [],
+    blacklistFields: [],
+    booleanFields: [],
+  },
 };
 
 const versionsEntityField: Entities = {
   moviedtov1: entitiesField.movie,
   moviedtov1_3: entitiesField.movie,
+  moviedtov1_4: entitiesField.movie,
   person: entitiesField.person,
   review: entitiesField.review,
   season: entitiesField.season,
@@ -231,6 +255,7 @@ const versionsEntityField: Entities = {
   movieaward: entitiesField.movieaward,
   keyword: entitiesField.keyword,
   studio: entitiesField.studio,
+  list: entitiesField.list,
 };
 
 export const Paginated = (
@@ -244,5 +269,12 @@ export const Paginated = (
       ? ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto, entity)
       : ApiDotNotationQuery(ToolsQueryDto, PaginatedQueryDto),
     ApiBaseResponse({ type: entityDto, isArray }),
+  );
+};
+
+export const QueryParams = (entity: any) => {
+  return applyDecorators(
+    UsePipes(new QueryPipe(versionsEntityField[entity.name.toLowerCase()])),
+    ApiDotNotationQuery(entity),
   );
 };

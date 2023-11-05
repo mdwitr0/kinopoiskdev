@@ -36,11 +36,14 @@ export class QueryPipe implements PipeTransform {
     };
 
     const transformFieldValue = (field: string, value: string): any => {
-      const isExcludedFields = this.FIELDS.excludedValuesFields.includes(field) && value.includes('!');
+      const isIncludeFields = this.FIELDS?.includeValuesFields?.includes(field) && value.includes('+');
+      const isExcludedFields = this.FIELDS?.excludedValuesFields?.includes(field) && value.includes('!');
       const isNumberField = this.FIELDS.numberSearchKeys.includes(field);
       const isDateField = this.FIELDS.dateSearchKeys.includes(field);
       const isRegexField = this.FIELDS.regexSearchKeys.includes(field);
       const isBooleanField = this.FIELDS.booleanFields.includes(field);
+
+      if (isIncludeFields) return value.substring(1);
 
       if (isExcludedFields) {
         return {
@@ -118,9 +121,18 @@ export class QueryPipe implements PipeTransform {
         const isArray = Array.isArray(keyValue);
 
         if (isArray) {
-          filter[key] = {
-            $in: keyValue.map((val) => transformFieldValue(key, val)),
-          };
+          const isIncludeFields =
+            this.FIELDS.includeValuesFields?.includes(key) && !!keyValue.find((val) => val.includes('+'));
+
+          if (isIncludeFields) {
+            filter[key] = {
+              $all: keyValue.map((val) => transformFieldValue(key, val)),
+            };
+          } else {
+            filter[key] = {
+              $in: keyValue.map((val) => transformFieldValue(key, val)),
+            };
+          }
         } else if (filter[key] === '!null') {
           const notNullFilter = transformNotNullValue(filter, key);
           filter = { ...filter, ...notNullFilter };

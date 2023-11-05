@@ -1,6 +1,6 @@
 {
   "name": "kinopoiskdev_api",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "",
   "author": "",
   "private": true,
@@ -55,7 +55,7 @@
     "nestjs-throttler-storage-redis": "^0.3.3",
     "pino-http": "^8.3.3",
     "pino-pretty": "^9.3.0",
-    "readmeio": "^6.1.0",
+    "readmeio": "^6.2.0",
     "redis": "^4.6.5",
     "reflect-metadata": "^0.1.13",
     "release-please": "^15.8.0",

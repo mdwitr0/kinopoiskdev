@@ -3,19 +3,19 @@ import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
 
-class BirthPlace {
+export class BirthPlace {
   @ApiPropertyOptional()
   @Prop()
   value: string;
 }
 
-class DeathPlace {
+export class DeathPlace {
   @ApiPropertyOptional()
   @Prop()
   value: string;
 }
 
-class Spouses {
+export class Spouses {
   @ApiPropertyOptional()
   @Prop()
   id: number;
@@ -45,7 +45,7 @@ class Spouses {
   relation: string;
 }
 
-class Profession {
+export class Profession {
   @ApiPropertyOptional()
   @Prop()
   value: string;
