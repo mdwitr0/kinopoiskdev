@@ -470,7 +470,12 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   totalSeriesLength: string[];
 
-  @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по жанрам (пример: `"драма", "комедия", "!мелодрама", "+ужасы"`)' })
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description:
+      'Поиск по жанрам.<br> Если вам нужно найти фильмы содержащие любой из жанров указывайте так: `"драма", "комедия"`. <br> Если вам нужно найти фильмы в жанре комедия и мелодрама но не короткометражка то указывайте так: `"+комедия", "+мелодрама", "!короткометражка"`. <br> Если вы укажите `"комедия", "+мелодрама", "!короткометражка"`, то в выдачу попадут фильмы которые относятся к жанру комедия даже если они не мелодрама и короткометражка!',
+  })
   @IsOptional()
   @ToArray()
   @StringParam()
