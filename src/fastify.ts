@@ -1,6 +1,7 @@
 import fastifyHelmet from '@fastify/helmet';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import compression from '@fastify/compress';
+import fastifyCors from '@fastify/cors';
 
 export const setupFastify = (): FastifyAdapter => {
   // Init fastify adapter
@@ -15,6 +16,8 @@ export const setupFastify = (): FastifyAdapter => {
     global: true,
     encodings: ['gzip', 'deflate'],
   });
+
+  adapter.register(fastifyCors, {});
 
   return adapter;
 };

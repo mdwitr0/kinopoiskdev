@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@fastify/compress": "^6.2.0",
+    "@fastify/cors": "^8.4.1",
     "@fastify/helmet": "^10.1.0",
     "@fastify/static": "^6.9.0",
     "@liaoliaots/nestjs-redis": "^9.0.5",
