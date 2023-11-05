@@ -327,10 +327,9 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по индикатору сериала (пример: `true, false`)' })
   @IsOptional()
-  @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
-  isSeries: string;
+  isSeries: boolean;
 
   @ApiNullableProperty({
     enum: MovieStatusV1_4,
@@ -484,10 +483,9 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по наличию билетов в продаже (пример: `true, false`)' })
   @IsOptional()
-  @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
-  'ticketsOnSale': string[];
+  'ticketsOnSale': boolean;
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сетям производства фильма (пример: `"HBO", "Netflix", "!Amazon"`)' })
   @IsOptional()

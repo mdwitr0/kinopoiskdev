@@ -253,10 +253,9 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по статусу развода (пример: `true, false`)' })
   @IsOptional()
-  @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
-  'spouses.divorced'?: string[];
+  'spouses.divorced'?: boolean;
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру супруги(супруга) (пример: `Женский, Мужской`)', enum: PersonSexV1_4 })
   @IsOptional()
