@@ -75,6 +75,36 @@ export class MeiliMovieEntity {
   @Expose()
   releaseYears: number[];
 
+  @Expose()
+  isSeries: boolean;
+
+  @Expose()
+  ticketsOnSale: boolean;
+
+  @Expose()
+  totalSeriesLength: number;
+
+  @Expose()
+  seriesLength: number;
+
+  @Expose()
+  ratingMpaa: string;
+
+  @Expose()
+  ageRating: number;
+
+  @Expose()
+  top10?: number | null;
+
+  @Expose()
+  top250?: number | null;
+
+  @Expose()
+  typeNumber: number;
+
+  @Expose()
+  status: string;
+
   constructor(movie: Partial<MeiliMovieEntity>) {
     Object.assign(this, movie);
   }
@@ -100,6 +130,16 @@ export class MeiliMovieEntity {
     this.releaseYears = movie.releaseYears
       ? movie.releaseYears.map((yearRange) => [yearRange.start, yearRange.end]).flat(1)
       : [];
+    this.isSeries = movie.isSeries;
+    this.ticketsOnSale = movie.ticketsOnSale;
+    this.totalSeriesLength = movie.totalSeriesLength;
+    this.seriesLength = movie.seriesLength;
+    this.ratingMpaa = movie.ratingMpaa;
+    this.ageRating = movie.ageRating;
+    this.top10 = movie.top10;
+    this.top250 = movie.top250;
+    this.typeNumber = movie.typeNumber;
+    this.status = movie.status;
 
     return this;
   }

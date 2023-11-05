@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ParseNumber } from '../../common/decorators/transform/parse-number.decorator';
-import { IsNumber, IsOptional } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
@@ -31,7 +29,7 @@ export class Votes {
 
   @ApiNullableProperty({ example: 50000 })
   @Prop({ index: true })
-  imdb: string;
+  imdb: number;
 
   @ApiNullableProperty({ example: 10000 })
   @Prop({ index: true })
@@ -326,6 +324,12 @@ export class LinkedMovie {
 
   @Prop()
   poster: ShortImage;
+
+  @Prop({ type: () => Rating })
+  rating: Rating;
+
+  @Prop({ index: true })
+  year: number;
 }
 
 export class Watchability {
@@ -372,6 +376,18 @@ export class Audience {
   @ApiProperty({ example: 'Россия', description: 'Страна в которой проходил показ' })
   @Prop()
   country: string;
+}
+
+export class NetworkItem {
+  @Prop()
+  name: string;
+
+  @Prop({ type: () => Logo })
+  logo: Logo;
+}
+export class Networks {
+  @Prop({ type: () => [NetworkItem] })
+  items: NetworkItem[];
 }
 
 // INFO:Movie model
@@ -527,6 +543,12 @@ export class Movie {
 
   @Prop()
   ticketsOnSale: boolean;
+
+  @Prop()
+  lists: string[];
+
+  @Prop({ type: () => Networks })
+  networks: Networks;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

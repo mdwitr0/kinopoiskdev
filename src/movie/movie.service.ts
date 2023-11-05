@@ -11,12 +11,19 @@ import { MovieAwardDocsResponseDto } from './dto/response/movie-award-docs.respo
 import { DateTime } from 'luxon';
 import { MeiliService } from '../meili/meili.service';
 import { MeiliMovieEntity } from './entities/meili-movie.entity';
-import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
-import { MOVIE_INDEX } from './constants/movie-index';
+import { MOVIE_INDEX, MOVIE_V1_4_INDEX } from './constants/movie-index';
 import { SearchDto } from 'src/common/dto/query/search.dto';
 import { MovieDocsResponseDtoV1 } from './dto/v1/movie-docs.response.dto';
 import { MovieDtoV1 } from './dto/v1/movie.dto';
 import { ConfigService } from '@nestjs/config';
+import { SearchMovieResponseDtoV1_4 } from './dto/v1.4/search-movie.response.dto';
+import { MeiliMovieEntityV1_4 } from './entities/v1.4/meili-movie.entity';
+import { SearchMovieResponseDto } from './dto/response/search-movie.response.dto';
+import { MovieRequestDtoV1_4 } from './dto/v1.4/movie-request.dto';
+import { MovieDocsResponseDtoV1_4 } from './dto/v1.4/movie-docs.response.dto';
+import { MovieDtoV1_4 } from './dto/v1.4/movie.dto';
+import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
+import { MovieRandomRequestDtoV1_4 } from './dto/v1.4/movie-random-request.dto';
 
 @Injectable()
 export class MovieService {
@@ -27,6 +34,67 @@ export class MovieService {
     private readonly meiliService: MeiliService,
     private readonly configService: ConfigService,
   ) {}
+
+  async findManyV1_4(request: MovieRequestDtoV1_4): Promise<MovieDocsResponseDtoV1_4> {
+    const filter = request.model2Where();
+    const select = request.model2Select();
+    const sort = request.model2Sort();
+    const { skip, limit } = request.model2Pagination();
+
+    const [total, docs] = await Promise.all([
+      this.movieModel.countDocuments(filter),
+      this.movieModel.find(filter).sort(sort).limit(limit).skip(skip).select(select).allowDiskUse(true).exec(),
+    ]);
+
+    const docsToJson = docs.map((doc) => doc?.toJSON());
+    return {
+      docs: docsToJson,
+      total,
+      limit: request.limit,
+      page: skip / limit + 1,
+      pages: Math.ceil(total / limit),
+    };
+  }
+
+  async findOneV1_4(id: number | string): Promise<MovieDtoV1_4> {
+    const found = await this.movieModel.findOne({ id });
+    if (found) {
+      // @ts-ignore
+      return found.toJSON();
+    } else {
+      await this.addMovie(id);
+    }
+    return found;
+  }
+
+  async getRandomMovieV1_4(request: MovieRandomRequestDtoV1_4): Promise<MovieDtoV1_4> {
+    const filter = request.model2Where();
+
+    const count = await this.movieModel.countDocuments(filter);
+
+    return this.movieModel.findOne(filter).skip(getRandomInt(1, count)).lean();
+  }
+
+  async findManyAwardsV1_4(request: MovieAwardRequestDtoV1_4): Promise<MovieAwardDocsResponseDto> {
+    const filter = request.model2Where();
+    const select = request.model2Select();
+    const sort = request.model2Sort();
+    const { skip, limit } = request.model2Pagination();
+
+    const [total, docs] = await Promise.all([
+      this.movieAwardModel.countDocuments(filter),
+      this.movieAwardModel.find(filter).sort(sort).limit(limit).skip(skip).select(select).allowDiskUse(true).exec(),
+    ]);
+
+    const docsToJson = docs.map((doc) => doc?.toJSON());
+    return {
+      docs: docsToJson,
+      total,
+      limit: request.limit,
+      page: skip / limit + 1,
+      pages: Math.ceil(total / limit),
+    };
+  }
 
   async findMany(query: IQuery): Promise<MovieDocsResponseDtoV1> {
     const [total, docs] = await Promise.all([
@@ -41,7 +109,6 @@ export class MovieService {
         .exec(),
     ]);
 
-    // @ts-ignore
     const docsToJson = docs.map((doc) => doc?.toJSON());
     return {
       docs: docsToJson,
@@ -68,6 +135,21 @@ export class MovieService {
     const searchResponse = await this.meiliService.search<MeiliMovieEntity>(dto.query, MOVIE_INDEX, dto.limit, offset);
 
     const movieEntities = searchResponse.hits.map((movie) => new MeiliMovieEntity(movie));
+
+    return {
+      docs: movieEntities,
+      total: searchResponse.estimatedTotalHits,
+      limit: dto.limit,
+      page: dto.page,
+      pages: Math.ceil(searchResponse.estimatedTotalHits / dto.limit),
+    };
+  }
+
+  async searchMovieV1_4(dto: SearchDto): Promise<SearchMovieResponseDtoV1_4> {
+    const offset = (dto.page - 1) * dto.limit;
+    const searchResponse = await this.meiliService.search<MeiliMovieEntityV1_4>(dto.query, MOVIE_V1_4_INDEX, dto.limit, offset);
+
+    const movieEntities = searchResponse.hits.map((movie) => new MeiliMovieEntityV1_4(movie));
 
     return {
       docs: movieEntities,

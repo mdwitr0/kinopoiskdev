@@ -28,8 +28,6 @@ export class AuthMiddleware implements NestMiddleware {
 
     const isLimitNotExceeded = await this.authService.checkAndDecreaseLimit(token);
 
-    log(process.env.README_API_KEY, req, res, { apiKey: token, label: user.username || String(user.userId) });
-
     req['user'] = user;
     req['isLimitNotExceeded'] = isLimitNotExceeded;
 

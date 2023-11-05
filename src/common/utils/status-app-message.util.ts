@@ -2,7 +2,7 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DOC_PATH } from '../../swagger';
 import { Logger as NestLogger } from '@nestjs/common';
 
-export const statusAppMessage = async (app: NestFastifyApplication) => {
+export const statusAppMessage = async (app: NestFastifyApplication, isSync: boolean) => {
   const { NODE_ENV } = process.env;
 
   const logger = new NestLogger('Main');
@@ -22,7 +22,7 @@ _____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\\\____/\\\\\\\\\\\\\\\\\\\
         _\\///________\\///__\\///______________\\///////////__
 
 🚀 API app is running on: ${appUrl}
-🌚 ENV: ${NODE_ENV}
+🌚 ENV: ${NODE_ENV}, SYNC: ${isSync}
 📑 API Documentation is running on: ${appUrl}/${DOC_PATH}
 `);
 };

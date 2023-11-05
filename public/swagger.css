@@ -133,3 +133,7 @@ body {
     color: var(--primary-color);
     padding: 0;
 }
+
+.parameter__enum  {
+    display: none;
+}

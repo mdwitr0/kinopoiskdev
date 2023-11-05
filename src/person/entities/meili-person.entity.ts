@@ -23,7 +23,7 @@ export class MeiliPersonEntity {
   @Expose()
   sex: string;
 
-  @ApiProperty()
+  @ApiProperty() 1;
   @Expose()
   growth: number;
 
