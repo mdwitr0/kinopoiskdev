@@ -20,12 +20,14 @@ export class TokenAuthGuard implements CanActivate {
     const hasExhaustedRequests = user.tariffId.requestsLimit <= user.requestsUsed;
 
     if (violatedRulesForFreeTariff) {
-      throw new ForbiddenException('Вы не выполнили обязательное условие для бесплатного тарифа!');
+      throw new ForbiddenException(
+        'Вы вышли из чата! Чтобы продолжить пользоваться API, вам необходимо сменить тариф или вернуться обратно. Сделать это можно в боте @kinopoiskdev_bot',
+      );
     }
 
     if (!isLimitNotExceeded) {
       throw new ForbiddenException(
-        `Вы сделали более ${user.tariffId.requestsLimit} запросов за сутки. Лимиты будут обновлены в 00: 00. Чтобы получить больше лимитов и личный токен, напишите в telegram @mdwit`,
+        `Вы израсходовали ваш суточный лимит по запросам. Чтобы получить больше запросов, обновите тариф в боте @kinopoiskdev_bot'`,
       );
     }
 
