@@ -130,9 +130,9 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
     this.typeNumber = movie.typeNumber;
     this.status = movie.status;
 
-    this.internalNames = movie.names ? movie.names.map(({ name }) => name) : [];
-    this.internalRating = movie.rating.kp || movie.rating.imdb || 0;
-    this.internalVotes = Number(movie.votes.kp) || Number(movie.votes.imdb) || 0;
+    this.internalNames = movie?.names?.length ? movie.names.map(({ name }) => name) : [];
+    this.internalRating = movie.rating?.kp || movie.rating?.imdb || 0;
+    this.internalVotes = Number(movie.votes?.kp) || Number(movie.votes?.imdb) || 0;
 
     return this;
   }

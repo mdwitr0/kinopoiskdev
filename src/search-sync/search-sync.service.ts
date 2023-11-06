@@ -56,21 +56,25 @@ export class SearchSyncService implements OnModuleInit {
         const result = await service.findMany(query);
         this.logger.log(`Processing. Page ${pageIndex} - ${result.docs.length} items`);
         let entities = [];
-        switch (entityType) {
-          case MOVIE_INDEX:
-            entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntity({}).fromMongoDocument(movie));
-            break;
-          case MOVIE_V1_4_INDEX:
-            entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntityV1_4({}).fromMongoDocument(movie));
-            break;
-          case PERSON_INDEX:
-            entities = (result.docs as Person[]).map((person) => new MeiliPersonEntity({}).fromMongoDocument(person));
-            break;
-          case PERSON_V1_4_INDEX:
-            entities = (result.docs as Person[]).map((person) => new MeiliPersonEntityV1_4({}).fromMongoDocument(person));
-            break;
-          default:
-            throw new Error(`Unknown entity type: ${entityType}`);
+        try {
+          switch (entityType) {
+            case MOVIE_INDEX:
+              entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntity({}).fromMongoDocument(movie));
+              break;
+            case MOVIE_V1_4_INDEX:
+              entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntityV1_4({}).fromMongoDocument(movie));
+              break;
+            case PERSON_INDEX:
+              entities = (result.docs as Person[]).map((person) => new MeiliPersonEntity({}).fromMongoDocument(person));
+              break;
+            case PERSON_V1_4_INDEX:
+              entities = (result.docs as Person[]).map((person) => new MeiliPersonEntityV1_4({}).fromMongoDocument(person));
+              break;
+            default:
+              break;
+          }
+        } catch (e) {
+          this.logger.error(`Failed to process ${entityType} - Page ${pageIndex}: ${e.message}`);
         }
 
         if (result.docs.length > 0) {
@@ -104,20 +108,20 @@ export class SearchSyncService implements OnModuleInit {
   @Cron(CronExpression.EVERY_WEEK)
   async syncMovies() {
     this.logger.log('Starting sync for movies');
-    await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService, 1000);
     await this.syncEntity<Movie>(MOVIE_V1_4_INDEX, this.movieService, 1000);
+    await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService, 1000);
     this.logger.log('Finished sync for movies');
   }
 
   @Cron(CronExpression.EVERY_WEEK)
   async syncPersons() {
     this.logger.log('Starting sync for persons');
-    await this.syncEntity<Person>(PERSON_INDEX, this.personService, 1000);
     await this.syncEntity<Person>(PERSON_V1_4_INDEX, this.personService, 1000);
+    await this.syncEntity<Person>(PERSON_INDEX, this.personService, 1000);
     this.logger.log('Finished sync for persons');
   }
 
   async onModuleInit() {
-    Promise.all([this.syncMovies(), this.syncPersons()]);
+    await Promise.all([this.syncPersons(), this.syncMovies()]);
   }
 }
