@@ -135,6 +135,7 @@ export enum MovieSelectFieldV1_4 {
   ratingMpaa = 'ratingMpaa',
   ageRating = 'ageRating',
   'votes' = 'votes',
+  'seasonsInfo' = 'seasonsInfo',
   'budget' = 'budget',
   'audience' = 'audience',
   movieLength = 'movieLength',
