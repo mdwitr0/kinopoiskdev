@@ -110,7 +110,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  'moviesId'?: string[];
+  'movieId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по номеру сезона (пример: `"1", "1-19", "!3"`)' })
   @IsOptional()
