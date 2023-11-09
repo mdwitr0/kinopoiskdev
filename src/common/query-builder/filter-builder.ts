@@ -17,7 +17,7 @@ export class FilterBuilder {
   }
 
   public setString(key: string, values: string[]) {
-    this.toWhere<string>(key, values, (item) => String(item));
+    this.toWhere<string>(key, values, (item) => String(item), [new ExcludeQueryParamStrategy(), new IncludeQueryParamStrategy()]);
   }
 
   public setEnum(key: string, values: string[]) {
