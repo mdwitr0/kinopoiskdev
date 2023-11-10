@@ -53,6 +53,8 @@ export enum PersonFieldV1_4 {
   'movies.general' = 'movies.general',
   'movies.description' = 'movies.description',
   'movies.enProfession' = 'movies.enProfession',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum PersonSelectFieldV1_4 {
@@ -72,6 +74,8 @@ export enum PersonSelectFieldV1_4 {
   'profession' = 'profession',
   'facts' = 'facts',
   'movies' = 'movies',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 const defaultSelectFields = ['id', 'name', 'enName', 'photo', 'age', 'sex'];
@@ -298,6 +302,27 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @EnumParam()
   'movies.enProfession'?: string[];
 
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
   public model2Where() {
     const filter = new FilterBuilder();
     for (const key of Object.keys(this)) {

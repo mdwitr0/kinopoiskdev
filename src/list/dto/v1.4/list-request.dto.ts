@@ -19,6 +19,8 @@ import { EnumParam } from '../../../common/decorators/types/enum-param';
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { NumberParam } from '../../../common/decorators/types/number-param';
 import { IsNumberParam } from '../../../common/validation/is-number-param';
+import { IsDateParam } from '../../../common/validation/is-date-param';
+import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum ListFieldV1_4 {
   'category' = 'category',
@@ -26,6 +28,8 @@ export enum ListFieldV1_4 {
   'moviesCount' = 'moviesCount',
   'cover.url' = 'cover.url',
   'cover.previewUrl' = 'cover.previewUrl',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum ListSelectFieldV1_4 {
@@ -33,6 +37,8 @@ export enum ListSelectFieldV1_4 {
   'slug' = 'slug',
   'moviesCount' = 'moviesCount',
   'cover' = 'cover',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 enum ListCatregoryV1_4 {
@@ -121,6 +127,27 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   moviesCount?: string[];
 
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
   public model2Where() {
     const filter = new FilterBuilder();
     for (const key of Object.keys(this)) {

@@ -43,7 +43,14 @@ export class MovieService {
 
     const [total, docs] = await Promise.all([
       this.movieModel.countDocuments(filter),
-      this.movieModel.find(filter).sort(sort).limit(limit).skip(skip).select(select).allowDiskUse(true).exec(),
+      this.movieModel
+        .find(filter)
+        .sort(sort)
+        .limit(limit)
+        .skip(skip)
+        .select(select || {})
+        .allowDiskUse(true)
+        .exec(),
     ]);
 
     const docsToJson = docs.map((doc) => doc?.toJSON());

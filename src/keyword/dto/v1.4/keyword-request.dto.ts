@@ -16,17 +16,24 @@ import { AreArrayLengthsEqual } from '../../../common/validation/are-array-lengt
 import { IsValues } from '../../../common/validation/is-values';
 import { NumberParam } from '../../../common/decorators/types/number-param';
 import { StringParam } from '../../../common/decorators/types/string-param';
+import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
+import { IsDateParam } from '../../../common/validation/is-date-param';
+import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum KeywordFieldV1_4 {
   'id' = 'id',
   'movie.id' = 'movie.id',
   'title' = 'title',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum KeywordSelectFieldV1_4 {
   'id' = 'id',
   'movie' = 'movie',
   'title' = 'title',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export class KeywordRequestDtoV1_4 implements IRequestModel {
@@ -104,6 +111,28 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @StringParam()
   title?: string[];
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
 
   public model2Where() {
     const filter = new FilterBuilder();

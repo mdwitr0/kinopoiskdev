@@ -158,6 +158,11 @@ export class Person {
   @ApiPropertyOptional({ type: () => MovieInPerson, isArray: true })
   @Prop({ items: MovieInPerson })
   movies: MovieInPerson[];
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 
 export const PersonSchema = SchemaFactory.createForClass(Person);

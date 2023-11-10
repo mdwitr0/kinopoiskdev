@@ -28,6 +28,11 @@ export class Keyword {
   @ApiPropertyOptional({ type: () => MovieFromKeyword })
   @Prop()
   movies: MovieFromKeyword;
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 
 export const KeywordSchema = SchemaFactory.createForClass(Keyword);

@@ -84,6 +84,11 @@ export class Season {
   @ApiPropertyOptional({ type: () => Episode, isArray: true })
   @Prop({ type: () => [Episode] })
   episodes: Episode[];
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 
 export const SeasonSchema = SchemaFactory.createForClass(Season);

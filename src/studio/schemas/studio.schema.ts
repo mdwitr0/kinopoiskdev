@@ -42,6 +42,11 @@ export class Studio {
   @ApiPropertyOptional({ type: () => MovieFromStudio })
   @Prop()
   movies: MovieFromStudio;
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 
 export const StudioSchema = SchemaFactory.createForClass(Studio);

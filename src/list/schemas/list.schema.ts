@@ -35,5 +35,10 @@ export class List {
   @ApiProperty({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   cover: ShortImage;
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 export const ListSchema = SchemaFactory.createForClass(List);

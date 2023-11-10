@@ -18,6 +18,7 @@ import { ApiNullableProperty } from '../../../common/decorators/api-nullable-pro
 import { IsNumberParam } from '../../../common/validation/is-number-param';
 import { NumberParam } from '../../../common/decorators/types/number-param';
 import { DateParam } from '../../../common/decorators/types/date-param';
+import { IsDateParam } from '../../../common/validation/is-date-param';
 
 export enum SeasonFieldV1_4 {
   'movieId' = 'movieId',
@@ -35,6 +36,8 @@ export enum SeasonFieldV1_4 {
   'episodes.date' = 'episodes.date',
   'episodes.description' = 'episodes.description',
   'episodes.enDescription' = 'episodes.enDescription',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum SeasonSelectFieldV1_4 {
@@ -46,6 +49,8 @@ export enum SeasonSelectFieldV1_4 {
   'episodesCount' = 'episodesCount',
   'airDate' = 'airDate',
   'episodes' = 'episodes',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export class SeasonRequestDtoV1_4 implements IRequestModel {
@@ -141,6 +146,28 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsDate)
   @DateParam()
   'episodes.airDate'?: string[];
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
 
   public model2Where() {
     const filter = new FilterBuilder();

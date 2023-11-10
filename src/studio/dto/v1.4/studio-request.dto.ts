@@ -20,6 +20,8 @@ import { StudioType } from '../../schemas/studio.schema';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
 import { IsNumberParam } from '../../../common/validation/is-number-param';
 import { NumberParam } from '../../../common/decorators/types/number-param';
+import { IsDateParam } from '../../../common/validation/is-date-param';
+import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum StudioFieldV1_4 {
   'id' = 'id',
@@ -27,6 +29,8 @@ export enum StudioFieldV1_4 {
   'title' = 'title',
   'type' = 'type',
   'movies.id' = 'movies.id',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum StudioSelectFieldV1_4 {
@@ -35,6 +39,8 @@ export enum StudioSelectFieldV1_4 {
   'title' = 'title',
   'type' = 'type',
   'movies' = 'movies',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum StudioSubTypeV1_4 {
@@ -133,6 +139,28 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @StringParam()
   title?: string[];
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
 
   public model2Where() {
     const filter = new FilterBuilder();

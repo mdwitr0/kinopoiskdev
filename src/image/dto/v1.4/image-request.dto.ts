@@ -17,6 +17,9 @@ import { IsValues } from '../../../common/validation/is-values';
 import { NumberParam } from '../../../common/decorators/types/number-param';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
 import { StringParam } from '../../../common/decorators/types/string-param';
+import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
+import { IsDateParam } from '../../../common/validation/is-date-param';
+import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum ImageFieldV1_4 {
   'movieId' = 'movieId',
@@ -26,6 +29,8 @@ export enum ImageFieldV1_4 {
   'previewUrl' = 'previewUrl',
   'height' = 'height',
   'width' = 'width',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum ImageSelectFieldV1_4 {
@@ -36,6 +41,8 @@ export enum ImageSelectFieldV1_4 {
   'previewUrl' = 'previewUrl',
   'height' = 'height',
   'width' = 'width',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 enum ImageTypeV1_4 {
@@ -159,6 +166,28 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 10000])
   @NumberParam()
   width?: string[];
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
 
   public model2Where() {
     const filter = new FilterBuilder();

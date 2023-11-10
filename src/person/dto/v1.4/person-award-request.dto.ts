@@ -20,6 +20,8 @@ import { IRequestModel } from '../../../common/interfaces/request-model.interfac
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { IsBooleanParam } from '../../../common/validation/is-boolean-param';
 import { BooleanParam } from '../../../common/decorators/types/boolean-param';
+import { DateParam } from 'src/common/decorators/types/date-param';
+import { IsDateParam } from '../../../common/validation/is-date-param';
 
 enum PersonFieldV1_4 {
   'personId' = 'personId',
@@ -27,11 +29,15 @@ enum PersonFieldV1_4 {
   'nomination.award.title' = 'nomination.award.title',
   'nomination.award.year' = 'nomination.award.year',
   'nomination.title' = 'nomination.title',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 enum PersonSelectFieldV1_4 {
   'personId' = 'personId',
   'winning' = 'winning',
   'nomination' = 'nomination',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export class PersonAwardRequestDtoV1_4 implements IRequestModel {
@@ -124,6 +130,28 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @Validate(IsBooleanParam)
   @BooleanParam()
   winning?: string[];
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
 
   public model2Where() {
     const filter = new FilterBuilder();

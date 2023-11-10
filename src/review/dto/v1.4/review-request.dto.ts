@@ -31,6 +31,8 @@ export enum ReviewFieldV1_4 {
   'date' = 'date',
   'author' = 'author',
   'authorId' = 'authorId',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export enum ReviewSelectFieldV1_4 {
@@ -42,6 +44,8 @@ export enum ReviewSelectFieldV1_4 {
   'date' = 'date',
   'author' = 'author',
   'authorId' = 'authorId',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 enum ReviewTypeV1_4 {
@@ -154,6 +158,28 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsDateParam)
   @DateParam()
   date?: string[];
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
 
   public model2Where() {
     const filter = new FilterBuilder();

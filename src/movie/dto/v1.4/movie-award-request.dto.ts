@@ -20,6 +20,8 @@ import { IRequestModel } from '../../../common/interfaces/request-model.interfac
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { IsBooleanParam } from '../../../common/validation/is-boolean-param';
 import { BooleanParam } from '../../../common/decorators/types/boolean-param';
+import { DateParam } from '../../../common/decorators/types/date-param';
+import { IsDateParam } from '../../../common/validation/is-date-param';
 
 enum MovieFieldV1_4 {
   'movieId' = 'movieId',
@@ -27,11 +29,15 @@ enum MovieFieldV1_4 {
   'nomination.award.title' = 'nomination.award.title',
   'nomination.award.year' = 'nomination.award.year',
   'nomination.title' = 'nomination.title',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 enum MovieSelectFieldV1_4 {
   'movieId' = 'movieId',
   'winning' = 'winning',
   'nomination' = 'nomination',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 export class MovieAwardRequestDtoV1_4 implements IRequestModel {
@@ -125,6 +131,27 @@ export class MovieAwardRequestDtoV1_4 implements IRequestModel {
   @BooleanParam()
   winning?: string[];
 
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
   public model2Where() {
     const filter = new FilterBuilder();
     for (const key of Object.keys(this)) {

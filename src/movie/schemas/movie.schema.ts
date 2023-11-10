@@ -549,6 +549,11 @@ export class Movie {
 
   @Prop({ type: () => Networks })
   networks: Networks;
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

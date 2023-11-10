@@ -12,10 +12,7 @@ import * as ApiKey from 'uuid-apikey';
 export class UserService {
   private readonly logger = new Logger(UserService.name);
 
-  constructor(
-    @InjectModel(User.name) private readonly userRepository: Model<UserDocument>,
-    @InjectRedis() private readonly redis: Redis,
-  ) {}
+  constructor(@InjectModel(User.name) private readonly userRepository: Model<UserDocument>, @InjectRedis() private readonly redis: Redis) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async resetRequestsUsedAndCache() {
@@ -59,7 +56,5 @@ export class UserService {
     });
 
     if (operations.length > 0) await this.userRepository.bulkWrite(operations);
-
-    this.logger.log('Finish: Synchronize user request limits');
   }
 }

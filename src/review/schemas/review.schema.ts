@@ -44,6 +44,11 @@ export class Review {
   @ApiPropertyOptional()
   @Prop()
   authorId: number;
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);

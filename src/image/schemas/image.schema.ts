@@ -43,5 +43,10 @@ export class Image {
   @ApiPropertyOptional()
   @Prop()
   width?: number;
+
+  @Prop()
+  updatedAt: Date;
+  @Prop()
+  createdAt: Date;
 }
 export const ImageSchema = SchemaFactory.createForClass(Image);

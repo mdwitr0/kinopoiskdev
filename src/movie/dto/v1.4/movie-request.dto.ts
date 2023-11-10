@@ -114,6 +114,8 @@ export enum MovieFieldV1_4 {
   lists = 'lists',
   top10 = 'top10',
   top250 = 'top250',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 export enum MovieSelectFieldV1_4 {
   'id' = 'id',
@@ -159,6 +161,8 @@ export enum MovieSelectFieldV1_4 {
   lists = 'lists',
   top10 = 'top10',
   top250 = 'top250',
+  updatedAt = 'updatedAt',
+  createdAt = 'createdAt',
 }
 
 const defaultSelectFields = [
@@ -627,9 +631,32 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @StringParam()
   lists: string[];
 
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате обновления в базе (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  updatedAt: string;
+
+  @ApiNullableProperty({
+    type: 'string',
+    isArray: true,
+    description: 'Поиск по дате добавления в базу (пример: `01.01.2020, 01.01.2020-31.12.2020`)',
+  })
+  @IsOptional()
+  @ToArray()
+  @Validate(IsDateParam)
+  @DateParam()
+  createdAt: string;
+
   public model2Where() {
     const filter = new FilterBuilder();
     for (const key of Object.keys(this)) {
+      if (!this[key]) continue;
       const type = Reflect.getMetadata('type', this, key);
 
       switch (type) {

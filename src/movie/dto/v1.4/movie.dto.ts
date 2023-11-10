@@ -38,4 +38,10 @@ export class MovieDtoV1_4 extends OmitType(MovieDtoV1_3, ['productionCompanies']
 
   @ApiProperty({ type: () => NetworksV1_4, isArray: true })
   networks: NetworksV1_4;
+
+  @ApiProperty()
+  updatedAt: Date;
+
+  @ApiProperty()
+  createdAt: Date;
 }

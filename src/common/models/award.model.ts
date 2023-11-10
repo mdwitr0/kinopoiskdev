@@ -29,4 +29,11 @@ export class Award {
   @ApiProperty({ type: () => Boolean })
   @Prop()
   winning: boolean;
+
+  @ApiProperty()
+  @Prop()
+  updatedAt: Date;
+  @ApiProperty()
+  @Prop()
+  createdAt: Date;
 }
