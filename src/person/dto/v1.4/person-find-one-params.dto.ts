@@ -8,7 +8,7 @@ export class PersonFindOneParamsDtoV1_4 {
   @ApiNullableProperty({ isArray: true, description: 'ID из кинопоиска' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 9000000])
+  @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   id?: number;
 }

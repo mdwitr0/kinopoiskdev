@@ -506,7 +506,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по ID персон (пример: `666, 555, !666`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 9000000])
+  @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
   'persons.id': string[];

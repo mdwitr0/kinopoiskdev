@@ -187,7 +187,7 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk (пример: `"111", "222", "!666"`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 9000000])
+  @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
   id?: string[];
@@ -250,7 +250,7 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID супруги(супруга) (пример: `111, 222`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 9000000])
+  @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
   'spouses.id'?: string[];
