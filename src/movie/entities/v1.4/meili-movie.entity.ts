@@ -1,4 +1,4 @@
-import { ItemName, Logo, Movie, Name, Rating, ShortImage, Votes, YearRange } from '../../schemas/movie.schema';
+import { ExternalId, ItemName, Logo, Movie, Name, Rating, ShortImage, Votes, YearRange } from '../../schemas/movie.schema';
 import { MeiliMovieEntity } from '../meili-movie.entity';
 import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
@@ -18,6 +18,10 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
   @ApiProperty({ type: () => Name, isArray: true })
   @Expose()
   names: Name[];
+
+  @ApiPropertyOptional({ type: () => ExternalId })
+  @Expose()
+  externalId: ExternalId;
 
   @ApiPropertyOptional({ type: () => Logo })
   @Expose()
@@ -102,6 +106,7 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
 
   public fromMongoDocument(movie: Movie): this {
     this.id = movie.id;
+    this.externalId = movie.externalId || null;
     this.name = movie.name || '';
     this.alternativeName = movie.alternativeName || '';
     this.enName = movie.enName || '';
