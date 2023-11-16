@@ -2,6 +2,7 @@ import { ExternalId, ItemName, Logo, Movie, Name, Rating, ShortImage, Votes, Yea
 import { MeiliMovieEntity } from '../meili-movie.entity';
 import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
 
 export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
   'names',
@@ -19,7 +20,7 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
   @Expose()
   names: Name[];
 
-  @ApiPropertyOptional({ type: () => ExternalId })
+  @ApiNullableProperty({ type: () => ExternalId })
   @Expose()
   externalId: ExternalId;
 
@@ -106,7 +107,7 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
 
   public fromMongoDocument(movie: Movie): this {
     this.id = movie.id;
-    this.externalId = movie.externalId || null;
+    this.externalId = movie.externalId;
     this.name = movie.name || '';
     this.alternativeName = movie.alternativeName || '';
     this.enName = movie.enName || '';
