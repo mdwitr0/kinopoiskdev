@@ -107,7 +107,7 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
 
   public fromMongoDocument(movie: Movie): this {
     this.id = movie.id;
-    this.externalId = movie.externalId;
+    this.externalId = movie?.externalId || {};
     this.name = movie.name || '';
     this.alternativeName = movie.alternativeName || '';
     this.enName = movie.enName || '';
