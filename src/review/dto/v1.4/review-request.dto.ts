@@ -124,7 +124,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  'movies.id'?: string[];
+  'movieId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск отзывов по ID автора (пример: `"666", "555", "!666"`)' })
   @IsOptional()
