@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { MeiliService } from 'src/meili/meili.service';
 import { MovieService } from 'src/movie/movie.service';
@@ -18,7 +18,7 @@ import { MeiliPersonEntityV1_4 } from '../person/entities/v1.4/meili-person.enti
 type EntityTypes = typeof MOVIE_INDEX | typeof PERSON_INDEX | typeof MOVIE_V1_4_INDEX | typeof PERSON_V1_4_INDEX;
 
 @Injectable()
-export class SearchSyncService implements OnModuleInit {
+export class SearchSyncService {
   private readonly logger = new Logger(SearchSyncService.name);
   constructor(
     @InjectModel(SearchSync.name) private readonly searchSyncModel: Model<SearchSyncDocument>,
@@ -119,9 +119,5 @@ export class SearchSyncService implements OnModuleInit {
     await this.syncEntity<Person>(PERSON_V1_4_INDEX, this.personService, 1000);
     await this.syncEntity<Person>(PERSON_INDEX, this.personService, 1000);
     this.logger.log('Finished sync for persons');
-  }
-
-  async onModuleInit() {
-    await Promise.all([this.syncPersons(), this.syncMovies()]);
   }
 }
