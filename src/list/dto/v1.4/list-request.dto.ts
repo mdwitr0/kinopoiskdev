@@ -23,6 +23,7 @@ import { IsDateParam } from '../../../common/validation/is-date-param';
 import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum ListFieldV1_4 {
+  name = 'name',
   'category' = 'category',
   'slug' = 'slug',
   'moviesCount' = 'moviesCount',
@@ -33,6 +34,7 @@ export enum ListFieldV1_4 {
 }
 
 export enum ListSelectFieldV1_4 {
+  name = 'name',
   'category' = 'category',
   'slug' = 'slug',
   'moviesCount' = 'moviesCount',
