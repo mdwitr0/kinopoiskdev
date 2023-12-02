@@ -87,9 +87,9 @@ export enum MovieFieldV1_4 {
   'facts.type' = 'facts.type',
   'facts.value' = 'facts.value',
   'facts.spoiler' = 'facts.spoiler',
-  'fees.world' = 'fees.world',
-  'fees.usa' = 'fees.usa',
-  'fees.russia' = 'fees.russia',
+  'fees.world.value' = 'fees.world.value',
+  'fees.usa.value' = 'fees.usa.value',
+  'fees.russia.value' = 'fees.russia.value',
   'premiere.world' = 'premiere.world',
   'premiere.usa' = 'premiere.usa',
   'premiere.russia' = 'premiere.russia',
@@ -537,19 +537,19 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsNumberParam)
   @NumberParam()
-  'fees.world': string[];
+  'fees.world.value': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в США (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsNumberParam)
   @NumberParam()
-  'fees.usa': string[];
+  'fees.usa.value': string[];
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по сборам в России (пример: `1000-6666666`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsNumberParam)
   @NumberParam()
-  'fees.russia': string[];
+  'fees.russia.value': string[];
 
   @ApiNullableProperty({ type: 'string', isArray: true, description: 'Поиск по дате премьеры в мире (пример: `01.01.2020, 01.01.2020-31.12.2020`)' })
   @IsOptional()
