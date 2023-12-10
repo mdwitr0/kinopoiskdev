@@ -28,9 +28,19 @@ import { ListModule } from './list/list.module';
 import { LoggerModule } from 'nestjs-pino';
 
 const imports = [
-  LoggerModule.forRoot({
-    pinoHttp: {
-      transport: { target: 'pino-pretty' },
+  LoggerModule.forRootAsync({
+    inject: [ConfigService],
+    imports: [ConfigModule],
+    useFactory: (configService: ConfigService) => {
+      const isProd = ['prod', 'production'].includes(configService.get('NODE_ENV'));
+
+      if (isProd) return {};
+
+      return {
+        pinoHttp: {
+          transport: { target: 'pino-pretty' },
+        },
+      };
     },
   }),
   ServeStaticModule.forRoot({
