@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
@@ -26,7 +26,8 @@ import { MovieAwardRequestDtoV1_4 } from './dto/v1.4/movie-award-request.dto';
 import { MovieRandomRequestDtoV1_4 } from './dto/v1.4/movie-random-request.dto';
 
 @Injectable()
-export class MovieService {
+export class MovieService implements OnModuleInit {
+  private moviesLimit: number;
   private readonly logger = new Logger(MovieService.name);
   constructor(
     @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
@@ -40,6 +41,10 @@ export class MovieService {
     const select = request.model2Select();
     const sort = request.model2Sort();
     const { skip, limit } = request.model2Pagination();
+
+    if (skip > this.moviesLimit) {
+      throw new BadRequestException(`Вы пытаетесь запросить больше страниц, чем доступно на самом деле!`);
+    }
 
     const [total, docs] = await Promise.all([
       this.movieModel.countDocuments(filter),
@@ -227,5 +232,10 @@ export class MovieService {
     } catch (e) {
       this.logger.error("Can't add movie", e);
     }
+  }
+
+  async onModuleInit() {
+    const count = await this.movieModel.count({});
+    if (count > 0) this.moviesLimit = count;
   }
 }

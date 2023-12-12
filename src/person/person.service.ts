@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/common/base/base.service';
@@ -18,7 +18,8 @@ import { PersonDocsResponseDtoV1_4 } from './dto/v1.4/person-docs.response';
 import { PersonAwardRequestDtoV1_4 } from './dto/v1.4/person-award-request.dto';
 
 @Injectable()
-export class PersonService extends BaseService<Person> {
+export class PersonService extends BaseService<Person> implements OnModuleInit {
+  private personsLimit: number;
   constructor(
     @InjectModel(Person.name) private readonly personModel: Model<PersonDocument>,
     @InjectModel(PersonAward.name) private readonly personAwardModel: Model<PersonAwardDocument>,
@@ -32,6 +33,10 @@ export class PersonService extends BaseService<Person> {
     const select = request.model2Select();
     const sort = request.model2Sort();
     const { skip, limit } = request.model2Pagination();
+
+    if (skip > this.personsLimit) {
+      throw new BadRequestException(`Вы пытаетесь запросить больше страниц, чем доступно на самом деле!`);
+    }
 
     const [total, docs] = await Promise.all([
       this.personModel.countDocuments(filter),
@@ -120,5 +125,10 @@ export class PersonService extends BaseService<Person> {
       page: query.skip / query.limit + 1,
       pages: Math.ceil(total / query.limit),
     };
+  }
+
+  async onModuleInit() {
+    const count = await this.personModel.count({});
+    if (count > 0) this.personsLimit = count;
   }
 }
