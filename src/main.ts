@@ -23,9 +23,6 @@ async function bootstrap(isSync = false) {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      transformOptions: {
-        excludeExtraneousValues: true,
-      },
     }),
   );
 
