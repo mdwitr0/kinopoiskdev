@@ -121,6 +121,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   'movieId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по номеру сезона (пример: `"1", "1-19", "!3"`)' })
@@ -129,6 +130,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 10000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   number?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по нормеру эпизода (пример: `"1", "1-19", "!3"`)' })
@@ -137,6 +139,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 100000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   'episodes.number'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате выхода сезона (пример: `"2020-01-01-2020-12-31", "2020-01-01"`)' })
@@ -144,6 +147,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDate)
   @DateParam()
+  @Expose()
   airDate?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате выхода эпизода (пример: `"2020-01-01-2020-12-31", "2020-01-01"`)' })
@@ -151,6 +155,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDate)
   @DateParam()
+  @Expose()
   'episodes.airDate'?: string[];
 
   @ApiNullableProperty({
@@ -162,6 +167,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -173,6 +179,7 @@ export class SeasonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   createdAt: string;
 
   public model2Where() {

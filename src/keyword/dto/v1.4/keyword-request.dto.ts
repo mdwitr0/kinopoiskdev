@@ -22,7 +22,7 @@ import { DateParam } from '../../../common/decorators/types/date-param';
 
 export enum KeywordFieldV1_4 {
   'id' = 'id',
-  'movie.id' = 'movie.id',
+  'movies.id' = 'movies.id',
   'title' = 'title',
   updatedAt = 'updatedAt',
   createdAt = 'createdAt',
@@ -30,7 +30,7 @@ export enum KeywordFieldV1_4 {
 
 export enum KeywordSelectFieldV1_4 {
   'id' = 'id',
-  'movie' = 'movie',
+  'movies' = 'movies',
   'title' = 'title',
   updatedAt = 'updatedAt',
   createdAt = 'createdAt',
@@ -97,6 +97,7 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 100000000000])
   @NumberParam()
+  @Expose()
   id?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск ключевых слов по id фильма (пример: `"666", "!666"`)', isArray: true })
@@ -104,12 +105,14 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 7000000])
   @NumberParam()
+  @Expose()
   'movies.id'?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск ключевых слов по наименованию (пример: `"1980-е", "!1980-е"`)', isArray: true })
   @IsOptional()
   @ToArray()
   @StringParam()
+  @Expose()
   title?: string[];
 
   @ApiNullableProperty({
@@ -121,6 +124,7 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -132,6 +136,7 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   createdAt: string;
 
   public model2Where() {

@@ -102,18 +102,21 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   personId?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по номинациям (пример: `"Оскар", "Золотой глобус"`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
+  @Expose()
   'nomination.title'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по наградам (пример: `"Лучший фильм", "Лучший актер"`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
+  @Expose()
   'nomination.award.title'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по году награды (пример: `"2019", "2020"`)' })
@@ -122,14 +125,15 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1900, 2021])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   'nomination.award.year'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по победам (пример: `"true", "false"`)' })
   @IsOptional()
-  @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
-  winning?: string[];
+  @Expose()
+  winning?: string;
 
   @ApiNullableProperty({
     type: 'string',
@@ -140,6 +144,7 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -151,6 +156,7 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   createdAt: string;
 
   public model2Where() {

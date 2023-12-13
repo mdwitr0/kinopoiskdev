@@ -19,7 +19,7 @@ export type KeywordDocument = HydratedDocument<Keyword>;
 export class Keyword {
   @ApiProperty()
   @Prop({ required: true, index: true })
-  id: string;
+  id: number;
 
   @ApiProperty()
   @Prop()

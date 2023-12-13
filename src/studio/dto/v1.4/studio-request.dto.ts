@@ -110,6 +110,7 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @IsOptional()
   @ToArray()
   @StringParam()
+  @Expose()
   id?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID фильма (пример: `"666", "555", "!666"`)' })
@@ -118,6 +119,7 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   'movies.id'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по типу студии (пример: `"Производство", "Студия дубляжа"`)' })
@@ -125,6 +127,7 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [StudioType])
   @EnumParam()
+  @Expose()
   type?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по типу студии (пример: `"company", "studio"`)' })
@@ -132,12 +135,14 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [StudioSubTypeV1_4])
   @EnumParam()
+  @Expose()
   subType?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по названию студии (пример: `"Warner Bros.", "!Warner Bros."`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
+  @Expose()
   title?: string[];
 
   @ApiNullableProperty({
@@ -149,6 +154,7 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -160,6 +166,7 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   createdAt: string;
 
   public model2Where() {

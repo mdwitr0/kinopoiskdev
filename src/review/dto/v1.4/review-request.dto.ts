@@ -116,6 +116,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [4000, 5000000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   id?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID фильма (пример: `"666", "555", "!666"`)' })
@@ -124,6 +125,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   'movieId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск отзывов по ID автора (пример: `"666", "555", "!666"`)' })
@@ -132,6 +134,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 200000000])
   @Validate(IsNumberParam)
   @NumberParam()
+  @Expose()
   'authorId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по имени автора отзыва (пример: `"КиноПоиск", "!КиноПоиск"`)' })
@@ -139,6 +142,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsString)
   @StringParam()
+  @Expose()
   author?: string[];
 
   @ApiNullableProperty({
@@ -150,6 +154,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [ReviewTypeV1_4])
   @EnumParam()
+  @Expose()
   type?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате создания отзыва (пример: `"01.01.2021-01.01.2022", "01.01.2021"`)' })
@@ -157,6 +162,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   date?: string[];
 
   @ApiNullableProperty({
@@ -168,6 +174,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -179,6 +186,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   createdAt: string;
 
   public model2Where() {

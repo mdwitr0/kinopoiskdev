@@ -138,6 +138,7 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 7000000])
   @NumberParam()
+  @Expose()
   movieId?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск картинок по типу (пример: `"cover", "!cover"`)', isArray: true, enum: ImageTypeV1_4 })
@@ -145,12 +146,14 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [ImageTypeV1_4])
   @EnumParam()
+  @Expose()
   type?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск картинок по языку (пример: `"en", "!de"`)', isArray: true, enum: ImageLanguageV1_4 })
   @IsOptional()
   @ToArray()
   @StringParam()
+  @Expose()
   language?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск картинок по высоте (пример: `"1920", "360-1920"`)', isArray: true })
@@ -158,6 +161,7 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 10000])
   @NumberParam()
+  @Expose()
   height?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск картинок по ширине (пример: `"1080", "320-1080"`)', isArray: true })
@@ -165,6 +169,7 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 10000])
   @NumberParam()
+  @Expose()
   width?: string[];
 
   @ApiNullableProperty({
@@ -176,6 +181,7 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -187,6 +193,7 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
+  @Expose()
   createdAt: string;
 
   public model2Where() {
