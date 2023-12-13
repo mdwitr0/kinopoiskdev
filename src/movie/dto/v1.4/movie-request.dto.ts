@@ -220,11 +220,11 @@ export enum MovieStatusV1_4 {
 }
 
 export enum RatingMpaaV1_4 {
-  'G' = 'G',
-  'NC-17' = 'NC-17',
-  'PG' = 'PG',
-  'PG-13' = 'PG-13',
-  'R' = 'R',
+  'g' = 'g',
+  'nc17' = 'nc17',
+  'pg' = 'pg',
+  'pg13' = 'pg13',
+  'r' = 'r',
 }
 
 export class MovieRequestDtoV1_4 implements IRequestModel {
