@@ -104,7 +104,7 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 7000000])
   @NumberParam()
-  'movie.id'?: string[];
+  'movies.id'?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск ключевых слов по наименованию (пример: `"1980-е", "!1980-е"`)', isArray: true })
   @IsOptional()
