@@ -8,7 +8,6 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsString, Min, Validate } from 'class-validator';
 import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
 import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
-import { Expose } from 'class-transformer';
 import { IsValueInRange } from '../../../common/validation/is-value-in-range';
 import { ToArray } from '../../../common/decorators/transform/to-array.decorator';
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
@@ -21,6 +20,7 @@ import { NumberParam } from '../../../common/decorators/types/number-param';
 import { IsNumberParam } from '../../../common/validation/is-number-param';
 import { IsDateParam } from '../../../common/validation/is-date-param';
 import { DateParam } from '../../../common/decorators/types/date-param';
+import { Expose } from 'class-transformer';
 
 export enum ListFieldV1_4 {
   name = 'name',
@@ -112,7 +112,6 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsString)
   @StringParam()
-  @Expose()
   slug?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по категории (пример: `"Фильмы", "!Фильмы"`)', enum: ListCatregoryV1_4 })
@@ -120,7 +119,6 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [ListCatregoryV1_4])
   @EnumParam()
-  @Expose()
   category?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по количеству фильмов (пример: `"1-200", "10"`)' })
@@ -129,7 +127,6 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 1000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   moviesCount?: string[];
 
   @ApiNullableProperty({
@@ -141,7 +138,6 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -153,7 +149,6 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   createdAt: string;
   public model2Where() {
     const filter = new FilterBuilder();

@@ -8,7 +8,6 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNumber, IsOptional, Min, Validate } from 'class-validator';
 import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
 import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
-import { Expose } from 'class-transformer';
 import { IsValueInRange } from '../../../common/validation/is-value-in-range';
 import { ToArray } from '../../../common/decorators/transform/to-array.decorator';
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
@@ -23,6 +22,7 @@ import { DateParam } from '../../../common/decorators/types/date-param';
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { IsBooleanParam } from '../../../common/validation/is-boolean-param';
 import { BooleanParam } from '../../../common/decorators/types/boolean-param';
+import { Expose } from 'class-transformer';
 
 export enum PersonFieldV1_4 {
   'id' = 'id',
@@ -190,7 +190,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   id?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID фильма (пример: `"666", "555", "!666"`)' })
@@ -199,7 +198,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   'movies.id'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру (пример: `Женский, Мужской`)', enum: PersonSexV1_4 })
@@ -207,7 +205,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [PersonSexV1_4])
   @EnumParam()
-  @Expose()
   sex?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по росту (пример: `170-180, 180`)' })
@@ -215,7 +212,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 300])
   @NumberParam()
-  @Expose()
   growth?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате рождения (пример: `01.01.2000-01.01.2001, 01.01.2000`)' })
@@ -223,7 +219,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   birthday?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате смерти (пример: `01.01.2000-01.01.2001, 01.01.2000`)' })
@@ -231,7 +226,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   death?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по возрасту (пример: `18-25, 25`)' })
@@ -239,21 +233,18 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [0, 300])
   @NumberParam()
-  @Expose()
   age?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по месту рождения (пример: `Москва, Санкт-Петербург`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
-  @Expose()
   'birthPlace.value'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по месту смерти (пример: `Москва, Санкт-Петербург`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
-  @Expose()
   'deathPlace.value'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID супруги(супруга) (пример: `111, 222`)' })
@@ -262,14 +253,12 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   'spouses.id'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по статусу развода (пример: `true, false`)' })
   @IsOptional()
   @Validate(IsBooleanParam)
   @BooleanParam()
-  @Expose()
   'spouses.divorced'?: string;
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по гендеру супруги(супруга) (пример: `Женский, Мужской`)', enum: PersonSexV1_4 })
@@ -277,7 +266,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [PersonSexV1_4])
   @EnumParam()
-  @Expose()
   'spouses.sex'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по количеству наград (пример: `1-10, 10`)' })
@@ -286,7 +274,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [0, 100000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   countAwards?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по профессии (пример: `Актер, Режиссер`)', enum: PersonProfessionV1_4 })
@@ -294,7 +281,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [PersonProfessionV1_4])
   @EnumParam()
-  @Expose()
   'profession.value'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по рейтингу фильма (пример: `1-10, 10`)' })
@@ -303,7 +289,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [0, 10])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   'movies.rating'?: string[];
 
   @ApiNullableProperty({
@@ -315,7 +300,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [PersonEnProfessionV1_4])
   @EnumParam()
-  @Expose()
   'movies.enProfession'?: string[];
 
   @ApiNullableProperty({
@@ -327,7 +311,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -339,7 +322,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   createdAt: string;
   public model2Where() {
     const filter = new FilterBuilder();

@@ -15,13 +15,13 @@ import { SelectBuilder } from '../../../common/query-builder/select-builder';
 import { SortBuilder } from '../../../common/query-builder/sort-builder';
 import { PaginationBuilder } from '../../../common/query-builder/pagination-builder';
 import { SortOrder } from 'mongoose';
-import { Expose } from 'class-transformer';
 import { IRequestModel } from '../../../common/interfaces/request-model.interface';
 import { StringParam } from '../../../common/decorators/types/string-param';
 import { IsBooleanParam } from '../../../common/validation/is-boolean-param';
 import { BooleanParam } from '../../../common/decorators/types/boolean-param';
 import { DateParam } from 'src/common/decorators/types/date-param';
 import { IsDateParam } from '../../../common/validation/is-date-param';
+import { Expose } from 'class-transformer';
 
 enum PersonFieldV1_4 {
   'personId' = 'personId',
@@ -102,21 +102,18 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 30000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   personId?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по номинациям (пример: `"Оскар", "Золотой глобус"`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
-  @Expose()
   'nomination.title'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по наградам (пример: `"Лучший фильм", "Лучший актер"`)' })
   @IsOptional()
   @ToArray()
   @StringParam()
-  @Expose()
   'nomination.award.title'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по году награды (пример: `"2019", "2020"`)' })
@@ -125,14 +122,12 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1900, 2021])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   'nomination.award.year'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по победам (пример: `"true", "false"`)' })
   @IsOptional()
   @Validate(IsBooleanParam)
   @BooleanParam()
-  @Expose()
   winning?: string;
 
   @ApiNullableProperty({
@@ -144,7 +139,6 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -156,7 +150,6 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   createdAt: string;
 
   public model2Where() {

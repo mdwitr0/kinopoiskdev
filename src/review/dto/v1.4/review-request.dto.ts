@@ -8,7 +8,6 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsString, Min, Validate } from 'class-validator';
 import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
 import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
-import { Expose } from 'class-transformer';
 import { IsValueInRange } from '../../../common/validation/is-value-in-range';
 import { ToArray } from '../../../common/decorators/transform/to-array.decorator';
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
@@ -21,6 +20,7 @@ import { IsDateParam } from '../../../common/validation/is-date-param';
 import { DateParam } from '../../../common/decorators/types/date-param';
 import { EnumParam } from '../../../common/decorators/types/enum-param';
 import { StringParam } from '../../../common/decorators/types/string-param';
+import { Expose } from 'class-transformer';
 
 export enum ReviewFieldV1_4 {
   'id' = 'id',
@@ -116,7 +116,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [4000, 5000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   id?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID фильма (пример: `"666", "555", "!666"`)' })
@@ -125,7 +124,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 7000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   'movieId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск отзывов по ID автора (пример: `"666", "555", "!666"`)' })
@@ -134,7 +132,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @Validate(IsValueInRange, [1, 200000000])
   @Validate(IsNumberParam)
   @NumberParam()
-  @Expose()
   'authorId'?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по имени автора отзыва (пример: `"КиноПоиск", "!КиноПоиск"`)' })
@@ -142,7 +139,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsString)
   @StringParam()
-  @Expose()
   author?: string[];
 
   @ApiNullableProperty({
@@ -154,7 +150,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsEnumParam, [ReviewTypeV1_4])
   @EnumParam()
-  @Expose()
   type?: string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по дате создания отзыва (пример: `"01.01.2021-01.01.2022", "01.01.2021"`)' })
@@ -162,7 +157,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   date?: string[];
 
   @ApiNullableProperty({
@@ -174,7 +168,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -186,7 +179,6 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   createdAt: string;
 
   public model2Where() {

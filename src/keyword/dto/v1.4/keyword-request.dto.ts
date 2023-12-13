@@ -8,7 +8,6 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNumber, IsOptional, Min, Validate } from 'class-validator';
 import { ParseNumber } from '../../../common/decorators/transform/parse-number.decorator';
 import { SetDefaultValue } from '../../../common/decorators/transform/set-default-value.decorator';
-import { Expose } from 'class-transformer';
 import { IsValueInRange } from '../../../common/validation/is-value-in-range';
 import { ToArray } from '../../../common/decorators/transform/to-array.decorator';
 import { IsEnumParam } from '../../../common/validation/is-enum-param';
@@ -19,6 +18,7 @@ import { StringParam } from '../../../common/decorators/types/string-param';
 import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
 import { IsDateParam } from '../../../common/validation/is-date-param';
 import { DateParam } from '../../../common/decorators/types/date-param';
+import { Expose } from 'class-transformer';
 
 export enum KeywordFieldV1_4 {
   'id' = 'id',
@@ -97,7 +97,6 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 100000000000])
   @NumberParam()
-  @Expose()
   id?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск ключевых слов по id фильма (пример: `"666", "!666"`)', isArray: true })
@@ -105,14 +104,12 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsValueInRange, [1, 7000000])
   @NumberParam()
-  @Expose()
   'movies.id'?: string[];
 
   @ApiPropertyOptional({ description: 'Поиск ключевых слов по наименованию (пример: `"1980-е", "!1980-е"`)', isArray: true })
   @IsOptional()
   @ToArray()
   @StringParam()
-  @Expose()
   title?: string[];
 
   @ApiNullableProperty({
@@ -124,7 +121,6 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   updatedAt: string;
 
   @ApiNullableProperty({
@@ -136,7 +132,6 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ToArray()
   @Validate(IsDateParam)
   @DateParam()
-  @Expose()
   createdAt: string;
 
   public model2Where() {
