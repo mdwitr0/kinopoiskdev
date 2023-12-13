@@ -1,4 +1,4 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { EntityFields } from '../decorators/paginated.decorator';
 import { IQuery } from '../interfaces/query.interface';
 import { normalizeDate } from '../utils/query/parse-date.util';
@@ -8,6 +8,9 @@ const SYSTEM_KEYS = ['sortField', 'sortType', 'selectFields', 'page', 'limit', '
 @Injectable()
 export class QueryPipe implements PipeTransform {
   constructor(private readonly FIELDS: EntityFields) {}
+  badFields = [undefined, null, '', 'nil', 'Null', 'undefined', NaN, 'NaN'];
+  badValues = [undefined, null, 'nil', 'Null', 'undefined', NaN, 'NaN'];
+  badDefaultValues = [null, 'nil', 'Null', 'undefined', NaN, 'NaN'];
 
   transform(value: any, metadata: ArgumentMetadata): IQuery {
     let filter: any = {};
@@ -16,7 +19,20 @@ export class QueryPipe implements PipeTransform {
     let page = 1;
     let limit = 10;
 
+    if (
+      this.badDefaultValues.includes(value.limit) ||
+      this.badDefaultValues.includes(value.page) ||
+      this.badDefaultValues.includes(value.selectFields) ||
+      this.badDefaultValues.includes(value.sortField) ||
+      this.badDefaultValues.includes(value.sortType)
+    ) {
+      throw new BadRequestException('Указаны недопустимые значения!');
+    }
+
     const setValueToField = (field: string, value: string | number | Array<any> | any) => {
+      if (this.badFields.includes(field) || this.badValues.includes(value)) {
+        throw new BadRequestException('Указаны недопустимые значения!');
+      }
       if (filter[field]) {
         filter[field] = [filter[field], value].flat(2);
       } else {
@@ -91,10 +107,7 @@ export class QueryPipe implements PipeTransform {
 
         // Return a condition that checks for existence and not null in a nested field or in an array element
         return {
-          $or: [
-            { [field]: { $exists: true, $ne: null } },
-            { [arrayField]: { $elemMatch: { [itemField]: { $exists: true, $ne: null } } } },
-          ],
+          $or: [{ [field]: { $exists: true, $ne: null } }, { [arrayField]: { $elemMatch: { [itemField]: { $exists: true, $ne: null } } } }],
         };
       }
       // If field is not nested, simply check for non-null values
@@ -121,8 +134,7 @@ export class QueryPipe implements PipeTransform {
         const isArray = Array.isArray(keyValue);
 
         if (isArray) {
-          const isIncludeFields =
-            this.FIELDS.includeValuesFields?.includes(key) && !!keyValue.find((val) => val.includes('+'));
+          const isIncludeFields = this.FIELDS.includeValuesFields?.includes(key) && !!keyValue.find((val) => val.includes('+'));
 
           if (isIncludeFields) {
             filter[key] = {
@@ -189,8 +201,11 @@ export class QueryPipe implements PipeTransform {
     });
 
     // Парсим параметры для пагинации
-    if (value.page) page = parseInt(value.page, 10);
-    if (value.limit) limit = parseInt(value.limit, 10);
+    const userPage = parseInt(value.page, 10);
+    if (value.page && userPage) page = userPage;
+
+    const userLimit = parseInt(value.limit, 10);
+    if (value.limit && userLimit) limit = userLimit;
     if (limit > 250) limit = 250;
 
     return { filter, sort, select, limit, skip: (page - 1) * limit };
