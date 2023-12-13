@@ -439,7 +439,7 @@ export class MovieRandomRequestDtoV1_4 {
   @ApiNullableProperty({
     type: 'string',
     isArray: true,
-    description: 'Поиск по коллекциям из KinoPoisk (пример: `"top-250", "top-100-indian-movies", "!top-100-movies"`)',
+    description: 'Поиск по коллекциям из KinoPoisk (пример: `"top250", "top-100-indian-movies", "!top-100-movies"`)',
   })
   @IsOptional()
   @ToArray()

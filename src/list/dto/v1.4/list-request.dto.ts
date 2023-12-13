@@ -107,7 +107,7 @@ export class ListRequestDtoV1_4 implements IRequestModel {
   @Expose()
   sortType?: string[];
 
-  @ApiNullableProperty({ isArray: true, description: 'Поиск slug (пример: `"!top-250", "top-250"`)' })
+  @ApiNullableProperty({ isArray: true, description: 'Поиск slug (пример: `"!top250", "top250"`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsString)
