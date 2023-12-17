@@ -51,8 +51,7 @@ export class LoggingInterceptor implements NestInterceptor {
         },
         (exception) => {
           const responseTime = Date.now() - now;
-
-          this.logger.error(`${urlObj.pathname}`, {
+          this.logger.error(`${urlObj.pathname}`, exception, {
             id,
             method,
             query,
