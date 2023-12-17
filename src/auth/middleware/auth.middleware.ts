@@ -3,7 +3,6 @@ import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/commo
 import { AuthService } from '../auth.service';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import * as ApiKey from 'uuid-apikey';
-import { log } from 'readmeio';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -13,14 +12,10 @@ export class AuthMiddleware implements NestMiddleware {
     const token = req?.headers['x-api-key'] || req['query']['token'];
 
     if (!token) {
-      log(process.env.README_API_KEY, req, res, { apiKey: 'unauthorized', label: null });
-
       throw new UnauthorizedException('В запросе не указан токен!');
     }
     // @ts-ignore
     if (!ApiKey.isAPIKey(token)) {
-      log(process.env.README_API_KEY, req, res, { apiKey: 'unauthorized', label: null });
-
       throw new UnauthorizedException('Переданный токен некорректен!');
     }
 

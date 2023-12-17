@@ -19,30 +19,15 @@ import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { UserModule } from './user/user.module';
 import { ThrottlerGuard } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { CacheConfig } from './common/configs/cache.config';
 import { ThrottlerConfig } from './common/configs/throttler.config';
 import { RedisConfig } from './common/configs/redis.config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ListModule } from './list/list.module';
-import { LoggerModule } from 'nestjs-pino';
+import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
 
 const imports = [
-  LoggerModule.forRootAsync({
-    inject: [ConfigService],
-    imports: [ConfigModule],
-    useFactory: (configService: ConfigService) => {
-      const isProd = ['prod', 'production'].includes(configService.get('NODE_ENV'));
-
-      if (isProd) return {};
-
-      return {
-        pinoHttp: {
-          transport: { target: 'pino-pretty' },
-        },
-      };
-    },
-  }),
   ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..', 'public'),
   }),
@@ -94,6 +79,10 @@ const imports = [
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
   ],
 })
