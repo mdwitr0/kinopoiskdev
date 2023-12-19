@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/common/base/base.service';
@@ -16,14 +16,17 @@ import { MeiliPersonEntityV1_4 } from './entities/v1.4/meili-person.entity';
 import { PersonRequestDtoV1_4 } from './dto/v1.4/person-request.dto';
 import { PersonDocsResponseDtoV1_4 } from './dto/v1.4/person-docs.response';
 import { PersonAwardRequestDtoV1_4 } from './dto/v1.4/person-award-request.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PersonService extends BaseService<Person> implements OnModuleInit {
+  private readonly logger = new Logger(PersonService.name);
   private personsLimit: number;
   constructor(
     @InjectModel(Person.name) private readonly personModel: Model<PersonDocument>,
     @InjectModel(PersonAward.name) private readonly personAwardModel: Model<PersonAwardDocument>,
     private readonly meiliService: MeiliService,
+    private readonly configService: ConfigService,
   ) {
     super(personModel);
   }
@@ -51,6 +54,19 @@ export class PersonService extends BaseService<Person> implements OnModuleInit {
       page: skip / limit + 1,
       pages: Math.ceil(total / limit),
     };
+  }
+
+  async findOneV1_4(id: number | string): Promise<Person | null> {
+    const found = await this.model.findOne({ id });
+
+    if (found) {
+      // @ts-ignore
+      return found.toJSON();
+    }
+
+    await this.addPerson(id);
+
+    return found;
   }
 
   async searchPersonV1_4(dto: SearchDto): Promise<SearchPersonResponseDtoV1_4> {
@@ -125,6 +141,22 @@ export class PersonService extends BaseService<Person> implements OnModuleInit {
       page: query.skip / query.limit + 1,
       pages: Math.ceil(total / query.limit),
     };
+  }
+
+  async addPerson(id: number | string): Promise<void> {
+    this.logger.log(`Add person with id: ${id}`);
+    try {
+      const baseUrl = this.configService.get('UPDATE_API_BASE_URL');
+      await fetch(`${baseUrl}/person`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ids: [id],
+        }),
+      });
+    } catch (e) {
+      this.logger.error("Can't add person", e);
+    }
   }
 
   async onModuleInit() {

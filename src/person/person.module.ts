@@ -6,6 +6,7 @@ import { Person, PersonSchema } from './schemas/person.schema';
 import { PersonAward, PersonAwardSchema } from './schemas/person-award.schema';
 import { MeiliModule } from 'src/meili/meili.module';
 import { CacheConfig } from 'src/common/configs/cache.config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CacheConfig } from 'src/common/configs/cache.config';
       { name: PersonAward.name, schema: PersonAwardSchema },
     ]),
     MeiliModule,
+    ConfigModule,
   ],
   controllers: [PersonController],
   providers: [PersonService],

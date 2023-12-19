@@ -73,9 +73,9 @@ export class MovieService implements OnModuleInit {
     if (found) {
       // @ts-ignore
       return found.toJSON();
-    } else {
-      await this.addMovie(id);
     }
+
+    await this.addMovie(id);
     return found;
   }
 

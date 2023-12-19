@@ -32,7 +32,7 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
   @ApiBaseResponse({ type: Person })
   @ApiNotFoundResponse({ type: ForbiddenErrorResponseDto, description: 'NotFound' })
   async findOneV1_4(@Param() { id }: PersonFindOneParamsDtoV1_4): Promise<Person> {
-    const found = await this.personService.findOne(+id);
+    const found = await this.personService.findOneV1_4(+id);
     if (!found) throw new NotFoundException('По этому id ничего не найдено!');
     return found;
   }
