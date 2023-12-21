@@ -9,21 +9,7 @@ const SITE_TITLE = 'Документация: для неофициальног�
 
 const DESCRIPTION = `
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://cdn.jsdelivr.net/npm/yandex-metrica-watch/tag.js", "ym");
-
-   ym(62307766, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/62307766" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<div><img src="https://mc.yandex.ru/watch/62307766" style="position:absolute; left:-9999px;" alt="" /></div>
 <!-- /Yandex.Metrika counter -->
 <p>Через этот API вы можете получить практически все данные из кинопоиска. Больше информации вы можете получить изучив эту документацию.</p>
 <h2>Как работать с документацией?</h2>
@@ -66,10 +52,10 @@ API работает по принципу REST, все запросы отпр�
 
 <h3>Полезные ссылки:</h3>
 <ul>
-  <li><a href="https://github.com/OpenMovieDB/kinopoiskdev_client">JavaScript и TypeScript клиент</a></li>
-  <li><a href="https://github.com/odi1n/kinopoisk_dev">Python клиент</a></li>
-  <li><a href="/v1/documentation-json">OpenAPI Specification (JSON)</a></li>
-  <li><a href="/v1/documentation-yaml">OpenAPI Specification (YAML)</a></li>
+  <li><a href="https://github.com/OpenMovieDB/kinopoiskdev_client">JavaScript и TypeScript клиент (Устарел, ждет обновления)</a></li>
+  <li><a href="https://github.com/odi1n/kinopoisk_dev">Python клиент (Устарел, ждет обновления)</a></li>
+  <li><a href="/documentation-json">OpenAPI Specification (JSON)</a></li>
+  <li><a href="/documentation-yaml">OpenAPI Specification (YAML)</a></li>
 </ul>
 `;
 
