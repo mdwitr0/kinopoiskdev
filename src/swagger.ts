@@ -52,6 +52,7 @@ API работает по принципу REST, все запросы отпр�
 
 <h3>Полезные ссылки:</h3>
 <ul>
+  <li><a href="https://kinopoiskdev.readme.io">Более удобная документация</a></li>
   <li><a href="https://github.com/OpenMovieDB/kinopoiskdev_client">JavaScript и TypeScript клиент (Устарел, ждет обновления)</a></li>
   <li><a href="https://github.com/odi1n/kinopoisk_dev">Python клиент (Устарел, ждет обновления)</a></li>
   <li><a href="/documentation-json">OpenAPI Specification (JSON)</a></li>

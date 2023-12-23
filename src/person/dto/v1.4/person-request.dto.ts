@@ -149,7 +149,6 @@ export class PersonRequestDtoV1_4 implements IRequestModel {
     description: 'Список полей требуемых в ответе из модели',
     isArray: true,
     enum: PersonSelectFieldV1_4,
-    default: defaultSelectFields,
   })
   @IsOptional()
   @ToArray()
