@@ -7,7 +7,9 @@ export class SortBuilder {
     if (!keys?.length) return this.sort;
 
     for (let i = 0; i < keys.length; i++) {
-      this.sort[keys[i]] = directions[i] === '1' ? 1 : -1;
+      if (keys[i]) {
+        this.sort[keys[i]] = directions[i] === '1' ? 1 : -1;
+      }
     }
 
     return this.sort;

@@ -8,7 +8,7 @@ export class SelectBuilder {
     if (!keys?.length) return this.select;
 
     for (const key of keys) {
-      this.select[key] = 1;
+      if (key) this.select[key] = 1;
     }
 
     return this.select;
