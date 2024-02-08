@@ -6,7 +6,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import Redis from 'ioredis';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { TariffDocument } from './schemas/tariff.schema';
-import ApiKey from 'uuid-apikey';
+import * as ApiKey from 'uuid-apikey';
 
 @Injectable()
 export class UserService {
@@ -19,10 +19,10 @@ export class UserService {
     this.logger.log('Start: Reset requests used & cache');
     const cursor = this.userRepository.find({ requestsUsed: { $ne: 0 } }).cursor();
     for await (const user of cursor) {
+      // @ts-ignore
       const key = ApiKey.toAPIKey(user.token);
 
-      user.requestsUsed = 0;
-      await user.save();
+      await this.userRepository.updateOne({ _id: user._id }, { requestsUsed: 0 });
 
       await this.redis.del(key);
     }
@@ -37,6 +37,7 @@ export class UserService {
       .select('token')
       .lean();
 
+    // @ts-ignore
     const keys = users.map((user) => ApiKey.toAPIKey(user.token));
     const redisValues = await this.redis.mget(...keys);
 
