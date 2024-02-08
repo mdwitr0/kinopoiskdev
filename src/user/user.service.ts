@@ -21,7 +21,7 @@ export class UserService {
     this.logger.log('Finish: Reset requests used & cache');
   }
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async syncDatabases() {
     const users: (UserDocument & { tariffId: TariffDocument })[] = await this.userRepository
       .find()
@@ -51,6 +51,10 @@ export class UserService {
 
         operations.push({
           updateOne: { filter: { _id: user._id }, update: { requestsUsed } },
+        });
+      } else {
+        operations.push({
+          updateOne: { filter: { _id: user._id }, update: { requestsUsed: 0 } },
         });
       }
     });
