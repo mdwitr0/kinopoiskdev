@@ -6,7 +6,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import Redis from 'ioredis';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { TariffDocument } from './schemas/tariff.schema';
-import * as ApiKey from 'uuid-apikey';
+import ApiKey from 'uuid-apikey';
 
 @Injectable()
 export class UserService {
@@ -16,8 +16,16 @@ export class UserService {
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async resetRequestsUsedAndCache() {
-    await this.userRepository.updateMany({ requestsUsed: { $ne: 0 } }, { requestsUsed: 0 });
-    await this.redis.flushall();
+    this.logger.log('Start: Reset requests used & cache');
+    const cursor = this.userRepository.find({ requestsUsed: { $ne: 0 } }).cursor();
+    for await (const user of cursor) {
+      const key = ApiKey.toAPIKey(user.token);
+
+      user.requestsUsed = 0;
+      await user.save();
+
+      await this.redis.del(key);
+    }
     this.logger.log('Finish: Reset requests used & cache');
   }
 
@@ -29,8 +37,6 @@ export class UserService {
       .select('token')
       .lean();
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const keys = users.map((user) => ApiKey.toAPIKey(user.token));
     const redisValues = await this.redis.mget(...keys);
 
