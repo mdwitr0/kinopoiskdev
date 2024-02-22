@@ -9,7 +9,7 @@ spec:
   size: 2
   image: cloudflare/cloudflared:2023.8.2
   cloudflare:
-    email: cloudflare-email #mdwit0r@gmail.com
+    email: cloudflare-email
     domain: kinopoisk.dev
     secret: cloudflare-secrets
-    accountId: cloudflare-id #20f5efa8d1c6c7b4369faee9fe46edb0
+    accountId: cloudflare-id
