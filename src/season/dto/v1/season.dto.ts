@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class EpisodeV1 {
   @ApiPropertyOptional()
@@ -18,7 +18,7 @@ export class EpisodeV1 {
 }
 
 export class SeasonV1 {
-  @ApiPropertyOptional()
+  @ApiProperty()
   movieId: number;
 
   @ApiPropertyOptional()

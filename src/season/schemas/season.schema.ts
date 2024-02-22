@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ShortImage } from '../../movie/schemas/movie.schema';
 
 export class Episode {
@@ -44,7 +44,7 @@ export type SeasonDocument = HydratedDocument<Season>;
   toObject: { virtuals: true },
 })
 export class Season {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop({ index: true })
   movieId: number;
 
