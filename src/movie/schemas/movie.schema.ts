@@ -109,9 +109,11 @@ export class Name {
   @Prop({ index: true })
   name: string;
 
+  @ApiNullableProperty()
   @Prop()
   language?: string | null;
 
+  @ApiNullableProperty()
   @Prop()
   type?: string | null;
 }
@@ -267,12 +269,15 @@ export class SpokenLanguages {
 }
 
 export class Images {
+  @ApiHideProperty()
   @Prop()
   postersCount: number;
 
+  @ApiHideProperty()
   @Prop()
   backdropsCount: number;
 
+  @ApiHideProperty()
   @Prop()
   framesCount: number;
 }

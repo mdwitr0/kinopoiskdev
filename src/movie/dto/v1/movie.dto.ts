@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNumber, IsOptional } from 'class-validator';
 import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
 import { ParseNumber } from 'src/common/decorators/transform/parse-number.decorator';
@@ -152,6 +152,7 @@ export class MovieDtoV1 {
   backdrop: ShortImage;
 
   // !TODO: Поле не приходит из парсера, нужно проставить сюда данные
+  @ApiHideProperty()
   imagesInfo: Images;
 
   // INFO: Video value
