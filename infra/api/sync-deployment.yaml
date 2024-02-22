@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kp-sync
+  namespace: kinopoisk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kp-sync
+  template:
+    metadata:
+      labels:
+        app: kp-sync
+    spec:
+      containers:
+        - name: kp-api-sync
+          image: mdwit/kp-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: sync
+          envFrom:
+            - secretRef:
+                name: kp-api
+      imagePullSecrets:
+        - name: regcred

@@ -2,17 +2,18 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Award } from 'src/common/models/award.model';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 class Movie {
   @ApiProperty()
   @Prop()
   id: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   name: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   rating: number;
 }
@@ -30,7 +31,7 @@ export class PersonAward extends Award {
   @Prop()
   personId: number;
 
-  @ApiProperty({ type: () => Movie })
+  @ApiNullableProperty({ type: () => Movie })
   @Prop()
   movie: Movie;
 }

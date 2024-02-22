@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ShortImage } from '../../movie/schemas/movie.schema';
 import { ApiProperty } from '@nestjs/swagger';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 export type ListDocument = HydratedDocument<List>;
 
@@ -17,22 +18,22 @@ export type ListDocument = HydratedDocument<List>;
   toObject: { virtuals: true },
 })
 export class List {
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   category: string;
 
   @Prop()
   name: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop({ unique: true })
   slug: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   moviesCount: number;
 
-  @ApiProperty({ type: () => ShortImage })
+  @ApiNullableProperty({ type: () => ShortImage })
   @Prop({ type: () => ShortImage })
   cover: ShortImage;
 

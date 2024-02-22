@@ -1,77 +1,78 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Movie } from '../schemas/movie.schema';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 export class MeiliMovieEntity {
   @ApiProperty()
   @Expose()
   id: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   alternativeName: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   enName: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   names: string[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   type: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   year: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   description: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   shortDescription: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   logo: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   poster: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   backdrop: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   rating: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   votes: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   movieLength: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   genres: string[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   countries: string[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   releaseYears: number[];
 
@@ -127,9 +128,7 @@ export class MeiliMovieEntity {
     this.movieLength = movie.movieLength || 0;
     this.genres = movie.genres ? movie.genres.map(({ name }) => name) : [];
     this.countries = movie.countries ? movie.countries.map(({ name }) => name) : [];
-    this.releaseYears = movie.releaseYears
-      ? movie.releaseYears.map((yearRange) => [yearRange.start, yearRange.end]).flat(1)
-      : [];
+    this.releaseYears = movie.releaseYears ? movie.releaseYears.map((yearRange) => [yearRange.start, yearRange.end]).flat(1) : [];
     this.isSeries = movie.isSeries;
     this.ticketsOnSale = movie.ticketsOnSale;
     this.totalSeriesLength = movie.totalSeriesLength;

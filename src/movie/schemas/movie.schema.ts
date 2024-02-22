@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 // INFO: Objects
@@ -135,6 +135,7 @@ export class Video {
   @Prop()
   site: string;
 
+  @ApiNullableProperty()
   @Prop()
   size: number;
 
@@ -144,16 +145,17 @@ export class Video {
 }
 
 export class VideoTypes {
-  @ApiPropertyOptional({ type: () => Video, isArray: true })
+  @ApiNullableProperty({ type: () => Video, isArray: true })
   @Prop({ type: () => [Video] })
   trailers: Video[];
 
+  @ApiHideProperty()
   @Prop({ type: () => [Video] })
   teasers: Video[];
 }
 
 export class PersonInMovie {
-  @ApiNullableProperty({ example: 6317, description: 'Id персоны с кинопоиска' })
+  @ApiProperty({ example: 6317, description: 'Id персоны с кинопоиска' })
   @Prop({ index: true })
   id: number;
 
@@ -169,12 +171,15 @@ export class PersonInMovie {
   @Prop()
   enName: string;
 
+  @ApiNullableProperty()
   @Prop()
   description: string;
 
+  @ApiNullableProperty()
   @Prop()
   profession: string;
 
+  @ApiNullableProperty()
   @Prop()
   enProfession: string;
 }
@@ -244,9 +249,11 @@ export class Premiere {
   @Prop({ type: () => Date })
   cinema: string;
 
+  @ApiNullableProperty()
   @Prop({ type: () => Date })
   bluray: string;
 
+  @ApiNullableProperty()
   @Prop({ type: () => Date })
   dvd: string;
 }
@@ -271,12 +278,15 @@ export class Images {
 }
 
 export class FactInMovie {
+  @ApiProperty()
   @Prop()
   value: string;
 
+  @ApiNullableProperty()
   @Prop()
   type: string;
 
+  @ApiNullableProperty()
   @Prop()
   spoiler: boolean;
 }
@@ -306,28 +316,35 @@ export class SeasonInfo {
 }
 
 export class LinkedMovie {
-  @ApiNullableProperty()
+  @ApiProperty()
   @Prop()
   id: number;
 
+  @ApiNullableProperty()
   @Prop()
   name: string;
 
+  @ApiNullableProperty()
   @Prop()
   enName: string;
 
+  @ApiNullableProperty()
   @Prop()
   alternativeName: string;
 
+  @ApiNullableProperty()
   @Prop()
   type?: string;
 
+  @ApiNullableProperty()
   @Prop()
   poster: ShortImage;
 
+  @ApiNullableProperty()
   @Prop({ type: () => Rating })
   rating: Rating;
 
+  @ApiNullableProperty()
   @Prop({ index: true })
   year: number;
 }
@@ -369,11 +386,11 @@ export class YearRange {
 }
 
 export class Audience {
-  @ApiProperty({ example: 1000, description: 'Количество просмотров в кино' })
+  @ApiNullableProperty({ example: 1000, description: 'Количество просмотров в кино' })
   @Prop()
   count: number;
 
-  @ApiProperty({ example: 'Россия', description: 'Страна в которой проходил показ' })
+  @ApiNullableProperty({ example: 'Россия', description: 'Страна в которой проходил показ' })
   @Prop()
   country: string;
 }

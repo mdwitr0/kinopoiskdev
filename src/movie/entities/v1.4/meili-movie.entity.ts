@@ -1,7 +1,7 @@
 import { ExternalId, ItemName, Logo, Movie, Name, Rating, ShortImage, Votes, YearRange } from '../../schemas/movie.schema';
 import { MeiliMovieEntity } from '../meili-movie.entity';
-import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { ApiExcludeEndpoint, ApiHideProperty, OmitType } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
 
 export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
@@ -16,7 +16,7 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
   'votes',
   'fromMongoDocument',
 ] as const) {
-  @ApiProperty({ type: () => Name, isArray: true })
+  @ApiNullableProperty({ type: () => Name, isArray: true })
   @Expose()
   names: Name[];
 
@@ -24,80 +24,83 @@ export class MeiliMovieEntityV1_4 extends OmitType(MeiliMovieEntity, [
   @Expose()
   externalId: ExternalId;
 
-  @ApiPropertyOptional({ type: () => Logo })
+  @ApiNullableProperty({ type: () => Logo })
   @Expose()
   logo: Logo;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
+  @ApiNullableProperty({ type: () => ShortImage })
   @Expose()
   poster: ShortImage;
 
-  @ApiPropertyOptional({ type: () => ShortImage })
+  @ApiNullableProperty({ type: () => ShortImage })
   @Expose()
   backdrop: ShortImage;
 
-  @ApiPropertyOptional({ type: () => Rating })
+  @ApiNullableProperty({ type: () => Rating })
   @Expose()
   rating: Rating;
 
-  @ApiPropertyOptional({ type: () => Votes })
+  @ApiNullableProperty({ type: () => Votes })
   @Expose()
   votes: Votes;
 
-  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
+  @ApiNullableProperty({ type: () => ItemName, isArray: true })
   @Expose()
   genres: ItemName[];
 
-  @ApiPropertyOptional({ type: () => ItemName, isArray: true })
+  @ApiNullableProperty({ type: () => ItemName, isArray: true })
   @Expose()
   countries: ItemName[];
 
-  @ApiPropertyOptional({ type: () => YearRange, isArray: true })
+  @ApiNullableProperty({ type: () => YearRange, isArray: true })
   @Expose()
   releaseYears: YearRange[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   isSeries: boolean;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   ticketsOnSale: boolean;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   totalSeriesLength: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   seriesLength: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   ratingMpaa: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   ageRating: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   top10?: number | null;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   top250?: number | null;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   typeNumber: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   status: string;
 
+  @ApiHideProperty()
   internalNames: string[];
+  @ApiHideProperty()
   internalRating: number;
+  @ApiHideProperty()
   internalVotes: number;
 
   constructor(movie: Partial<MeiliMovieEntityV1_4>) {

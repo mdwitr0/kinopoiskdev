@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export type ReviewDocument = HydratedDocument<Review>;
 
@@ -10,11 +10,11 @@ export type ReviewDocument = HydratedDocument<Review>;
   toObject: { virtuals: true },
 })
 export class Review {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop({ required: true, unique: true, index: true })
   id: number;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop({ required: true, index: true })
   movieId: number;
 
@@ -39,9 +39,10 @@ export class Review {
   author: string;
 
   @Prop({ default: 0 })
+  @ApiPropertyOptional()
   userRating: number;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop()
   authorId: number;
 

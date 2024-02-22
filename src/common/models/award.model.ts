@@ -1,39 +1,40 @@
 import { Prop } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { ApiNullableProperty } from '../decorators/api-nullable-property.decorator';
 
 export class NominationAward {
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   title: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   year: number;
 }
 
 export class Nomination {
-  @ApiProperty({ type: () => NominationAward })
+  @ApiNullableProperty({ type: () => NominationAward })
   @Prop()
   award: NominationAward;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   title: string;
 }
 
 export class Award {
-  @ApiProperty({ type: () => Nomination })
+  @ApiNullableProperty({ type: () => Nomination })
   @Prop()
   nomination: Nomination;
 
-  @ApiProperty({ type: () => Boolean })
+  @ApiNullableProperty({ type: () => Boolean })
   @Prop()
   winning: boolean;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   updatedAt: Date;
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   createdAt: Date;
 }

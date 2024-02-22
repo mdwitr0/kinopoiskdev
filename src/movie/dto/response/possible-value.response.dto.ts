@@ -1,13 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { transliterate } from 'transliteration';
+import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
 
 export class PossibleValueDto {
-  @ApiProperty({ description: 'Значение по которому нужно делать запрос в базу данных' })
+  @ApiNullableProperty({ description: 'Значение по которому нужно делать запрос в базу данных' })
   @Expose()
   name: string;
 
-  @ApiProperty({ description: 'Вспомогательное значение' })
+  @ApiNullableProperty({ description: 'Вспомогательное значение' })
   @Expose()
   slug: string;
 

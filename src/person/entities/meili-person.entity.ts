@@ -1,53 +1,54 @@
 import { Expose } from 'class-transformer';
 import { Person } from '../schemas/person.schema';
 import { ApiProperty } from '@nestjs/swagger';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 export class MeiliPersonEntity {
   @ApiProperty()
   @Expose()
   id: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   enName: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   photo: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   sex: string;
 
-  @ApiProperty() 1;
+  @ApiNullableProperty()
   @Expose()
   growth: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   birthday: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   death: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   age: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   birthPlace: string[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   deathPlace: string[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Expose()
   profession: string[];
 

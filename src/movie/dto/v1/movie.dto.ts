@@ -25,23 +25,28 @@ import {
 } from 'src/movie/schemas/movie.schema';
 
 export class LinkedMovie {
-  @ApiNullableProperty()
+  @ApiProperty()
   id: number;
 
+  @ApiNullableProperty()
   name: string;
 
+  @ApiNullableProperty()
   enName: string;
 
+  @ApiNullableProperty()
   alternativeName: string;
 
+  @ApiNullableProperty()
   type?: string;
 
+  @ApiNullableProperty()
   poster: ShortImage;
 }
 
 export class MovieDtoV1 {
   // INFO: Id values
-  @ApiProperty({
+  @ApiNullableProperty({
     description: 'Id фильма с кинопоиска',
     example: 666,
   })
@@ -50,7 +55,7 @@ export class MovieDtoV1 {
   @ParseNumber()
   id: number;
 
-  @ApiProperty({ type: () => ExternalId })
+  @ApiNullableProperty({ type: () => ExternalId })
   externalId: ExternalId;
 
   // INFO: Name values
@@ -63,17 +68,17 @@ export class MovieDtoV1 {
   @ApiNullableProperty({ example: 'Spider man' })
   enName: string;
 
-  @ApiProperty({ type: () => Name, isArray: true })
+  @ApiNullableProperty({ type: () => Name, isArray: true })
   names: Name[];
 
   // INFO: Type values
-  @ApiProperty({
+  @ApiNullableProperty({
     example: 'movie',
     description: 'Тип тайтла. Доступны: movie | tv-series | cartoon | anime | animated-series | tv-show',
   })
   type: string;
 
-  @ApiProperty({
+  @ApiNullableProperty({
     example: 1,
     description:
       'Тип тайтла в числовом обозначении. Доступны: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)',
@@ -105,11 +110,11 @@ export class MovieDtoV1 {
 
   @ApiNullableProperty({
     example: 'completed',
-    description:
-      'Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production',
+    description: 'Статус релиза тайтла. Доступные значения: filming | pre-production | completed | announced | post-production',
   })
   status: string;
 
+  @ApiNullableProperty()
   facts: FactInMovie[];
 
   // INFO: Movie rating values

@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ShortImage } from '../../../movie/schemas/movie.schema';
 import { EpisodeV1, SeasonV1 } from '../v1/season.dto';
 import { Expose } from 'class-transformer';
+import { ApiNullableProperty } from '../../../common/decorators/api-nullable-property.decorator';
 
 export class EpisodeV1_4 extends EpisodeV1 {
   @Expose()
@@ -54,9 +55,9 @@ export class SeasonV1_4 extends SeasonV1 {
   @ApiPropertyOptional({ type: () => EpisodeV1_4, isArray: true })
   episodes: EpisodeV1_4[];
 
-  @ApiProperty()
+  @ApiNullableProperty()
   updatedAt: Date;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   createdAt: Date;
 }

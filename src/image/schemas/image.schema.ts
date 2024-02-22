@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 export type ImageDocument = HydratedDocument<Image>;
 

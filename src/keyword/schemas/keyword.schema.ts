@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 export class MovieFromKeyword {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop()
   id: number;
 }
@@ -21,7 +22,7 @@ export class Keyword {
   @Prop({ required: true, index: true })
   id: number;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   title: string;
 

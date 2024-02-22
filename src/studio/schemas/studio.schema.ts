@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 
 export enum StudioType {
   'Производство' = 'Производство',
@@ -10,7 +11,7 @@ export enum StudioType {
 }
 
 export class MovieFromStudio {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop()
   id: number;
 }
@@ -27,11 +28,11 @@ export class Studio {
   @Prop({ required: true, index: true })
   id: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   subType: string;
 
-  @ApiProperty()
+  @ApiNullableProperty()
   @Prop()
   title: string;
 

@@ -1,0 +1,14 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: kp-api
+  namespace: kinopoisk
+subjects:
+  - kind: Service
+    name: kp-api-service
+    spec:
+      fqdn: api.kinopoisk.dev
+      protocol: https
+      target: http://kp-api-service.kinopoisk.svc.cluster.local:80
+tunnelRef:
+  kind: ClusterTunnel

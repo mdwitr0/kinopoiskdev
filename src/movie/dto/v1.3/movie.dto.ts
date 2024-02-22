@@ -16,7 +16,7 @@ export class MovieDtoV1_3 extends MovieDtoV1 {
   @ApiNullableProperty({ example: 20, description: 'Средняя продолжительность серии' })
   seriesLength: number;
 
-  @ApiProperty({ example: true, description: 'Признак сериала' })
+  @ApiNullableProperty({ example: true, description: 'Признак сериала' })
   isSeries: boolean;
 
   @ApiNullableProperty({ isArray: true, type: () => Audience })

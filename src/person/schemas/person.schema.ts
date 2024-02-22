@@ -16,7 +16,7 @@ export class DeathPlace {
 }
 
 export class Spouses {
-  @ApiPropertyOptional()
+  @ApiProperty()
   @Prop()
   id: number;
 
