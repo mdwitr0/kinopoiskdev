@@ -36,7 +36,7 @@ export class MovieDtoV1_4 extends OmitType(MovieDtoV1_3, ['productionCompanies']
   @ApiNullableProperty({ type: () => LinkedMovieV1_4, isArray: true })
   sequelsAndPrequels: LinkedMovieV1_4[];
 
-  @ApiNullableProperty({ type: () => NetworksV1_4, isArray: true })
+  @ApiNullableProperty({ type: () => NetworksV1_4 })
   networks: NetworksV1_4;
 
   @ApiNullableProperty()
