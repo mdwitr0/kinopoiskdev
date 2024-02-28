@@ -75,7 +75,6 @@ export class MovieService implements OnModuleInit {
       return found.toJSON();
     }
 
-    await this.addMovie(id);
     return found;
   }
 
@@ -136,9 +135,8 @@ export class MovieService implements OnModuleInit {
     if (found) {
       // @ts-ignore
       return found.toJSON();
-    } else {
-      await this.addMovie(id);
     }
+
     return found;
   }
 
@@ -215,23 +213,6 @@ export class MovieService implements OnModuleInit {
       page: query.skip / query.limit + 1,
       pages: Math.ceil(total / query.limit),
     };
-  }
-
-  async addMovie(id: number | string): Promise<void> {
-    this.logger.log(`Add movie with id: ${id}`);
-    try {
-      const baseUrl = this.configService.get('UPDATE_API_BASE_URL');
-      await fetch(`${baseUrl}/movie`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          updateData: ['base'],
-          ids: [id],
-        }),
-      });
-    } catch (e) {
-      this.logger.error("Can't add movie", e);
-    }
   }
 
   async onModuleInit() {
