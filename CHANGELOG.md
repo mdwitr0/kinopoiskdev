@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.1](https://github.com/mdwitr0/kinopoiskdev/compare/v1.5.0...v1.5.1) (2024-02-29)
+
+
+### Bug Fixes
+
+* **movie:** externalID isn't returned ([d15e075](https://github.com/mdwitr0/kinopoiskdev/commit/d15e07547efab6581145d502632875c359b25524))
+* **movie:** externalID isn't returned ([c592482](https://github.com/mdwitr0/kinopoiskdev/commit/c592482bb9d0bf04c72706f18b05fd6df26e35f4))
+* **movie:** externalID isn't returned ([7dad011](https://github.com/mdwitr0/kinopoiskdev/commit/7dad011080d40f4ea36f8e657523aa110250ce3b))
+* **movie:** movies.id is not movieId ([2366f38](https://github.com/mdwitr0/kinopoiskdev/commit/2366f38f039b5b7e605be8c51713f904271f8b62))
+* not correct false validate ([701fdc8](https://github.com/mdwitr0/kinopoiskdev/commit/701fdc80c9ad728e38b9d08b960bc73f395c4d5e))
+* not correct movie id ([b387bb0](https://github.com/mdwitr0/kinopoiskdev/commit/b387bb0f79f6b83f177f8182a1fc4c8935d5e0d3))
+* remove range strategy from string ([e755551](https://github.com/mdwitr0/kinopoiskdev/commit/e755551f7231c17e29c2d87bf307d1a1bcb05285))
+* sync errors ([56e174e](https://github.com/mdwitr0/kinopoiskdev/commit/56e174eaee74e39203eb79d39cdf32b0fa7ffc75))
+
 ## [1.5.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.2...v1.5.0) (2023-11-05)
 
 
