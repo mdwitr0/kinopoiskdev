@@ -215,6 +215,10 @@ export class MovieService implements OnModuleInit {
     };
   }
 
+  cursor() {
+    return this.movieModel.find({}).cursor();
+  }
+
   async onModuleInit() {
     const count = await this.movieModel.count({});
     if (count > 0) this.moviesLimit = count;

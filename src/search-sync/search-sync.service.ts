@@ -26,6 +26,7 @@ export class SearchSyncService {
     private readonly movieService: MovieService,
     private readonly personService: PersonService,
   ) {
+    this.searchSyncModel.deleteMany({});
     this.syncMovies();
     this.syncPersons();
   }
@@ -39,88 +40,54 @@ export class SearchSyncService {
     }
   }
 
-  private async syncEntity<Entity>(entityType: EntityTypes, service: MovieService | PersonService, pageSize = 1000): Promise<void> {
-    return new Promise(async (resolve) => {
-      this.logger.log(`Starting sync for ${entityType}`);
-      const process = await this.searchSyncModel.findOne({ entityType });
-      if (process?.processing) return;
-      await this.searchSyncModel.updateOne({ entityType }, { processing: true }, { upsert: true });
+  private async syncEntity<Entity>(entityType: EntityTypes, service: MovieService | PersonService): Promise<void> {
+    this.logger.log(`Starting sync for ${entityType}`);
+    const process = await this.searchSyncModel.findOne({ entityType });
+    if (process?.processing) return;
+    await this.searchSyncModel.updateOne({ entityType }, { processing: true }, { upsert: true });
 
-      let pageIndex = 1;
-      let hasMoreData = true;
-
-      const processPage = async (pageIndex: number): Promise<number> => {
-        const query = {
-          skip: (pageIndex - 1) * pageSize,
-          limit: pageSize,
-          sort: { _id: -1 },
-        };
-
-        const result = await service.findMany(query);
-        this.logger.log(`Processing. Page ${pageIndex} - ${result.docs.length} items`);
-        let entities = [];
-        try {
-          switch (entityType) {
-            case MOVIE_INDEX:
-              entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntity({}).fromMongoDocument(movie));
-              break;
-            case MOVIE_V1_4_INDEX:
-              entities = (result.docs as Movie[]).map((movie) => new MeiliMovieEntityV1_4({}).fromMongoDocument(movie));
-              break;
-            case PERSON_INDEX:
-              entities = (result.docs as Person[]).map((person) => new MeiliPersonEntity({}).fromMongoDocument(person));
-              break;
-            case PERSON_V1_4_INDEX:
-              entities = (result.docs as Person[]).map((person) => new MeiliPersonEntityV1_4({}).fromMongoDocument(person));
-              break;
-            default:
-              break;
-          }
-        } catch (e) {
-          this.logger.error(`Failed to process ${entityType} - Page ${pageIndex}: ${e.message}`);
-        }
-
-        if (result.docs.length > 0) {
-          await this.syncData<Entity>(entityType, entities, pageIndex);
-          return result.docs.length;
-        } else {
-          return 0;
-        }
-      };
-
-      try {
-        while (hasMoreData) {
-          const pageIndices = Array.from({ length: 5 }, (_, i) => i + pageIndex);
-          const results = await Promise.all(pageIndices.map((index) => processPage(index)));
-
-          pageIndex += 5;
-
-          if (results.some((count) => count < pageSize)) {
-            hasMoreData = false;
-          }
-        }
-      } catch (error) {
-        this.logger.error(`Failed to sync ${entityType}: ${error.message}`);
-      } finally {
-        await this.searchSyncModel.updateOne({ entityType }, { processing: false });
+    try {
+      const cursor = service.cursor();
+      for await (const item of cursor) {
+        const entity = this.prepareEntity(item, entityType);
+        await this.meiliService.save(entity, entityType);
+        this.logger.log(`Successfully synced ${entityType}: ${entity.id}`);
       }
-      resolve();
-    });
+    } catch (error) {
+      this.logger.error(`Failed to sync ${entityType}: ${error.message}`);
+    } finally {
+      await this.searchSyncModel.updateOne({ entityType }, { processing: false });
+    }
+  }
+
+  prepareEntity<T>(item: T, entityType: EntityTypes): MeiliMovieEntity | MeiliPersonEntity | MeiliMovieEntityV1_4 | MeiliPersonEntityV1_4 {
+    switch (entityType) {
+      case MOVIE_INDEX:
+        return new MeiliMovieEntity({}).fromMongoDocument(item as Movie);
+      case MOVIE_V1_4_INDEX:
+        return new MeiliMovieEntityV1_4({}).fromMongoDocument(item as Movie);
+      case PERSON_INDEX:
+        return new MeiliPersonEntity({}).fromMongoDocument(item as Person);
+      case PERSON_V1_4_INDEX:
+        return new MeiliPersonEntityV1_4({}).fromMongoDocument(item as Person);
+      default:
+        break;
+    }
   }
 
   @Cron(CronExpression.EVERY_WEEK)
   async syncMovies() {
     this.logger.log('Starting sync for movies');
-    await this.syncEntity<Movie>(MOVIE_V1_4_INDEX, this.movieService, 1000);
-    await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService, 1000);
+    await this.syncEntity<Movie>(MOVIE_V1_4_INDEX, this.movieService);
+    await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService);
     this.logger.log('Finished sync for movies');
   }
 
   @Cron(CronExpression.EVERY_WEEK)
   async syncPersons() {
     this.logger.log('Starting sync for persons');
-    await this.syncEntity<Person>(PERSON_V1_4_INDEX, this.personService, 1000);
-    await this.syncEntity<Person>(PERSON_INDEX, this.personService, 1000);
+    await this.syncEntity<Person>(PERSON_V1_4_INDEX, this.personService);
+    await this.syncEntity<Person>(PERSON_INDEX, this.personService);
     this.logger.log('Finished sync for persons');
   }
 }
