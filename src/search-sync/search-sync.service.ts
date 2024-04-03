@@ -25,7 +25,10 @@ export class SearchSyncService {
     private readonly meiliService: MeiliService,
     private readonly movieService: MovieService,
     private readonly personService: PersonService,
-  ) {}
+  ) {
+    this.syncMovies();
+    this.syncPersons();
+  }
 
   private async syncData<Entity>(entityType: EntityTypes, items: Entity[], pageIndex: number): Promise<void> {
     try {
