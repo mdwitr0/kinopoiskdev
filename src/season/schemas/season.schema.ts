@@ -43,7 +43,6 @@ export type SeasonDocument = HydratedDocument<Season>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
-  read: READ_PREFERENCE,
 })
 export class Season {
   @ApiProperty()

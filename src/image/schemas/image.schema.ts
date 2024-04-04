@@ -16,7 +16,6 @@ export type ImageDocument = HydratedDocument<Image>;
     },
   },
   toObject: { virtuals: true },
-  read: READ_PREFERENCE,
 })
 export class Image {
   @ApiProperty()

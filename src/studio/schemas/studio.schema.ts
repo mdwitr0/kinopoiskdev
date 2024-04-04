@@ -23,7 +23,6 @@ export type StudioDocument = HydratedDocument<Studio>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
-  read: READ_PREFERENCE,
 })
 export class Studio {
   @ApiProperty()

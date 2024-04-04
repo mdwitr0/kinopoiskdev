@@ -26,7 +26,6 @@ export type PersonAwardDocument = HydratedDocument<PersonAward>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
   collection: 'people-award',
-  read: READ_PREFERENCE,
 })
 export class PersonAward extends Award {
   @ApiProperty()
