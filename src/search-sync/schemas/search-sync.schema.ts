@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export type SearchSyncDocument = HydratedDocument<SearchSync>;
 
@@ -7,6 +8,7 @@ export type SearchSyncDocument = HydratedDocument<SearchSync>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class SearchSync {
   @Prop({ index: true })

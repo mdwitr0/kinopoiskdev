@@ -3,6 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Award } from 'src/common/models/award.model';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 class Movie {
   @ApiProperty()
@@ -25,6 +26,7 @@ export type PersonAwardDocument = HydratedDocument<PersonAward>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
   collection: 'people-award',
+  read: READ_PREFERENCE,
 })
 export class PersonAward extends Award {
   @ApiProperty()

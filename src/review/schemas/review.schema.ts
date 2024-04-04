@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export type ReviewDocument = HydratedDocument<Review>;
 
@@ -8,6 +9,7 @@ export type ReviewDocument = HydratedDocument<Review>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Review {
   @ApiProperty()

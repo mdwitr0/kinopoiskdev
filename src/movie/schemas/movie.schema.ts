@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 // INFO: Objects
 
@@ -419,6 +420,7 @@ export type MovieDocument = HydratedDocument<Movie>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
   collection: 'movies',
+  read: READ_PREFERENCE,
 })
 export class Movie {
   // INFO: Id values

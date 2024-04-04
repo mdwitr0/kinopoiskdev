@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export enum StudioType {
   'Производство' = 'Производство',
@@ -22,6 +23,7 @@ export type StudioDocument = HydratedDocument<Studio>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Studio {
   @ApiProperty()

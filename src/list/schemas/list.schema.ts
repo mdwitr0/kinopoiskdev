@@ -3,6 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { ShortImage } from '../../movie/schemas/movie.schema';
 import { ApiProperty } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export type ListDocument = HydratedDocument<List>;
 
@@ -16,6 +17,7 @@ export type ListDocument = HydratedDocument<List>;
     },
   },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class List {
   @ApiNullableProperty()

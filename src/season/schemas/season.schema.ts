@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ShortImage } from '../../movie/schemas/movie.schema';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export class Episode {
   @Prop({ type: () => ShortImage })
@@ -42,6 +43,7 @@ export type SeasonDocument = HydratedDocument<Season>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Season {
   @ApiProperty()

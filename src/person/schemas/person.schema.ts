@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from 'src/common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export class BirthPlace {
   @ApiPropertyOptional()
@@ -93,6 +94,7 @@ export type PersonDocument = HydratedDocument<Person>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Person {
   @ApiProperty()

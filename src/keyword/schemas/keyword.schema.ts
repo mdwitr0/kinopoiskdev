@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export class MovieFromKeyword {
   @ApiProperty()
@@ -16,6 +17,7 @@ export type KeywordDocument = HydratedDocument<Keyword>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
   collection: 'keywords',
+  read: READ_PREFERENCE,
 })
 export class Keyword {
   @ApiProperty()

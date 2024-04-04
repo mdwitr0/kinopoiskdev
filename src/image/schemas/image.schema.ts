@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
+import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 export type ImageDocument = HydratedDocument<Image>;
 
@@ -15,6 +16,7 @@ export type ImageDocument = HydratedDocument<Image>;
     },
   },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Image {
   @ApiProperty()
