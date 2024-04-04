@@ -1,1 +1,1 @@
-export const READ_PREFERENCE = ' secondaryPreferred';
+export const READ_PREFERENCE = 'secondaryPreferred';

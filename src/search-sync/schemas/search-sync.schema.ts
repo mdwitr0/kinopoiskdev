@@ -8,6 +8,7 @@ export type SearchSyncDocument = HydratedDocument<SearchSync>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class SearchSync {
   @Prop({ index: true })

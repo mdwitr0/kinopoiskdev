@@ -94,6 +94,7 @@ export type PersonDocument = HydratedDocument<Person>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Person {
   @ApiProperty()

@@ -12,6 +12,7 @@ export type MovieAwardDocument = HydratedDocument<MovieAward>;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
   collection: 'movies-award',
+  read: READ_PREFERENCE,
 })
 export class MovieAward extends Award {
   @ApiNullableProperty()

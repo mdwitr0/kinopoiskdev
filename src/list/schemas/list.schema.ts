@@ -17,6 +17,7 @@ export type ListDocument = HydratedDocument<List>;
     },
   },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class List {
   @ApiNullableProperty()

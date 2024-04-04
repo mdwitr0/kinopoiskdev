@@ -9,6 +9,7 @@ export type ReviewDocument = HydratedDocument<Review>;
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  read: READ_PREFERENCE,
 })
 export class Review {
   @ApiProperty()
