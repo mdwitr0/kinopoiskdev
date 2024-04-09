@@ -4,7 +4,7 @@ metadata:
   name: kp-api
   namespace: kinopoisk
 spec:
-  replicas: 5
+  replicas: 6
   selector:
     matchLabels:
       app: kp-api
@@ -18,17 +18,6 @@ spec:
           image: mdwit/kp-api:latest
           ports:
             - containerPort: 3000
-          envFrom:
-            - secretRef:
-                name: kp-api
-        - name: kp-api-sync
-          image: mdwit/kp-api:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3000
-          env:
-            - name: NODE_ENV
-              value: sync
           envFrom:
             - secretRef:
                 name: kp-api

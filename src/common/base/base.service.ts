@@ -31,9 +31,9 @@ export abstract class BaseService<T> implements IBaseService<T> {
         .exec(),
     ]);
 
-    // @ts-ignore
     const docsToJson = docs.map((doc) => doc?.toJSON());
     return {
+      // @ts-ignore
       docs: docsToJson,
       total,
       limit: query.limit,
@@ -43,9 +43,11 @@ export abstract class BaseService<T> implements IBaseService<T> {
   }
 
   async findOne(id: number | string): Promise<T | null> {
+    // @ts-ignore
     const found = await this.model.findOne({ id });
     // @ts-ignore
     if (found) return found.toJSON();
+    // @ts-ignore
     return found;
   }
 }

@@ -4,10 +4,11 @@ import { ReviewDocsResponseDto } from './dto/review-docs-response.dto';
 
 import { BaseController } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
-import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { ReviewRequestDtoV1_4 } from './dto/v1.4/review-request.dto';
 import { ReviewDocsResponseDtoV1_4 } from './dto/v1.4/review-docs.response';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('review', 'Отзывы пользователей')
 export class ReviewController extends BaseController(Review, ReviewDocsResponseDto, 'Поиск отзывов') {

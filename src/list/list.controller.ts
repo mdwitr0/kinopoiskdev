@@ -1,10 +1,11 @@
 import { ListService } from './list.service';
 import { Controller } from 'src/common/decorators/controller.decorator';
-import { CacheInterceptor, Get, Param, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, Param, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { ListRequestDtoV1_4 } from './dto/v1.4/list-request.dto';
 import { ListDocsResponseDtoV1_4 } from './dto/v1.4/list-docs.response.dto';
 import { List } from './schemas/list.schema';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('list', 'Коллекции кино')
 export class ListController {

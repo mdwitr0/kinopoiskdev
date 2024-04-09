@@ -1,9 +1,10 @@
 import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
-import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
 import { IQuery } from '../interfaces/query.interface';
 import { Paginated } from '../decorators/paginated.decorator';
 import { ApiBaseResponse } from '../decorators/api-base-response.decorator';
 import { ForbiddenErrorResponseDto } from '../dto/errors/forbidden-error.response.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 type Constructor<T> = new (...args: any[]) => T;
 

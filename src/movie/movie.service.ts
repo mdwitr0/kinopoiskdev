@@ -46,6 +46,8 @@ export class MovieService implements OnModuleInit {
       throw new BadRequestException(`Вы пытаетесь запросить больше страниц, чем доступно на самом деле!`);
     }
 
+    const time = Date.now();
+
     const [total, docs] = await Promise.all([
       this.movieModel.countDocuments(filter),
       this.movieModel
@@ -57,6 +59,8 @@ export class MovieService implements OnModuleInit {
         .allowDiskUse(true)
         .exec(),
     ]);
+
+    this.logger.log(`Movie response`, { time: Date.now() - time, filter });
 
     const docsToJson = docs.map((doc) => doc?.toJSON());
     return {
@@ -190,7 +194,7 @@ export class MovieService implements OnModuleInit {
   async getPossibleValuesByFieldName({ field }: GetPossibleValueDto): Promise<PossibleValueDto[]> {
     const values = await this.movieModel.distinct(field).exec();
 
-    return values.filter((value) => value).map((value) => new PossibleValueDto(value));
+    return values.filter((value) => value).map((value) => new PossibleValueDto(value as string));
   }
 
   async findManyAwards(query: IQuery): Promise<MovieAwardDocsResponseDto> {
@@ -220,7 +224,7 @@ export class MovieService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    const count = await this.movieModel.count({});
+    const count = await this.movieModel.countDocuments();
     if (count > 0) this.moviesLimit = count;
   }
 }

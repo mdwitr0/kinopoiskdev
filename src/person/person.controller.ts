@@ -1,4 +1,4 @@
-import { CacheInterceptor, Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, NotFoundException, Param, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiExcludeEndpoint, ApiNotFoundResponse, ApiOperation } from '@nestjs/swagger';
 import { BaseControllerWithFindById } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
@@ -18,6 +18,7 @@ import { ApiBaseResponse } from '../common/decorators/api-base-response.decorato
 import { ForbiddenErrorResponseDto } from '../common/dto/errors/forbidden-error.response.dto';
 import { PersonAwardRequestDtoV1_4 } from './dto/v1.4/person-award-request.dto';
 import { PersonFindOneParamsDtoV1_4 } from './dto/v1.4/person-find-one-params.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('person', 'Актеры, режиссеры, операторы, и т.д')
 export class PersonController extends BaseControllerWithFindById(Person, PersonDocsResponseDto, 'Универсальный поиск персон с фильтрами') {

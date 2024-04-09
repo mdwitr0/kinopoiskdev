@@ -164,7 +164,7 @@ export class PersonService extends BaseService<Person> implements OnModuleInit {
   }
 
   async onModuleInit() {
-    const count = await this.personModel.count({});
+    const count = await this.personModel.countDocuments({});
     if (count > 0) this.personsLimit = count;
   }
 }

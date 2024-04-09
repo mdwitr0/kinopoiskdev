@@ -3,10 +3,11 @@ import { Controller } from 'src/common/decorators/controller.decorator';
 import { StudioDocsResponseDto } from './dto/studio-docs-response.dto';
 import { Studio } from './schemas/studio.schema';
 import { StudioService } from './studio.service';
-import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { StudioRequestDtoV1_4 } from './dto/v1.4/studio-request.dto';
 import { StudioDocsResponseDtoV1_4 } from './dto/v1.4/studio-docs.response';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('studio', 'Студии')
 export class StudioController extends BaseControllerWithFindById(Studio, StudioDocsResponseDto, 'Поиск студий') {

@@ -3,10 +3,11 @@ import { Controller } from 'src/common/decorators/controller.decorator';
 import { KeywordDocsResponseDto } from './dto/keyword-docs-response.dto';
 import { Keyword } from './schemas/keyword.schema';
 import { KeywordService } from './keyword.service';
-import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { KeywordRequestDtoV1_4 } from './dto/v1.4/keyword-request.dto';
 import { KeywordDocsResponseDtoV1_4 } from './dto/v1.4/keyword-docs.response.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('keyword', 'Ключевые слова')
 export class KeywordController extends BaseController(Keyword, KeywordDocsResponseDto, 'Поиск по ключевым словам') {

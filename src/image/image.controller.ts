@@ -3,10 +3,11 @@ import { ImageDocsResponseDto } from './dto/image-docs.response.dto';
 import { Image } from './schemas/image.schema';
 import { BaseController } from 'src/common/base/base.controller';
 import { Controller } from 'src/common/decorators/controller.decorator';
-import { CacheInterceptor, Get, Query, UseInterceptors, Version } from '@nestjs/common';
+import { Get, Query, UseInterceptors, Version } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { ImageRequestDtoV1_4 } from './dto/v1.4/image-request.dto';
 import { ImageDocsResponseDtoV1_4 } from './dto/v1.4/image-docs.response.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('image', 'Постеры, фоны, кадры, скриншоты и т.д.')
 export class ImageController extends BaseController(Image, ImageDocsResponseDto, 'Поиск изображений') {

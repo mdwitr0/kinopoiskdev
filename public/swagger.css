@@ -137,3 +137,6 @@ body {
 .parameter__enum  {
     display: none;
 }
+.swagger-ui svg:not(:root) {
+    display: none;
+}
