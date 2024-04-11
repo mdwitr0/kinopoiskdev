@@ -108,7 +108,7 @@ export class SearchSyncService {
   async syncMovies() {
     this.logger.log('Starting sync for movies');
     await this.syncEntity<Movie>(MOVIE_V1_4_INDEX, this.movieService, 10000);
-    await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService, 10000);
+    // await this.syncEntity<Movie>(MOVIE_INDEX, this.movieService, 10000);
     this.logger.log('Finished sync for movies');
   }
 
@@ -116,7 +116,7 @@ export class SearchSyncService {
   async syncPersons() {
     this.logger.log('Starting sync for persons');
     await this.syncEntity<Person>(PERSON_V1_4_INDEX, this.personService, 10000);
-    await this.syncEntity<Person>(PERSON_INDEX, this.personService, 10000);
+    // await this.syncEntity<Person>(PERSON_INDEX, this.personService, 10000);
     this.logger.log('Finished sync for persons');
   }
 }
