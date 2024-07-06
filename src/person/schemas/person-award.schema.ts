@@ -7,7 +7,7 @@ import { READ_PREFERENCE } from '../../common/configs/mongo.config';
 
 class Movie {
   @ApiProperty()
-  @Prop()
+  @Prop({ index: true })
   id: number;
 
   @ApiNullableProperty()
@@ -30,7 +30,7 @@ export type PersonAwardDocument = HydratedDocument<PersonAward>;
 })
 export class PersonAward extends Award {
   @ApiProperty()
-  @Prop()
+  @Prop({ index: true })
   personId: number;
 
   @ApiNullableProperty({ type: () => Movie })

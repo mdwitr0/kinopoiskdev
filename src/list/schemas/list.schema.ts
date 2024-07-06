@@ -39,9 +39,9 @@ export class List {
   @Prop({ type: () => ShortImage })
   cover: ShortImage;
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 export const ListSchema = SchemaFactory.createForClass(List);

@@ -161,9 +161,9 @@ export class Person {
   @Prop({ items: MovieInPerson })
   movies: MovieInPerson[];
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 

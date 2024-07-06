@@ -87,9 +87,9 @@ export class Season {
   @Prop({ type: () => [Episode] })
   episodes: Episode[];
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 

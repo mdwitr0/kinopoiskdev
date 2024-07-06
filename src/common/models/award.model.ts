@@ -8,7 +8,7 @@ export class NominationAward {
   title: string;
 
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   year: number;
 }
 
@@ -32,9 +32,9 @@ export class Award {
   winning: boolean;
 
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }

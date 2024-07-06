@@ -48,9 +48,9 @@ export class Review {
   @Prop()
   authorId: number;
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 

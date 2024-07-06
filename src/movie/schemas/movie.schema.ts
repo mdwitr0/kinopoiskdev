@@ -221,7 +221,7 @@ export class Distributor {
 
 export class Premiere {
   @ApiNullableProperty({ example: 'США' })
-  @Prop()
+  @Prop({ index: true })
   country: string;
 
   @ApiNullableProperty({
@@ -285,15 +285,15 @@ export class Images {
 
 export class FactInMovie {
   @ApiProperty()
-  @Prop()
+  @Prop({ index: true })
   value: string;
 
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   type: string;
 
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   spoiler: boolean;
 }
 
@@ -363,7 +363,7 @@ export class Watchability {
 
 export class WatchabilityItem {
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   name: string;
 
   @Prop({ type: () => Logo })
@@ -383,26 +383,26 @@ export class Technology {
 
 export class YearRange {
   @ApiNullableProperty({ example: 2022, description: 'Год начала' })
-  @Prop()
+  @Prop({ index: true })
   start: number;
 
   @ApiNullableProperty({ example: 2023, description: 'Год окончания' })
-  @Prop()
+  @Prop({ index: true })
   end: number;
 }
 
 export class Audience {
   @ApiNullableProperty({ example: 1000, description: 'Количество просмотров в кино' })
-  @Prop()
+  @Prop({ index: true })
   count: number;
 
   @ApiNullableProperty({ example: 'Россия', description: 'Страна в которой проходил показ' })
-  @Prop()
+  @Prop({ index: true })
   country: string;
 }
 
 export class NetworkItem {
-  @Prop()
+  @Prop({ index: true })
   name: string;
 
   @Prop({ type: () => Logo })
@@ -478,20 +478,20 @@ export class Movie {
   votes: Votes;
 
   // INFO: Length value
-  @Prop()
+  @Prop({ index: true })
   movieLength: number;
 
-  @Prop()
+  @Prop({ index: true })
   totalSeriesLength: number;
 
-  @Prop()
+  @Prop({ index: true })
   seriesLength: number;
 
   // INFO: Age rating values
-  @Prop()
+  @Prop({ index: true })
   ratingMpaa: string;
 
-  @Prop()
+  @Prop({ index: true })
   ageRating: number;
 
   // INFO: Image values
@@ -553,30 +553,30 @@ export class Movie {
   @Prop({ type: () => [YearRange] })
   releaseYears: YearRange[];
 
-  @Prop()
+  @Prop({ index: true })
   top10?: number | null;
 
-  @Prop()
+  @Prop({ index: true })
   top250?: number | null;
 
-  @Prop()
+  @Prop({ index: true })
   isSeries: boolean;
 
   @Prop({ type: () => [Audience] })
   audience: Audience[];
 
-  @Prop()
+  @Prop({ index: true })
   ticketsOnSale: boolean;
 
-  @Prop()
+  @Prop({ index: true })
   lists: string[];
 
   @Prop({ type: () => Networks })
   networks: Networks;
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 

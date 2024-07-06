@@ -12,7 +12,10 @@ import * as ApiKey from 'uuid-apikey';
 export class UserService {
   private readonly logger = new Logger(UserService.name);
 
-  constructor(@InjectModel(User.name) private readonly userRepository: Model<UserDocument>, @InjectRedis() private readonly redis: Redis) {}
+  constructor(
+    @InjectModel(User.name) private readonly userRepository: Model<UserDocument>,
+    @InjectRedis() private readonly redis: Redis,
+  ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async resetRequestsUsedAndCache() {

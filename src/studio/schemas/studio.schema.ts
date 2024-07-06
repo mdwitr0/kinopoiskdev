@@ -31,7 +31,7 @@ export class Studio {
   id: string;
 
   @ApiNullableProperty()
-  @Prop()
+  @Prop({ index: true })
   subType: string;
 
   @ApiNullableProperty()
@@ -39,16 +39,16 @@ export class Studio {
   title: string;
 
   @ApiPropertyOptional()
-  @Prop({ enum: StudioType })
+  @Prop({ enum: StudioType, index: true })
   type: StudioType;
 
   @ApiPropertyOptional({ type: () => MovieFromStudio })
   @Prop()
   movies: MovieFromStudio;
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 

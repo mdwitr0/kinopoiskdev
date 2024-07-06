@@ -47,9 +47,9 @@ export class Image {
   @Prop()
   width?: number;
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 export const ImageSchema = SchemaFactory.createForClass(Image);

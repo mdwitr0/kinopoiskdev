@@ -32,9 +32,9 @@ export class Keyword {
   @Prop()
   movies: MovieFromKeyword;
 
-  @Prop()
+  @Prop({ index: true })
   updatedAt: Date;
-  @Prop()
+  @Prop({ index: true })
   createdAt: Date;
 }
 
