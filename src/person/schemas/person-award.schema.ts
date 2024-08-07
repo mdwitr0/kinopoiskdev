@@ -4,18 +4,22 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Award } from 'src/common/models/award.model';
 import { ApiNullableProperty } from '../../common/decorators/api-nullable-property.decorator';
 import { READ_PREFERENCE } from '../../common/configs/mongo.config';
+import { Expose } from 'class-transformer';
 
 class Movie {
   @ApiProperty()
   @Prop({ index: true })
+  @Expose()
   id: number;
 
   @ApiNullableProperty()
   @Prop()
+  @Expose()
   name: string;
 
   @ApiNullableProperty()
   @Prop()
+  @Expose()
   rating: number;
 }
 
