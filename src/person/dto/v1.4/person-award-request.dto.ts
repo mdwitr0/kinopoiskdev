@@ -29,6 +29,7 @@ enum PersonFieldV1_4 {
   'nomination.award.title' = 'nomination.award.title',
   'nomination.award.year' = 'nomination.award.year',
   'nomination.title' = 'nomination.title',
+  'movies.id' = 'movies.id',
   updatedAt = 'updatedAt',
   createdAt = 'createdAt',
 }
@@ -36,6 +37,7 @@ enum PersonSelectFieldV1_4 {
   'personId' = 'personId',
   'winning' = 'winning',
   'nomination' = 'nomination',
+  'movies' = 'movies',
   updatedAt = 'updatedAt',
   createdAt = 'createdAt',
 }
