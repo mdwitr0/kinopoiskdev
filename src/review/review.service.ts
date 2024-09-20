@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseService } from 'src/common/base/base.service';
@@ -9,6 +9,7 @@ import { ReviewDocsResponseDtoV1_4 } from './dto/v1.4/review-docs.response';
 
 @Injectable()
 export class ReviewService extends BaseService<Review> {
+  private readonly logger = new Logger();
   constructor(@InjectModel('reviews') private readonly reviewModel: Model<ReviewDocument>) {
     super(reviewModel);
   }
@@ -18,6 +19,8 @@ export class ReviewService extends BaseService<Review> {
     const select = request.model2Select();
     const sort = request.model2Sort();
     const { skip, limit } = request.model2Pagination();
+
+    this.logger.debug('reviews filter', { filter });
 
     const [total, docs] = await Promise.all([
       this.reviewModel.countDocuments(filter),
