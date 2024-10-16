@@ -48,6 +48,14 @@ export class Review {
   @Prop()
   authorId: number;
 
+  @ApiProperty()
+  @Prop()
+  reviewLikes: number;
+
+  @ApiProperty()
+  @Prop()
+  reviewDislikes: number;
+
   @Prop({ index: true })
   updatedAt: Date;
   @Prop({ index: true })
