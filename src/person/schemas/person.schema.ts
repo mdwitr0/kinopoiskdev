@@ -141,9 +141,9 @@ export class Person {
   @Prop({ items: DeathPlace })
   deathPlace: DeathPlace[];
 
-  @ApiPropertyOptional({ type: () => Spouses })
+  @ApiPropertyOptional({ type: () => Spouses, isArray: true })
   @Prop()
-  spouses: Spouses;
+  spouses: Spouses[];
 
   @ApiPropertyOptional()
   @Prop()
