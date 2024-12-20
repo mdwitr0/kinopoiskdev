@@ -30,7 +30,7 @@ export class FilterBuilder {
   }
 
   public setDate(key: string, values: string[]) {
-    this.toWhere<string>(key, values, (item) => normalizeDate(item));
+    this.toWhere<Date>(key, values, (item) => normalizeDate(item));
   }
 
   public setBoolean(key: string, value: string) {

@@ -5,5 +5,6 @@ export const normalizeDate = (dateString: string) => {
   if (!dateTime.isValid) {
     throw new Error('Invalid date format');
   }
-  return dateTime.toISODate();
+
+  return dateTime.toJSDate();
 };
