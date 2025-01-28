@@ -36,6 +36,14 @@ export class FilterBuilder {
   public setBoolean(key: string, value: string) {
     const simpleWhere = {};
 
+    if (value == undefined) {
+      return this;
+    }
+
+    if (Array.isArray(value)) {
+      value = value[0];
+    }
+
     simpleWhere[key] = value === 'true';
 
     const wheres = [simpleWhere].filter((item) => Object.keys(item).length > 0);

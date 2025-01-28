@@ -126,10 +126,12 @@ export class PersonAwardRequestDtoV1_4 implements IRequestModel {
   @NumberParam()
   'nomination.award.year'?: string[];
 
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по победам (пример: `"true", "false"`)' })
+  @ApiNullableProperty({ description: 'Поиск по победам (пример: `"true", "false"`)' })
   @IsOptional()
+  @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
+  @Expose()
   winning?: string;
 
   @ApiNullableProperty({

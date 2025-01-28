@@ -128,13 +128,13 @@ export class MovieAwardRequestDtoV1_4 implements IRequestModel {
   @Expose()
   'nomination.award.year'?: string[];
 
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по победам (пример: `"true", "false"`)' })
+  @ApiNullableProperty({ description: 'Поиск по победам (пример: `"true", "false"`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsBooleanParam)
   @BooleanParam()
   @Expose()
-  winning?: string[];
+  winning?: string;
 
   @ApiNullableProperty({
     type: 'string',
