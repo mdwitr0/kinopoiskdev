@@ -115,7 +115,7 @@ export class StudioRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID фильма (пример: `"666", "555", "!666"`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 7000000])
+  @Validate(IsValueInRange, [1, 10000000])
   @Validate(IsNumberParam)
   @NumberParam()
   'movies.id'?: string[];

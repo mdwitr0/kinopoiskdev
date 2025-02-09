@@ -99,7 +99,7 @@ export class MovieAwardRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID фильма (пример: `"666", "555", "!666"`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [250, 7000000])
+  @Validate(IsValueInRange, [250, 10000000])
   @Validate(IsNumberParam)
   @NumberParam()
   @Expose()

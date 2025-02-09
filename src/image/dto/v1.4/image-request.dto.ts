@@ -136,7 +136,7 @@ export class ImageRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({ description: 'Поиск картинок по id фильма (пример: `"666", "!666"`)', isArray: true })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 7000000])
+  @Validate(IsValueInRange, [1, 10000000])
   @NumberParam()
   movieId?: string[];
 

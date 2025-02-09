@@ -9,7 +9,7 @@ export class MovieFindOneParamsDtoV1_4 {
   @ApiNullableProperty({ required: true, description: 'ID из кинопоиска' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [250, 7000000])
+  @Validate(IsValueInRange, [250, 10000000])
   @Validate(IsNumberParam)
   id?: number;
 }

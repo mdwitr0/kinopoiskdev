@@ -286,7 +286,7 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk (пример: `"666", "555", "!666"`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [250, 7000000])
+  @Validate(IsValueInRange, [250, 10000000])
   @Validate(IsNumberParam)
   @NumberParam()
   id?: string[];
@@ -620,14 +620,14 @@ export class MovieRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk из списка похожих фильмов (пример: `666, 555, !666`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [250, 7000000])
+  @Validate(IsValueInRange, [250, 10000000])
   @Validate(IsNumberParam)
   'similarMovies.id': string[];
 
   @ApiNullableProperty({ isArray: true, description: 'Поиск по ID KinoPoisk из списка сиквелов и преквелов (пример: `666, 555, !666`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [250, 7000000])
+  @Validate(IsValueInRange, [250, 10000000])
   @Validate(IsNumberParam)
   'sequelsAndPrequels.id': string[];
 

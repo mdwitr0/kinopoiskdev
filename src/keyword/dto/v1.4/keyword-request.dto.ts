@@ -102,7 +102,7 @@ export class KeywordRequestDtoV1_4 implements IRequestModel {
   @ApiPropertyOptional({ description: 'Поиск ключевых слов по id фильма (пример: `"666", "!666"`)', isArray: true })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1, 7000000])
+  @Validate(IsValueInRange, [1, 10000000])
   @NumberParam()
   'movies.id'?: string[];
 
