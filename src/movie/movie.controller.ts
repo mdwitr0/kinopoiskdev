@@ -45,7 +45,6 @@ export class MovieController {
 
   @Version('1.4')
   @Get()
-  @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Универсальный поиск с фильтрами',
     description: `Этот метод вернет список фильмов удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре \`selectFields\`. Если его не указать, то вернутся только дефолтные поля.`,
@@ -56,7 +55,6 @@ export class MovieController {
 
   @Version('1.4')
   @Get('search')
-  @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Поиск фильмов по названию',
     description: `Этот метод вернет список фильмов которые подходят под ваш запрос.`,
@@ -85,7 +83,6 @@ export class MovieController {
 
   @Version('1.3')
   @Get()
-  @UseInterceptors(CacheInterceptor)
   @ApiExcludeEndpoint()
   @Paginated(MovieDocsResponseDtoV1_3, MovieDtoV1_3, { findForAllProperties: true })
   async findManyByQueryV1_3(@Query() query: IQuery): Promise<MovieDocsResponseDtoV1> {
@@ -112,7 +109,6 @@ export class MovieController {
 
   @Version('1.2')
   @Get('search')
-  @UseInterceptors(CacheInterceptor)
   @ApiExcludeEndpoint()
   async searchMovie(@Query() query: SearchDto): Promise<SearchMovieResponseDto> {
     return this.movieService.searchMovie(query);
@@ -130,7 +126,6 @@ export class MovieController {
 
   @Version('1')
   @Get()
-  @UseInterceptors(CacheInterceptor)
   @Paginated(MovieDocsResponseDtoV1, MovieDtoV1, { findForAllProperties: true })
   @ApiExcludeEndpoint()
   async findManyByQuery(@Query() query: IQuery): Promise<any> {

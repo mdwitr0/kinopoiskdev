@@ -40,7 +40,6 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
 
   @Version('1.4')
   @Get()
-  @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Универсальный поиск с фильтрами',
     description: `Этот метод вернет список персон удовлетворяющих вашему запросу. <br> В ответе придут поля указанные в параметре \`selectFields\`. Если его не указать, то вернутся только дефолтные поля.`,
@@ -51,7 +50,6 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
 
   @Version('1.4')
   @Get('search')
-  @UseInterceptors(CacheInterceptor)
   @ApiOperation({
     summary: 'Поиск актеров, режиссеров, и т.д по имени',
     description: `Этот метод вернет список персон которые подходят под ваш запрос.`,
@@ -62,7 +60,6 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
 
   @Version('1.4')
   @Get('awards')
-  @UseInterceptors(CacheInterceptor)
   @ApiOperation({ summary: 'Награды актеров' })
   async findManyAwardsV1_4(@Query() request: PersonAwardRequestDtoV1_4): Promise<PersonAwardDocsResponseDto> {
     return this.personService.findManyAwardsV1_4(request);
@@ -70,7 +67,6 @@ export class PersonController extends BaseControllerWithFindById(Person, PersonD
 
   @Version('1.2')
   @Get('search')
-  @UseInterceptors(CacheInterceptor)
   @ApiExcludeEndpoint()
   async searchPerson(@Query() query: SearchDto): Promise<SearchPersonResponseDto> {
     return this.service.searchPerson(query);
