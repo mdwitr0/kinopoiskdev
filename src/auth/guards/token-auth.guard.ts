@@ -21,16 +21,6 @@ export class TokenAuthGuard implements CanActivate {
       throw new UnauthorizedException('Токен указан некорректно!');
     }
 
-    const violatedRulesForFreeTariff = !user.password && user.tariffId?.name?.toLowerCase() === 'free' && !user.inChat;
-
-    const hasExhaustedRequests = user.tariffId.requestsLimit <= user.requestsUsed;
-
-    if (violatedRulesForFreeTariff) {
-      throw new ForbiddenException(
-        'Вы вышли из чата! Чтобы продолжить пользоваться API, вам необходимо сменить тариф или вернуться обратно. Сделать это можно в боте @kinopoiskdev_bot',
-      );
-    }
-
     if (!isLimitNotExceeded) {
       throw new ForbiddenException(
         `Вы израсходовали ваш суточный лимит по запросам. Чтобы получить больше запросов, обновите тариф в боте @kinopoiskdev_bot'`,
