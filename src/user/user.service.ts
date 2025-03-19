@@ -15,7 +15,9 @@ export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userRepository: Model<UserDocument>,
     @InjectRedis() private readonly redis: Redis,
-  ) {}
+  ) {
+    this.syncDatabases();
+  }
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async resetRequestsUsedAndCache() {
