@@ -31,7 +31,7 @@ export class UserService {
 
       await this.redis.del(key);
     }
-    this.logger.log('Finish: Reset requests used & cache');у
+    this.logger.log('Finish: Reset requests used & cache');
   }
 
   @Cron(CronExpression.EVERY_10_SECONDS)
