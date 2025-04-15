@@ -7,7 +7,7 @@ export class LinkedMovieV1_4 extends LinkedMovie {
   @ApiNullableProperty({ type: () => Rating })
   rating: Rating;
 
-  @ApiNullableProperty({ type: () => Number, example: 2021 })
+  @ApiNullableProperty({ type: () => Number, example: 2030 })
   year: number;
 }
 

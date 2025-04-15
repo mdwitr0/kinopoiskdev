@@ -122,7 +122,7 @@ export class MovieAwardRequestDtoV1_4 implements IRequestModel {
   @ApiNullableProperty({ isArray: true, description: 'Поиск по году награды (пример: `"2019", "2020"`)' })
   @IsOptional()
   @ToArray()
-  @Validate(IsValueInRange, [1900, 2021])
+  @Validate(IsValueInRange, [1900, 2030])
   @Validate(IsNumberParam)
   @NumberParam()
   @Expose()

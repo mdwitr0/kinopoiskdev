@@ -152,7 +152,7 @@ export class ReviewRequestDtoV1_4 implements IRequestModel {
   @EnumParam()
   type?: string[];
 
-  @ApiNullableProperty({ isArray: true, description: 'Поиск по дате создания отзыва (пример: `"01.01.2021-01.01.2022", "01.01.2021"`)' })
+  @ApiNullableProperty({ isArray: true, description: 'Поиск по дате создания отзыва (пример: `"01.01.2030-01.01.2022", "01.01.2030"`)' })
   @IsOptional()
   @ToArray()
   @Validate(IsDateParam)
