@@ -7,6 +7,8 @@ import { User, UserDocument } from 'src/user/schemas/user.schema';
 import * as ApiKey from 'uuid-apikey';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import Redis from 'ioredis';
+import { UserCacheService } from './services/user-cache.service';
+import { UserWithTariff } from './interfaces/cached-user.interface';
 
 @Injectable()
 export class AuthService {
@@ -14,17 +16,26 @@ export class AuthService {
     @InjectModel(User.name)
     private readonly userRepository: Model<UserDocument>,
     @InjectRedis() private readonly redis: Redis,
+    private readonly userCacheService: UserCacheService,
   ) {}
 
   async findUserByToken(token: string): Promise<UserDocument & { tariffId: TariffDocument }> {
     // @ts-ignore
     const tokenUuid = ApiKey.toUUID(token);
-    const user: UserDocument & { tariffId: TariffDocument } = await this.userRepository
-      .findOne({ token: tokenUuid })
-      .populate('tariffId')
-      .lean();
 
-    if (user) return user;
+    const cachedUser = await this.userCacheService.getUser(tokenUuid);
+    if (cachedUser) {
+      const userWithTariff = this.userCacheService.convertCachedUserToUserWithTariff(cachedUser);
+      return userWithTariff as any;
+    }
+
+    const user: UserDocument & { tariffId: TariffDocument } = await this.userRepository.findOne({ token: tokenUuid }).populate('tariffId').lean();
+
+    if (user) {
+      await this.userCacheService.setUser(tokenUuid, user as UserWithTariff);
+      return user;
+    }
+
     return null;
   }
 
