@@ -3,5 +3,6 @@ export interface TariffConfigService {
   isTariffAllowed(tariffName: string): boolean;
 }
 
-export const ALLOWED_TARIFF_NAMES = ['free', 'development', 'student', 'unlimited'] as const;
+export const ALLOWED_TARIFF_NAMES = ['free', 'developer', 'student', 'unlimited'] as const;
+
 export type AllowedTariffName = typeof ALLOWED_TARIFF_NAMES[number];
