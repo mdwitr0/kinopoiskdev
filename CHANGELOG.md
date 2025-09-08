@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.6.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.5.0...v1.6.0) (2025-09-08)
+
+
+### Features
+
+* оптимизация идентификации - обновление кода до актуальной версии ([95536ff](https://github.com/mdwitr0/kinopoiskdev/commit/95536ffbc3025a9174db9d2b368837576058168f))
+
+
+### Bug Fixes
+
+* **movie:** externalID isn't returned ([d15e075](https://github.com/mdwitr0/kinopoiskdev/commit/d15e07547efab6581145d502632875c359b25524))
+* **movie:** externalID isn't returned ([c592482](https://github.com/mdwitr0/kinopoiskdev/commit/c592482bb9d0bf04c72706f18b05fd6df26e35f4))
+* **movie:** externalID isn't returned ([7dad011](https://github.com/mdwitr0/kinopoiskdev/commit/7dad011080d40f4ea36f8e657523aa110250ce3b))
+* **movie:** movies.id is not movieId ([2366f38](https://github.com/mdwitr0/kinopoiskdev/commit/2366f38f039b5b7e605be8c51713f904271f8b62))
+* not correct false validate ([701fdc8](https://github.com/mdwitr0/kinopoiskdev/commit/701fdc80c9ad728e38b9d08b960bc73f395c4d5e))
+* not correct movie id ([b387bb0](https://github.com/mdwitr0/kinopoiskdev/commit/b387bb0f79f6b83f177f8182a1fc4c8935d5e0d3))
+* remove range strategy from string ([e755551](https://github.com/mdwitr0/kinopoiskdev/commit/e755551f7231c17e29c2d87bf307d1a1bcb05285))
+* sync errors ([56e174e](https://github.com/mdwitr0/kinopoiskdev/commit/56e174eaee74e39203eb79d39cdf32b0fa7ffc75))
+
+
+### Performance Improvements
+
+* add read reference ([c6d8160](https://github.com/mdwitr0/kinopoiskdev/commit/c6d81609cc3c2aa87554c4240748a69347e8132f))
+* add read reference ([5bf306a](https://github.com/mdwitr0/kinopoiskdev/commit/5bf306a4ddda9770f82c078a1c2f1996cce27131))
+* add read reference ([c83cbda](https://github.com/mdwitr0/kinopoiskdev/commit/c83cbdaf740d3edd5656dade6f8cb6c4da928fd2))
+* add read reference ([e3ee379](https://github.com/mdwitr0/kinopoiskdev/commit/e3ee379789205e056deae31b4208a23701c245f1))
+* optimize search sync ([51e3d66](https://github.com/mdwitr0/kinopoiskdev/commit/51e3d66404d4cb7c2f26dc0d65be91c7090aa791))
+* optimize search sync ([db3b857](https://github.com/mdwitr0/kinopoiskdev/commit/db3b8578184edd9cfbe709f522456d8ed58aac1a))
+* optimize search sync ([e05d990](https://github.com/mdwitr0/kinopoiskdev/commit/e05d990aecfbb1eb63ed8cbc9347031461148740))
+* optimize search sync ([41e38c3](https://github.com/mdwitr0/kinopoiskdev/commit/41e38c3b2084462138d8b80e8bba149c1f67c5be))
+* optimize search sync ([ce0f982](https://github.com/mdwitr0/kinopoiskdev/commit/ce0f9821b517f1a07e24ad75be3444ec89e3e30a))
+* optimize search sync ([76d3b6d](https://github.com/mdwitr0/kinopoiskdev/commit/76d3b6d0956888f07e0548f043f4acf6839108c8))
+
 ## [1.5.0](https://github.com/mdwitr0/kinopoiskdev/compare/v1.4.2...v1.5.0) (2023-11-05)
 
 
